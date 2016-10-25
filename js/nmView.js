@@ -66,9 +66,9 @@ nmApp.View = function() {
 			return;
 		});
 		marker.addListener('click', function() {
-			/* Notify the viewModel and get data for the infoWindow */
-			var windowData = nmApp.viewModel.mapMarkerClick(placeId);
-			// TODO display the infoWindow
+			/* Notify the viewModel to handle other view elements */
+			nmApp.viewModel.mapMarkerClick(placeId);
+
 			/* Fill in the map's infoWindow and attach it to the
 			 * clicked marker
 			 */
@@ -76,6 +76,7 @@ nmApp.View = function() {
 
 			 /* Is the infoWindow already attached to the current marker? */
 			if (iw.marker !== marker) {
+				/* No. Let's set it up. */
 				iw.marker = marker;
 				iw.setContent('<div>' + placeName + '<br>' + address +
 					'</div>');

@@ -25,10 +25,11 @@ nmApp.ViewModel = function() {
 	 */
 	nmvmThis.koViewModel = {
 		vPlaces: ko.observableArray([]),	// Viewable array of places
-
+		highlightedVPlace: ko.observable(null)
 	};
-	/* Alias for the Knockout view model within the constructor */
+	/* Aliases in the Knockout view model to use in the constructor */
 	var koViewModel = nmvmThis.koViewModel;
+	var koVPlaces = koViewModel.vPlaces;
 
 	nmvmThis.pPlacesToVPlaces = function () {
 		/* Load the viewModel's place array from the model's persistent
@@ -36,6 +37,9 @@ nmApp.ViewModel = function() {
 		 */
 		 var pPlace = {};						// Working source record
 		 var pPlaces = nmModel.getPPlaces();	// Source array
+		 nmvmThis.vPlacesById = {};				// Index lookup by placeID
+		 var vpid = nmvmThis.vPlacesById;		// Loop alias
+		 var vpidIndex = 0;						// Index's index counter
 		 var name, location, category, address, iconSrc, marker;
 
 		 for (placeId in pPlaces) {
@@ -59,10 +63,15 @@ nmApp.ViewModel = function() {
 		 		category: category,
 		 		address: address,
 		 		mapMarker: marker,
-		 		pinned: true,
-		 		display: true
+		 		pinned: ko.observable(true),
+		 		display: ko.observable(true),
+		 		highlighted: ko.observable(false)
 		 	}
-		 	koViewModel.vPlaces.push(vPlace);
+		 	koVPlaces.push(vPlace);
+
+		 	/* Record the array index for lookups by ID string */
+		 	vpid[placeId] = vpidIndex++;
+
 		 } // for
 	} // pPlacesToVPlaces()
 
@@ -71,9 +80,20 @@ nmApp.ViewModel = function() {
 	 * infoWindow attached to the marker.
 	 */
 	 nmvmThis.mapMarkerClick = function(placeId) {
-//	 	var vPlace = nmvmPlaces[placeId];
-	 	// TODO: highlight vPlace's entry in the list view
-	 	/* The view object's click handler highlights the map marker */
+	 	var vpIndex = nmvmThis.vPlacesById[placeId]; // not in KO
+	 	var vPlace = koVPlaces()[vpIndex];
+
+	 	/* The view object's click handler highlights the map marker.
+		 * The koViewModel does the same for the list view entry
+		 * of the selected place through data bindings.
+	 	 */
+
+	 	/* Turn off the previous highlight (if any) */
+	 	if (koviewModel.highlightedVPlace !== null) {
+		 	koviewModel.highlightedVPlace.highlighted(false);
+	 	}
+	 	koviewModel.highlightedVPlace(vPlace);
+	 	vPlace.highlighted(true);
 
 	 	/* Set data for the infoWindow */
 	 	var windowData = {

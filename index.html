@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="robots" content="noindex">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Neighborhood Map project - Alan Spiewak</title>
+	<!-- Fonts from Google API, Twitter's Bootstrap from its recommended CDN -->
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css?family=Merriweather:400,300,400italic,700,900">
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css">
+
+</head> <!--  -->
+<body>
+	<div class="container-fluid">
+		<div class="row " id="welcomeRow">
+			<div class="col-xs-12" id="welcome">
+				<p>Welcome to <span id="headerPlace">Greensboro, NC</span></p>
+			</div>
+		</div> <!-- helloRow -->
+		<div class="row" id="mapRow">
+			<div class="col-xs-12 col-md-3" id="nmvList"> <!-- List view of places -->
+				<p>List goes here</p>
+			</div> <!-- #nmvList -->
+			<div class="col-xs-12 col-md-9" id="nmvMap"> <!-- Map view -->
+				<p>Map goes here</p>
+			</div> <!-- nmvMap -->
+			<!-- <div>
+			</div>   -->
+		</div> <!-- mapRow -->
+	</div> <!-- container -->
+	<!-- jQuery and Knockout libraries from CDNJS via Cloudflare's CDN -->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+	<!-- This application's processing is contained in the nmApp (neighborhood map application)
+		 object, which contains objects that define its Model, View, and ViewModel objects.
+		 TODO Minify and consolidate these four scripts -->
+	<script type="text/javascript" src="js/nmApp.js"></script>
+	<script type="text/javascript" src="js/nmModel.js"></script>
+	<script type="text/javascript" src="js/nmView.js"></script>
+	<script type="text/javascript" src="js/nmViewModel.js"></script>
+
+	<!-- Initialize Google Maps libraries. Note: must follow nmView.js -->
+	<script async defer
+    src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyD4TqIPvv-WwDSy7TCEeHufsQtVPws6XJs&callback=nmApp.viewModel.init"></script>
+</body>

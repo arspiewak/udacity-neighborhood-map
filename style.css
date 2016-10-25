@@ -1,0 +1,47 @@
+/*  style.css for udacity-neighborhood-map project
+    Basic styling is based on previous Udacity project FEND-P1-Portfolio, matched
+    to give my portfolio continuity in visual theme.
+
+    The project uses Bootstrap to provide the view framework.
+ */
+
+body {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	font-family: "Merriweather", Geneva, sans-serif;
+    background-color: #054f25;
+    color: #a576bc;
+
+    /*
+     * Default font size for XS (phone) sized viewports. The body style
+     * sets the 1-em size; other styles' sizes are based on em sizes.
+     */
+    font-size: 75%;
+}
+/* Font size for larger viewports */
+@media (min-width: 768px) {
+    body {
+        font-size: 100%;
+    }
+}
+
+#nmvList {
+    background-color: gray;
+}
+#nmvMap {
+    background-color: white;
+    height: 90vh;
+}
+#welcomeRow {
+    display: flex;
+    flex-direction: row;
+}
+#welcome {
+    font-size: 3em;
+    min-height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

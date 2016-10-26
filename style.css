@@ -28,7 +28,17 @@ body {
 }
 
 #nmvList {
-    background-color: gray;
+    background-color: #11743c;
+    color: white;
+}
+#nmvListHead, .nmvListItem {
+    border: 10px solid #054f25;
+    background-color: #0c8440;
+    font-size: 1.5em;
+}
+.listItemName {
+    font-height: 2em;
+    font-weight: 900;
 }
 #nmvMap {
     background-color: white;

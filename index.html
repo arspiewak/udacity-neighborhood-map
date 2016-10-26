@@ -20,16 +20,31 @@
 			<div class="col-xs-12" id="welcome">
 				<p>Welcome to <span id="headerPlace">Greensboro, NC</span></p>
 			</div>
-		</div> <!-- helloRow -->
+		</div> <!-- welcomeRow -->
 		<div class="row" id="mapRow">
-			<div class="col-xs-12 col-md-3" id="nmvList"> <!-- List view of places -->
-				<p>List goes here</p>
+			<div class="col-xs-12 col-md-3" id="nmvList"> <!-- Col holds list view of places -->
+				<!-- Row box sits inside the outer column and acts as container
+					 for stacked full-width "columns" that look like rows and
+					 hold the list header and items -->
+				<div class="row" id="nmvListHeaderRow">
+					<div class="col-xs-12" id="nmvListHead">
+						<p>List heading goes here</p>
+					</div> <!-- #nmvListHead -->
+				</div> <!-- #nmvListHeaderRow -->
+
+				<div class="row" id="listBodyRow" data-bind="foreach: vPlaces">
+					<!-- List item row is bound to a vPlace entry -->
+					<div class="col-xs-12 nmvListItem">
+						<p class="listItemName" data-bind="text: name"></p>
+						<p class="listItemaddress" data-bind="text: address"></p>
+						<p class="listItemPinned" data-bind="text: pinned"></p>
+					</div> <!-- .nmvListItem -->
+				</div> <!-- #listBodyRow -->
+
 			</div> <!-- #nmvList -->
 			<div class="col-xs-12 col-md-9" id="nmvMap"> <!-- Map view -->
 				<p>Map goes here</p>
 			</div> <!-- nmvMap -->
-			<!-- <div>
-			</div>   -->
 		</div> <!-- mapRow -->
 	</div> <!-- container -->
 	<!-- jQuery and Knockout libraries from CDNJS via Cloudflare's CDN -->

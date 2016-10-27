@@ -36,6 +36,7 @@ nmApp.View = function() {
 		 * location are applied by the marker's click event.
 		 */
 		 var iw = new google.maps.InfoWindow();
+		 iw.marker = null;
 		 nmvThis.mapInfoWindow = iw;
 
 		return;
@@ -58,16 +59,20 @@ nmApp.View = function() {
 
 		/* Register handlers for mouse events */
 		marker.addListener('mouseover', function() {
-			this.setIcon(nmvThis.hilightIcon);
+			/* On mouse hover, highlight the marker */
+			nmvThis.setMarkerIcon(this, null);
 			return;
 		});
-		var mouseoutListener = marker.addListener('mouseout', function() {
-			this.setIcon(iconSrc);
+		marker.addListener('mouseout', function() {
+			/* Toggle the icon unless it marks the current vPlace */
+			if (!nmApp.viewModel.isCurrent(placeId)) {
+				nmvThis.setMarkerIcon(this, iconSrc);
+			}
 			return;
 		});
 		marker.addListener('click', function() {
 			/* Notify the viewModel to handle other view elements */
-			nmApp.viewModel.mapMarkerClick(placeId);
+			nmApp.viewModel.makeVPlaceCurrent(placeId);
 
 			/* Fill in the map's infoWindow and attach it to the
 			 * clicked marker
@@ -82,20 +87,14 @@ nmApp.View = function() {
 					'</div>');
 				iw.open(nmvThis.map, marker);
 
-				/* Remove the mouseout handler so the marker stays
-				 * highlighted */
-				google.maps.event.removeListener(mouseoutListener);
-
 				/* When the user closes the window, clear it and reset
-				 * highlight/mouse handling.
+				 * highlighting.
 				 */
 				iw.addListener('closeclick', function () {
-					iw.marker = null;
-					iw.close();
-					marker.setIcon(iconSrc);
-					marker.addListener('mouseout', function() {
-						this.setIcon(iconSrc);
-					});
+					/* Tell viewModel to make the place not-current.
+					 * The viewModel will close the infoWindow with a
+					 * clearInfoWindow() call. */
+					nmApp.viewModel.removeCurrentPlace();
 					return;
 				});
 			} // if
@@ -105,7 +104,31 @@ nmApp.View = function() {
 
 		/* The viewModel will track the marker for later manipulation */
 		return marker;
-	} // initMapMarker()
+	}; // initMapMarker()
+
+	/* Set the icon for a marker. If NULL is passed for the icon's
+	 * image source, use the "highlight" icon. */
+	nmvThis.setMarkerIcon = function (marker, iconSrc) {
+	 	if (iconSrc === null) {
+	 		iconSrc = nmvThis.hilightIcon;
+	 	}
+	 	marker.setIcon(iconSrc);
+	 	return;
+	};
+
+	/* Remove the infoWindow from a marker. This is done as a callback
+	 * from the viewModel since current place can be "unmarked" from
+	 * either map or list view.
+	 */
+	nmvThis.clearInfoWindow = function() {
+		var iw = nmvThis.mapInfoWindow;
+		if (iw.marker !== null) {
+			iw.marker = null;
+			iw.setContent('');
+			iw.close();
+		}
+		return;
+	};
 
 }; // View constructor
 

@@ -85,6 +85,11 @@ nmApp.Model = function() {
 		}
 	};
 
+	/* Helper function: return display info for a placeCategory */
+	nmmThis.getCategoryDisplay = function(category) {
+		return nmmThis.placeCategories[category];
+	}
+
 	/* We use two types of place objects in this model. A persistent
 	 * place has been pinned, and it records the minimum data needed to
 	 * show it on the map. This data is retained in local storage from
@@ -223,6 +228,7 @@ nmApp.Model = function() {
 	nmmThis.getPPlaces = function () {
 		return nmmThis.pPlaces;
 	}
+
 
 	/* Initialization function, called by the viewModel after Google Maps
 	 * is initialized.

@@ -16,7 +16,6 @@ nmApp.ViewModel = function() {
 		 nmView.initMap();	// First create the map
 		 nmModel.init();	// Set up the model
 		 nmvmThis.pPlacesToVPlaces();	// Initial load, persistent places
-
 		 return;
 	}; // init()
 
@@ -67,7 +66,7 @@ nmApp.ViewModel = function() {
 		 		mapMarker: marker,
 		 		pinned: ko.observable(true),
 		 		display: ko.observable(true),
-		 		current: ko.observable(false)
+		 		hilite: ko.observable(false)
 		 	}
 		 	koVPlaces.push(vPlace);
 
@@ -85,21 +84,34 @@ nmApp.ViewModel = function() {
 
 	/* Helper functions: Turn highlighting on/off for a vPlace */
 	function setHighlights(vPlace) {
-			/* Setting vPlace.current() to true turns on CSS highlights
+			/* Setting vPlace.hilite() to true turns on CSS highlights
 			 * for its list-view entry */
 if (vPlace === null)
 {alert('null, line 90');}
-			vPlace.current(true);
+			vPlace.hilite(true);
 			nmView.setMarkerIcon(vPlace.mapMarker, null);
 	}
+
+	nmvmThis.setHighlightsById = function (placeId) {
+	 	var vpIndex = nmvmThis.vPlacesById[placeId];
+	 	setHighlights(koVPlaces()[vpIndex]);
+		return;
+	};
+
 	function clearHighlights(vPlace) {
 if (vPlace === null)
 {alert('null, line 95');}
-		vPlace.current(false);
+		vPlace.hilite(false);
 		var iconSrc = nmModel.getCategoryDisplay(vPlace.category).iconSrc;
 		/* Note that mapMarker is not an observable object */
 		nmView.setMarkerIcon(vPlace.mapMarker, iconSrc);
 	}
+
+	nmvmThis.clearHighlightsById = function (placeId) {
+	 	var vpIndex = nmvmThis.vPlacesById[placeId];
+	 	clearHighlights(koVPlaces()[vpIndex]);
+		return;
+	};
 
 	/* Set a place the user has selected as the "current" place.
 	 * Highlights it in both map and list view. Called by click on
@@ -107,13 +119,11 @@ if (vPlace === null)
 	 */
 	nmvmThis.makeVPlaceCurrent = function(placeId) {
 	 	var vpIndex = nmvmThis.vPlacesById[placeId]; // not in KO
-	 	/* Note that the next two variables reference observable
-	 	 * objects, not their values */
 	 	var vPlace = koVPlaces()[vpIndex];
-	 	var currVPlace = koViewModel.currentVPlace;
+	 	var currVPlace = koViewModel.currentVPlace; // observable obj
 
 	 	/* Turn off existing highlighting (if any). */
-	 	if (currVPlace() !== null && currVPlace().current() === true) {
+	 	if (currVPlace() !== null && currVPlace().hilite() === true) {
 		 	clearHighlights(currVPlace());
 	 	}
 
@@ -124,7 +134,7 @@ if (vPlace === null)
 	 	return;
 	}
 
-	/* Remove the designation of current place.  */
+	/* Remove the current place from "current"-ness.  */
 	nmvmThis.removeCurrentPlace = function () {
 	 	var currVPlace = koViewModel.currentVPlace();
 	 	/* Turn off highlighting (list and map) */

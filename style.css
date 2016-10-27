@@ -34,13 +34,35 @@ body {
 #nmvList .highlight {
     background-color: white;
     color: #054f25;
-}#nmvListHead, .nmvListItem {
+}
+#nmvListHead, .nmvListItem {
     border: 10px solid #054f25;
     background-color: #0c8440;
     font-size: 1.5em;
 }
 #nmvListHead p, .nmvListItem p {
     margin: 0;
+}
+.nmvListItem:hover {
+    background-color: white;
+    color: #054f25;
+}
+.nmvListItem .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    z-index: 1;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+.nmvListItem:hover .tooltiptext {
+    visibility: visible;
 }
 .listItemPinned {
     position: absolute;

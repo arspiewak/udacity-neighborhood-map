@@ -118,17 +118,69 @@ nmApp.Model = function() {
 		 * Note: This process doesn't rely on how storage is implemented.
 		 */
 		var places = {};
+		places['ChIJA6wykyMZU4gR3Pwme46qaBQ'] = new NmmPPlace ('Carolina Theatre',
+			{'lat': 36.0697498, 'lng': -79.7922808}, 'POI',
+			'310 South Greene Street');
+
+		places['ChIJXb0b4iMZU4gR2nzM1qdORNQ'] = new NmmPPlace ('Cheesecakes by Alex',
+			{'lat': 36.069642, 'lng': -79.790398}, 'cafeBakery',
+			'315 South Elm Street');
+
 		places['ChIJ9ZEOqSYZU4gReuUD9fJJsGE'] = new NmmPPlace ('Crafted',
 			{'lat': 36.0709352, 'lng': -79.7900173}, 'barRestaurant',
 			'219-A South Elm Street');
 
-		places['ChIJMbJJACQZU4gRMiFqf1xPxog'] = new NmmPPlace ('Triad Stage',
-			{'lat': 36.070609, 'lng': -79.7907989}, 'POI',
-			'232 South Elm Street');
+		places['ChIJCdCSBiYZU4gRpAhAJekNjpA'] = new NmmPPlace ('International Civil Rights Center & Museum',
+			{'lat': 36.0717161, 'lng': -79.79068749999999}, 'galleryMuseum',
+			'134 South Elm Street');
+
+		places['ChIJ-8KRdCYZU4gRVuDBIQq43AU'] = new NmmPPlace ('Dolce Aroma Coffee Bar',
+			{'lat': 36.0746401, 'lng': -79.79081119999999}, 'cafeBakery',
+			'233 North Elm Street');
+
+		places['ChIJncwUBSIZU4gRmlsxN_vQuac'] = new NmmPPlace ('Elsewhere',
+			{'lat': 36.06575309999999, 'lng': -79.79073395}, 'galleryMuseum',
+			'606 South Elm Street');
+
+		places['ChIJOb_SYyEZU4gRjaIxiLU6GD4'] = new NmmPPlace ('Green Bean',
+			{'lat': 36.0687945, 'lng': -79.79045459999999}, 'cafeBakery',
+			'341 South Elm Street');
+
+		places['ChIJ_cKS0ycZU4gRoZ8Q039B7RE'] = new NmmPPlace ('Greensboro History Museum',
+			{'lat': 36.075657, 'lng': -79.788027}, 'galleryMuseum',
+			'130 Summit Ave');
+
+		places['ChIJtcWq2SMZU4gRyk1rTTma040'] = new NmmPPlace ('Just Be',
+			{'lat': 36.06836199999999, 'lng': -79.79077199999999}, 'store',
+			'352 South Elm Street');
+
+		places['ChIJeTde1yMZU4gRL6V9GxNZiZA'] = new NmmPPlace ('M\'Coul\'s Public House',
+			{'lat': 36.068729, 'lng': -79.79107599999999}, 'barRestaurant',
+			'110 West McGee Street');
+
+		places['keChIJS5ILAiQZU4gR-ih-TCdhQEcy'] = new NmmPPlace ('Mack and Mack',
+			{'lat': 36.0709047, 'lng': -79.7905456}, 'store',
+			'220 South Elm Street');
+
+		places['ChIJZ-jt-CEZU4gROqddoVdIAIs'] = new NmmPPlace ('Mellow Mushroom',
+			{'lat': 36.0655747, 'lng': -79.7905377}, 'barRestaurant',
+			'609 South Elm Street');
+
+		places['ChIJX4Y6BVwDU4gRYaP5aVyM0-E'] = new NmmPPlace ('Natty Greene\'s Pub & Brewing Co',
+			{'lat': 36.0686238, 'lng': -79.79048329999999}, 'barRestaurant',
+			'345 South Elm Street');
+
+		places['ChIJm6ZtrCYZU4gR7yy5ASLGmSM'] = new NmmPPlace ('Schiffman\'s Jewelers',
+			{'lat': 36.0707117, 'lng': -79.7900212}, 'store',
+			'225 South Elm Street');
 
 		places['ChIJYSdk-yMZU4gRhpoyOOtqBeo'] = new NmmPPlace ('Scuppernong Books',
 			{'lat': 36.069957, 'lng': -79.7908269}, 'store',
 			'304 South Elm Street');
+
+		places['ChIJMbJJACQZU4gRMiFqf1xPxog'] = new NmmPPlace ('Triad Stage',
+			{'lat': 36.070609, 'lng': -79.7907989}, 'POI',
+			'232 South Elm Street');
 /*
 		places['key'] = new NmmPPlace ('name',
 			{'lat': 36.0000000, 'lng': -79.0000000}, 'category',

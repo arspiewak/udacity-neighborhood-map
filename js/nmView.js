@@ -12,8 +12,7 @@ nmApp.View = function() {
 			document.getElementById('nmvMap'),
 			{
 				zoom: 16,
-	        	center: {lat: 36.071, lng: -79.79032159} /*,
-	        	mapTypeId: 'terrain' */
+	        	center: {lat: 36.071, lng: -79.79032159}
 			}
 		);
 
@@ -50,7 +49,7 @@ nmApp.View = function() {
 
 		var marker = new google.maps.Marker({
 			position: location,
-			title: placeName + '\n' + address,
+			title: 'Click to select\n' + placeName + '\n' + address,
 			icon: iconSrc
 		});
 
@@ -59,19 +58,20 @@ nmApp.View = function() {
 
 		/* Register handlers for mouse events */
 		marker.addListener('mouseover', function() {
-			/* On mouse hover, highlight the marker */
-			nmvThis.setMarkerIcon(this, null);
+			/* On mouse hover, highlight the place */
+			nmApp.viewModel.setHighlightsById(placeId);
 			return;
 		});
 		marker.addListener('mouseout', function() {
 			/* Toggle the icon unless it marks the current vPlace */
 			if (!nmApp.viewModel.isCurrent(placeId)) {
-				nmvThis.setMarkerIcon(this, iconSrc);
+				nmApp.viewModel.clearHighlightsById(placeId);
 			}
 			return;
 		});
 		marker.addListener('click', function() {
-			/* Notify the viewModel to handle other view elements */
+			/* Notify the viewModel to register as "current" and handle
+			 * highlights */
 			nmApp.viewModel.makeVPlaceCurrent(placeId);
 
 			/* Fill in the map's infoWindow and attach it to the
@@ -106,7 +106,7 @@ nmApp.View = function() {
 		return marker;
 	}; // initMapMarker()
 
-	/* Set the icon for a marker. If NULL is passed for the icon's
+	/* Change the icon for a marker. If NULL is passed for the icon's
 	 * image source, use the "highlight" icon. */
 	nmvThis.setMarkerIcon = function (marker, iconSrc) {
 	 	if (iconSrc === null) {
@@ -118,7 +118,7 @@ nmApp.View = function() {
 
 	/* Remove the infoWindow from a marker. This is done as a callback
 	 * from the viewModel since current place can be "unmarked" from
-	 * either map or list view.
+	 * click handlers of either map or list view.
 	 */
 	nmvThis.clearInfoWindow = function() {
 		var iw = nmvThis.mapInfoWindow;

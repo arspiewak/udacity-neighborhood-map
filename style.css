@@ -43,10 +43,6 @@ body {
 #nmvListHead p, .nmvListItem p {
     margin: 0;
 }
-.nmvListItem:hover {
-    background-color: white;
-    color: #054f25;
-}
 .nmvListItem .tooltiptext {
     visibility: hidden;
     width: 120px;
@@ -60,6 +56,10 @@ body {
     bottom: 100%;
     left: 50%;
     margin-left: -60px;
+}
+.nmvListItem:hover {
+    background-color: white;
+    color: #054f25;
 }
 .nmvListItem:hover .tooltiptext {
     visibility: visible;

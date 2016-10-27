@@ -69,36 +69,11 @@ nmApp.View = function() {
 			}
 			return;
 		});
+
 		marker.addListener('click', function() {
-			/* Notify the viewModel to register as "current" and handle
-			 * highlights */
-			nmApp.viewModel.makeVPlaceCurrent(placeId);
-
-			/* Fill in the map's infoWindow and attach it to the
-			 * clicked marker
-			 */
-			var iw = nmvThis.mapInfoWindow;
-
-			 /* Is the infoWindow already attached to the current marker? */
-			if (iw.marker !== marker) {
-				/* No. Let's set it up. */
-				iw.marker = marker;
-				iw.setContent('<div>' + placeName + '<br>' + address +
-					'</div>');
-				iw.open(nmvThis.map, marker);
-
-				/* When the user closes the window, clear it and reset
-				 * highlighting.
-				 */
-				iw.addListener('closeclick', function () {
-					/* Tell viewModel to make the place not-current.
-					 * The viewModel will close the infoWindow with a
-					 * clearInfoWindow() call. */
-					nmApp.viewModel.removeCurrentPlace();
-					return;
-				});
-			} // if
-
+			/* pass marker-creation arguments to the click handler */
+			nmApp.viewModel.markerClick(marker, placeName, placeId,
+				address);
 			return;
 		}) // marker.addListener()
 
@@ -129,6 +104,34 @@ nmApp.View = function() {
 		}
 		return;
 	};
+
+	nmvThis.displayInfoWindow = function(marker, placeName, address) {
+		/* Fill in the map's infoWindow and attach it to the
+		 * clicked marker
+		 */
+		var iw = nmvThis.mapInfoWindow;
+
+		 /* Is the infoWindow already attached to the current marker? */
+		if (iw.marker !== marker) {
+			/* No. Let's set it up. */
+			iw.marker = marker;
+			iw.setContent('<div>' + placeName + '<br>' + address +
+				'</div>');
+			iw.open(nmvThis.map, marker);
+
+			/* When the user closes the window, clear it and reset
+			 * highlighting.
+			 */
+			iw.addListener('closeclick', function () {
+				/* Tell viewModel to make the place not-current.
+				 * The viewModel will close the infoWindow with a
+				 * clearInfoWindow() call. */
+				nmApp.viewModel.removeCurrentPlace();
+				return;
+			});
+		} // if
+	};
+
 
 }; // View constructor
 

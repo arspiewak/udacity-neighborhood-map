@@ -162,6 +162,24 @@ if (vPlace === null)
 		return;
 	}
 
+	/* Click handler for a map marker. If the place is current,
+	 * make it not-current. Otherwise, populate and display the
+	 * InfoWindow.
+	 */
+	nmvmThis.markerClick = function (marker, placeName, placeId,
+		address) {
+
+		if (nmvmThis.isCurrent(placeId)) {
+			/* Looking at current place. Make it not-current */
+			nmvmThis.removeCurrentPlace();
+		} else {
+			/* Make this place current */
+			nmvmThis.makeVPlaceCurrent(vPlace.placeId);
+			/* Display the infoWindow */
+			nmView.displayInfoWindow(marker, placeName, address);
+		}
+	}
+
 	return;
 }; // ViewModel constructor
 

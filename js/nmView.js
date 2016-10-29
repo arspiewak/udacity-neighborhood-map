@@ -17,11 +17,12 @@ nmApp.View = function() {
 		);
 
 		/* Create a white map-marker icon to highlight the location of the
-		 * place currently selected by the user. From Udacity's map API
+		 * place currently selected by the user. Note that this call uses
+		 * a disparaged feature from Google APIs. From Udacity's map API
 		 * class, file Project_Code_5_BeingStylish.html
 		 */
 		markerColor = 'ffffff';
-		nmvThis.hilightIcon = new google.maps.MarkerImage(
+		nmvThis.hiliteIcon = new google.maps.MarkerImage(
 			'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+
 				markerColor + '|40|_|%E2%80%A2',
 			new google.maps.Size(21, 34),
@@ -32,7 +33,7 @@ nmApp.View = function() {
 
 		/* A single infoWindow is used to display basic information
 		 * when a place's map marker is clicked. Its contents and
-		 * location are applied by the marker's click event.
+		 * location are supplied when the window is opened.
 		 */
 		 var iw = new google.maps.InfoWindow();
 		 iw.marker = null;
@@ -64,20 +65,17 @@ nmApp.View = function() {
 		});
 		marker.addListener('mouseout', function() {
 			/* Toggle the icon unless it marks the current vPlace */
-			if (!nmApp.viewModel.isCurrent(placeId)) {
+			if (!nmApp.viewModel.isPlaceIdCurrent(placeId)) {
 				nmApp.viewModel.clearHighlightsById(placeId);
 			}
 			return;
 		});
-
 		marker.addListener('click', function() {
-			/* pass marker-creation arguments to the click handler */
-			nmApp.viewModel.markerClick(marker, placeName, placeId,
-				address);
+			nmApp.viewModel.markerClick(placeId);
 			return;
-		}) // marker.addListener()
+		});
 
-		/* The viewModel will track the marker for later manipulation */
+		/* The viewModel tracks the marker for later manipulation */
 		return marker;
 	}; // initMapMarker()
 
@@ -85,19 +83,17 @@ nmApp.View = function() {
 	 * image source, use the "highlight" icon. */
 	nmvThis.setMarkerIcon = function (marker, iconSrc) {
 	 	if (iconSrc === null) {
-	 		iconSrc = nmvThis.hilightIcon;
+	 		iconSrc = nmvThis.hiliteIcon;
 	 	}
 	 	marker.setIcon(iconSrc);
 	 	return;
 	};
 
-	/* Remove the infoWindow from a marker. This is done as a callback
-	 * from the viewModel since current place can be "unmarked" from
-	 * click handlers of either map or list view.
-	 */
+	/* Empty and close the InfoWindow */
 	nmvThis.clearInfoWindow = function() {
 		var iw = nmvThis.mapInfoWindow;
 		if (iw.marker !== null) {
+			/* Only execute this if the window's still attached to a marker */
 			iw.marker = null;
 			iw.setContent('');
 			iw.close();
@@ -119,14 +115,9 @@ nmApp.View = function() {
 				'</div>');
 			iw.open(nmvThis.map, marker);
 
-			/* When the user closes the window, clear it and reset
-			 * highlighting.
-			 */
+			/* Close window on closeclick */
 			iw.addListener('closeclick', function () {
-				/* Tell viewModel to make the place not-current.
-				 * The viewModel will close the infoWindow with a
-				 * clearInfoWindow() call. */
-				nmApp.viewModel.removeCurrentPlace();
+				nmvThis.clearInfoWindow();
 				return;
 			});
 		} // if

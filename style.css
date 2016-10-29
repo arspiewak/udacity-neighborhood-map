@@ -43,7 +43,7 @@ body {
 #nmvListHead p, .nmvListItem p {
     margin: 0;
 }
-.nmvListItem .tooltiptext {
+.tooltiphost .tooltiptext {
     visibility: hidden;
     width: 120px;
     background-color: black;
@@ -57,11 +57,11 @@ body {
     left: 50%;
     margin-left: -60px;
 }
-.nmvListItem:hover {
-    background-color: white;
+.tooltiphost:hover {
+    background-color: #a8efc6;
     color: #054f25;
 }
-.nmvListItem:hover .tooltiptext {
+.tooltiphost:hover .tooltiptext {
     visibility: visible;
 }
 .listItemPinned {

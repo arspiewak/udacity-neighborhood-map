@@ -27,7 +27,8 @@ nmApp.ViewModel = function() {
 	nmvmThis.koViewModel = {
 		vPlaces: ko.observableArray([]),	// Viewable array of places
 		currentVPlace: ko.observable(null)
-	};
+	}
+
 	/* Aliases in the Knockout view model to use in the constructor */
 	var koViewModel = nmvmThis.koViewModel;
 	var koVPlaces = koViewModel.vPlaces;
@@ -65,6 +66,7 @@ nmApp.ViewModel = function() {
 		 		address: address,
 		 		mapMarker: marker,
 		 		pinned: ko.observable(true),
+		 		isCurrent: ko.observable(false),
 		 		display: ko.observable(true),
 		 		hilite: ko.observable(false)
 		 	}
@@ -74,62 +76,70 @@ nmApp.ViewModel = function() {
 		 	vpid[placeId] = vpidIndex++;
 
 		 } // for
+		 return;
 	} // pPlacesToVPlaces()
 
-	/* Helper function: is a specified vPlace the current one? */
-	nmvmThis.isCurrent = function (placeId) {
-		var cvp = koViewModel.currentVPlace();
-		return (cvp != null) && (placeId === cvp.placeId);
+	/* LOW-LEVEL HELPER FUNCTIONS */
+
+	nmvmThis.placeIdToVPlace = function (placeId) {
+		var vpIndex = nmvmThis.vPlacesById[placeId];
+		var vPlace = koVPlaces()[vpIndex];
+		return vPlace;
+	}
+	nmvmThis.isPlaceIdCurrent = function (placeId) {
+		var result = nmvmThis.placeIdToVPlace(placeId).isCurrent();
+	 	return result;
 	};
 
-	/* Helper functions: Turn highlighting on/off for a vPlace */
+	/* Helper functions: Turn highlighting on/off for a vPlace.
+	 * Note that setting vPlace.hilite() to true turns on a CSS
+	 * highlight class for an entry through Knockout binding. */
 	function setHighlights(vPlace) {
-			/* Setting vPlace.hilite() to true turns on CSS highlights
-			 * for its list-view entry */
-if (vPlace === null)
-{alert('null, line 90');}
-			vPlace.hilite(true);
-			nmView.setMarkerIcon(vPlace.mapMarker, null);
-	}
-
-	nmvmThis.setHighlightsById = function (placeId) {
-	 	var vpIndex = nmvmThis.vPlacesById[placeId];
-	 	setHighlights(koVPlaces()[vpIndex]);
+		vPlace.hilite(true);
+		nmView.setMarkerIcon(vPlace.mapMarker, null);
 		return;
 	};
-
 	function clearHighlights(vPlace) {
-if (vPlace === null)
-{alert('null, line 95');}
 		vPlace.hilite(false);
 		var iconSrc = nmModel.getCategoryDisplay(vPlace.category).iconSrc;
-		/* Note that mapMarker is not an observable object */
+		/* Note: vPlace.mapMarker is not an observable object */
 		nmView.setMarkerIcon(vPlace.mapMarker, iconSrc);
+		return;
 	}
 
+	/* Wrappers look up a vPlace entry by its placeId. That's all
+	 * a marker has when its click event is fired. */
+	nmvmThis.setHighlightsById = function (placeId) {
+	 	return setHighlights(nmvmThis.placeIdToVPlace(placeId));
+	};
 	nmvmThis.clearHighlightsById = function (placeId) {
-	 	var vpIndex = nmvmThis.vPlacesById[placeId];
-	 	clearHighlights(koVPlaces()[vpIndex]);
-		return;
+		return clearHighlights(nmvmThis.placeIdToVPlace(placeId));
 	};
 
 	/* Set a place the user has selected as the "current" place.
 	 * Highlights it in both map and list view. Called by click on
 	 * a map marker or on a place list item.
 	 */
-	nmvmThis.makeVPlaceCurrent = function(placeId) {
-	 	var vpIndex = nmvmThis.vPlacesById[placeId]; // not in KO
-	 	var vPlace = koVPlaces()[vpIndex];
+	nmvmThis.makeVPlaceCurrent = function(vPlace) {
 	 	var currVPlace = koViewModel.currentVPlace; // observable obj
+	 	var cvpVal = currVPlace();					// contents
 
 	 	/* Turn off existing highlighting (if any). */
-	 	if (currVPlace() !== null && currVPlace().hilite() === true) {
-		 	clearHighlights(currVPlace());
+	 	if (cvpVal !== null && cvpVal.hilite() === true) {
+		 	clearHighlights(cvpVal);
+		 	cvpVal.isCurrent(false);
 	 	}
 
 	 	/* Set selection as currentVPlace & turn on highlighting. */
+	 	vPlace.isCurrent(true);
 	 	currVPlace(vPlace);
 	 	setHighlights(vPlace);
+	 	vPlace.mapMarker.setTitle('Click to deselect\n' +
+	 		vPlace.name + '\n' + vPlace.address);
+
+		/* Display the infoWindow */
+		nmView.displayInfoWindow(vPlace.mapMarker, vPlace.name,
+			vPlace.address);
 
 	 	return;
 	}
@@ -137,10 +147,23 @@ if (vPlace === null)
 	/* Remove the current place from "current"-ness.  */
 	nmvmThis.removeCurrentPlace = function () {
 	 	var currVPlace = koViewModel.currentVPlace();
+
+	 	/* Reality check: There should be a current place */
+	 	if (currVPlace == null) {
+	 		console.log('Program error: null Current Place ' +
+	 		 	'in removeCurrentPlace');
+	 		alert('Null currVPlace, removeCurrentPlace()'); //DEBUG
+	 		return;
+	 	}
+
 	 	/* Turn off highlighting (list and map) */
 	 	clearHighlights(currVPlace);
+	 	currVPlace.isCurrent(false);
+	 	currVPlace.mapMarker.setTitle('Click to select\n' +
+	 		vPlace.name + '\n' + vPlace.address);
 
-	 	/* Close the infoWindow */
+	 	/* Close the infoWindow. OK to execute if the IWindow's
+	 	 * been closed already by clicking its close button. */
 	 	nmView.clearInfoWindow();
 
 	 	/* Set current vPlace as "none". */
@@ -149,35 +172,28 @@ if (vPlace === null)
 		return;
 	};
 
+	/* CLICK HANDLERS */
+
 	/* Click handler when a place item's clicked in the list view.
-	 * Toggles the clicked-on vPlace in or out of being "current". */
+	 * Toggles the clicked-on vPlace in or out of being "current".
+	 */
 	nmvmThis.listItemClick = function (vPlace) {
-		if (vPlace === koViewModel.currentVPlace()) {
+		if (vPlace.isCurrent()) {
 			/* Looking at current place. Make it not-current */
 			nmvmThis.removeCurrentPlace();
 		} else {
 			/* Make this place current */
-			nmvmThis.makeVPlaceCurrent(vPlace.placeId);
+			nmvmThis.makeVPlaceCurrent(vPlace);
 		}
 		return;
 	}
 
-	/* Click handler for a map marker. If the place is current,
-	 * make it not-current. Otherwise, populate and display the
-	 * InfoWindow.
+	/* Click handler for a map marker. Find the vPlace and invoke
+	 * the generic (listItem) click handler.
 	 */
-	nmvmThis.markerClick = function (marker, placeName, placeId,
-		address) {
-
-		if (nmvmThis.isCurrent(placeId)) {
-			/* Looking at current place. Make it not-current */
-			nmvmThis.removeCurrentPlace();
-		} else {
-			/* Make this place current */
-			nmvmThis.makeVPlaceCurrent(vPlace.placeId);
-			/* Display the infoWindow */
-			nmView.displayInfoWindow(marker, placeName, address);
-		}
+	nmvmThis.markerClick = function (placeId) {
+		var vPlace = nmvmThis.placeIdToVPlace(placeId);
+		nmvmThis.listItemClick(vPlace);
 	}
 
 	return;
@@ -185,5 +201,5 @@ if (vPlace === null)
 
 nmApp.viewModel = new nmApp.ViewModel();
 
-/* Apply the knockout data bindings between viewModel and view elements */
+/* Apply Knockout data bindings from view elements to viewModel */
 ko.applyBindings(nmApp.viewModel.koViewModel);

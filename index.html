@@ -34,13 +34,13 @@
 
 				<div class="row" id="listBodyRow" data-bind="foreach: vPlaces">
 					<!-- List item row is bound to a vPlace entry -->
-					<div class="col-xs-12 nmvListItem"
+					<div class="col-xs-12 nmvListItem tooltiphost"
 					data-bind="css: { highlight: hilite() == true },
 					click: nmApp.viewModel.listItemClick">
-						<span class="tooltiptext">Click to select</span>
+						<span class="tooltiptext" data-bind="text: isCurrent() ? 'Click to deselect' : 'Click to select'"></span>
 						<p class="listItemName" data-bind="text: name"></p>
 						<p class="listItemaddress" data-bind="text: address"></p>
-						<p class="listItemPinned" data-bind="text: pinned() ? 'yes' : 'no'"></p>
+						<p class="listItemPinned tooltiphost" data-bind="text: pinned() ? 'Pinned' : 'Unpinned'"><span class="tooltiptext" data-bind="text: pinned() ? 'Unpin this place' : 'Pin this place'"></span></p>
 
 					</div> <!-- .nmvListItem -->
 				</div> <!-- #listBodyRow -->

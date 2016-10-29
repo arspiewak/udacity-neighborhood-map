@@ -150,6 +150,7 @@ nmApp.Model = function() {
 			{'lat': 36.075657, 'lng': -79.788027}, 'galleryMuseum',
 			'130 Summit Ave');
 
+/*
 		places['ChIJtcWq2SMZU4gRyk1rTTma040'] = new NmmPPlace ('Just Be',
 			{'lat': 36.06836199999999, 'lng': -79.79077199999999}, 'store',
 			'352 South Elm Street');
@@ -181,6 +182,7 @@ nmApp.Model = function() {
 		places['ChIJMbJJACQZU4gRMiFqf1xPxog'] = new NmmPPlace ('Triad Stage',
 			{'lat': 36.070609, 'lng': -79.7907989}, 'POI',
 			'232 South Elm Street');
+*/
 /*
 		places['key'] = new NmmPPlace ('name',
 			{'lat': 36.0000000, 'lng': -79.0000000}, 'category',
@@ -224,8 +226,8 @@ nmApp.Model = function() {
 		 * treat the whole PPlaces array as a unit.
 		 */
 		nmmThis.storePPlaces = function (places) {
-			var placesStr = JSON.stringify(places);
-			localStorage.setItem('neighborhood-map', placesStr);
+		var placesStr = JSON.stringify(places);
+		localStorage.setItem('neighborhood-map', placesStr);
 		if (placesStr === '[]') { alert('Writing empty PPlaces'); }
 			localStorage.setItem('__neighborhood-map__', 'true');
 			return;
@@ -274,13 +276,11 @@ nmApp.Model = function() {
 
 // TODO: add a PPlace
 // TODO: remove a PPlace
-// TODO: return the pPlaces array this.getPPlaces()
 
 	/* Return the current pPlaces array */
 	nmmThis.getPPlaces = function () {
 		return nmmThis.pPlaces;
 	}
-
 
 	/* Initialization function, called by the viewModel after Google Maps
 	 * is initialized.

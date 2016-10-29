@@ -196,6 +196,20 @@ nmApp.ViewModel = function() {
 		nmvmThis.listItemClick(vPlace);
 	}
 
+	/* Click handler for a list item's pinned paragraph */
+	nmvmThis.pinnedClick = function(vPlace) {
+		if (vPlace.pinned()) {
+			/* Place is currently pinned. Unpin it. */
+			nmModel.removePPlace(vPlace.placeId);
+			vPlace.pinned(false);
+		} else {
+			nmModel.addPPlace(vPlace.placeId, vPlace.name,
+				vPlace.location, vPlace.category, vPlace.address);
+			vPlace.pinned(true);
+		}
+		return;
+	}
+
 	return;
 }; // ViewModel constructor
 

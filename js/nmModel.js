@@ -104,7 +104,7 @@ nmApp.Model = function() {
 	/* Constructor of a Persistent Place object. Used as a place data
 	 * record, to be keyed by the place's Google Place ID.
 	 */
-	function NmmPPlace(name, location, category, address) {
+	function PPlace(name, location, category, address) {
 		return {
 			name,			// Display string, might not be unique
 			location,		// Google Maps LatLng class
@@ -118,73 +118,77 @@ nmApp.Model = function() {
 		 * Note: This process doesn't rely on how storage is implemented.
 		 */
 		var places = {};
-		places['ChIJA6wykyMZU4gR3Pwme46qaBQ'] = new NmmPPlace ('Carolina Theatre',
+		places['ChIJA6wykyMZU4gR3Pwme46qaBQ'] = new PPlace('Carolina Theatre',
 			{'lat': 36.0697498, 'lng': -79.7922808}, 'POI',
 			'310 South Greene Street');
 
-		places['ChIJXb0b4iMZU4gR2nzM1qdORNQ'] = new NmmPPlace ('Cheesecakes by Alex',
+		places['ChIJXb0b4iMZU4gR2nzM1qdORNQ'] = new PPlace('Cheesecakes by Alex',
 			{'lat': 36.069642, 'lng': -79.790398}, 'cafeBakery',
 			'315 South Elm Street');
 
-		places['ChIJ9ZEOqSYZU4gReuUD9fJJsGE'] = new NmmPPlace ('Crafted',
+		places['ChIJ9ZEOqSYZU4gReuUD9fJJsGE'] = new PPlace('Crafted',
 			{'lat': 36.0709352, 'lng': -79.7900173}, 'barRestaurant',
 			'219-A South Elm Street');
 
-		places['ChIJCdCSBiYZU4gRpAhAJekNjpA'] = new NmmPPlace ('International Civil Rights Center & Museum',
-			{'lat': 36.0717161, 'lng': -79.79068749999999}, 'galleryMuseum',
-			'134 South Elm Street');
+		places['ChIJ9Vh1byYZU4gR_hOTROhVSOY'] = new PPlace('Center City Park',
+			{'lat': 36.0740079, 'lng': -79.7895705}, 'park',
+			'200 North Elm Street');
 
-		places['ChIJ-8KRdCYZU4gRVuDBIQq43AU'] = new NmmPPlace ('Dolce Aroma Coffee Bar',
+		places['ChIJ-8KRdCYZU4gRVuDBIQq43AU'] = new PPlace('Dolce Aroma Coffee Bar',
 			{'lat': 36.0746401, 'lng': -79.79081119999999}, 'cafeBakery',
 			'233 North Elm Street');
 
-		places['ChIJncwUBSIZU4gRmlsxN_vQuac'] = new NmmPPlace ('Elsewhere',
-			{'lat': 36.06575309999999, 'lng': -79.79073395}, 'galleryMuseum',
+		places['ChIJncwUBSIZU4gRmlsxN_vQuac'] = new PPlace('Elsewhere',
+			{'lat': 36.06575309999999, 'lng': -79.7909423}, 'galleryMuseum',
 			'606 South Elm Street');
 
-		places['ChIJOb_SYyEZU4gRjaIxiLU6GD4'] = new NmmPPlace ('Green Bean',
+		places['ChIJOb_SYyEZU4gRjaIxiLU6GD4'] = new PPlace('Green Bean',
 			{'lat': 36.0687945, 'lng': -79.79045459999999}, 'cafeBakery',
 			'341 South Elm Street');
 
-		places['ChIJ_cKS0ycZU4gRoZ8Q039B7RE'] = new NmmPPlace ('Greensboro History Museum',
+		places['ChIJ_cKS0ycZU4gRoZ8Q039B7RE'] = new PPlace('Greensboro History Museum',
 			{'lat': 36.075657, 'lng': -79.788027}, 'galleryMuseum',
 			'130 Summit Ave');
 
+		places['ChIJCdCSBiYZU4gRpAhAJekNjpA'] = new PPlace('International Civil Rights Center & Museum',
+			{'lat': 36.0717161, 'lng': -79.79068749999999}, 'galleryMuseum',
+			'134 South Elm Street');
+
 /*
-		places['ChIJtcWq2SMZU4gRyk1rTTma040'] = new NmmPPlace ('Just Be',
+		places['ChIJtcWq2SMZU4gRyk1rTTma040'] = new PPlace('Just Be',
 			{'lat': 36.06836199999999, 'lng': -79.79077199999999}, 'store',
 			'352 South Elm Street');
 
-		places['ChIJeTde1yMZU4gRL6V9GxNZiZA'] = new NmmPPlace ('M\'Coul\'s Public House',
+		places['ChIJeTde1yMZU4gRL6V9GxNZiZA'] = new PPlace('M\'Coul\'s Public House',
 			{'lat': 36.068729, 'lng': -79.79107599999999}, 'barRestaurant',
 			'110 West McGee Street');
 
-		places['keChIJS5ILAiQZU4gR-ih-TCdhQEcy'] = new NmmPPlace ('Mack and Mack',
+		places['keChIJS5ILAiQZU4gR-ih-TCdhQEcy'] = new PPlace('Mack and Mack',
 			{'lat': 36.0709047, 'lng': -79.7905456}, 'store',
 			'220 South Elm Street');
 
-		places['ChIJZ-jt-CEZU4gROqddoVdIAIs'] = new NmmPPlace ('Mellow Mushroom',
+		places['ChIJZ-jt-CEZU4gROqddoVdIAIs'] = new PPlace('Mellow Mushroom',
 			{'lat': 36.0655747, 'lng': -79.7905377}, 'barRestaurant',
 			'609 South Elm Street');
 
-		places['ChIJX4Y6BVwDU4gRYaP5aVyM0-E'] = new NmmPPlace ('Natty Greene\'s Pub & Brewing Co',
+		places['ChIJX4Y6BVwDU4gRYaP5aVyM0-E'] = new PPlace('Natty Greene\'s Pub & Brewing Co',
 			{'lat': 36.0686238, 'lng': -79.79048329999999}, 'barRestaurant',
 			'345 South Elm Street');
 
-		places['ChIJm6ZtrCYZU4gR7yy5ASLGmSM'] = new NmmPPlace ('Schiffman\'s Jewelers',
+		places['ChIJm6ZtrCYZU4gR7yy5ASLGmSM'] = new PPlace('Schiffman\'s Jewelers',
 			{'lat': 36.0707117, 'lng': -79.7900212}, 'store',
 			'225 South Elm Street');
 
-		places['ChIJYSdk-yMZU4gRhpoyOOtqBeo'] = new NmmPPlace ('Scuppernong Books',
+		places['ChIJYSdk-yMZU4gRhpoyOOtqBeo'] = new PPlace('Scuppernong Books',
 			{'lat': 36.069957, 'lng': -79.7908269}, 'store',
 			'304 South Elm Street');
 
-		places['ChIJMbJJACQZU4gRMiFqf1xPxog'] = new NmmPPlace ('Triad Stage',
+		places['ChIJMbJJACQZU4gRMiFqf1xPxog'] = new PPlace('Triad Stage',
 			{'lat': 36.070609, 'lng': -79.7907989}, 'POI',
 			'232 South Elm Street');
 */
 /*
-		places['key'] = new NmmPPlace ('name',
+		places['key'] = new PPlace('name',
 			{'lat': 36.0000000, 'lng': -79.0000000}, 'category',
 			'address');
 */
@@ -226,9 +230,12 @@ nmApp.Model = function() {
 		 * treat the whole PPlaces array as a unit.
 		 */
 		nmmThis.storePPlaces = function (places) {
-		var placesStr = JSON.stringify(places);
-		localStorage.setItem('neighborhood-map', placesStr);
-		if (placesStr === '[]') { alert('Writing empty PPlaces'); }
+			var placesStr = JSON.stringify(places);
+			if (placesStr === '[]') {
+				alert('Writing empty list of places to permanent ' +
+					'storage\n([OK] to proceed)');
+			}
+			localStorage.setItem('neighborhood-map', placesStr);
 			localStorage.setItem('__neighborhood-map__', 'true');
 			return;
 		}; // storePPlaces()
@@ -251,6 +258,7 @@ nmApp.Model = function() {
 
 		/* Sync PPlaces to localStorage */
 		var places = {};
+		nmmThis.storageOk = true;
 		if (!nmmThis.storageAvailable()) {
 			/* Browser doesn't do localStorage. Build the starter list
 			 * and warn the user.
@@ -260,6 +268,7 @@ nmApp.Model = function() {
 				'You will be able to pin and unpin places, but your' +
 				' list will not be stored for the next time you use' +
 				' this page.');
+			nmmThis.storageOk = false;
 		} else if (localStorage['__neighborhood-map__'] !== 'true') {
 			/* We can store a list, but haven't done one yet. Do it. */
 			places = createPPlaces();
@@ -274,8 +283,41 @@ nmApp.Model = function() {
 		return;
 	} // initPPlaces()
 
-// TODO: add a PPlace
-// TODO: remove a PPlace
+	/* Add a PPlace when it's pinned */
+	nmmThis.addPPlace = function(placeId, name, location,  category,  address) {
+		if (!nmmThis.storageOk) {
+			/* Browser doesn't support local storage. Fail silently */
+			return;
+		}
+		var places = nmmThis.pPlaces;
+		if (places[placeId] !== undefined) {
+			alert('Updating an existing place \"' + placeId +
+				'\" in addPPlace\n[OK] to continue');
+		}
+		places[placeId] = new PPlace(name, location,  category,  address);
+		nmmThis.storePPlaces(places);
+		return;
+	};
+
+	/* Remove a PPlace when it's unpinned. */
+	nmmThis.removePPlace = function(placeId) {
+		if (!nmmThis.storageOk) {
+			/* Browser doesn't support local storage. Fail silently */
+			return;
+		}
+		var places = nmmThis.pPlaces;
+		if (places[placeId] === undefined) {
+			alert('Undefined place \"' + placeId + '\" in removePPlace');
+			return;
+		}
+		var retVal = delete places[placeId];
+		if (!retVal) {
+			alert('Unsuccessful trying to remove place \"' + placeId);
+			return;
+		}
+		nmmThis.storePPlaces(places);
+		return;
+	};
 
 	/* Return the current pPlaces array */
 	nmmThis.getPPlaces = function () {

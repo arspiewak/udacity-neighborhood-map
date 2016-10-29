@@ -69,6 +69,9 @@ body {
     right: 0;
     top: 0;
 }
+.listItemPinned:hover{
+    text-decoration: underline;
+}
 .listItemName {
     font-height: 2.5em;
     font-weight: 900;

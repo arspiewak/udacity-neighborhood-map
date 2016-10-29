@@ -1,4 +1,5 @@
-nmApp.Model = function() {
+'use strict';
+window.nmApp.Model = function () {
 /* Constructor function for the neighborhood-map model object
  *
  * A word about lookup objects, which we use a lot: There are several
@@ -16,7 +17,8 @@ nmApp.Model = function() {
 
 	/* Alias the model object's 'this' for unambiguous reference inside
 	 * various function contexts */
-	var nmmThis = this;		/* holds the identity of nmApp.model */
+	var nmmThis = this;				/* holds the identity of nmApp.model */
+	var console = window.console;	/* for eslint */
 
 	/* Place Type definitions */
 
@@ -86,9 +88,9 @@ nmApp.Model = function() {
 	};
 
 	/* Helper function: return display info for a placeCategory */
-	nmmThis.getCategoryDisplay = function(category) {
+	nmmThis.getCategoryDisplay = function (category) {
 		return nmmThis.placeCategories[category];
-	}
+	};
 
 	/* We use two types of place objects in this model. A persistent
 	 * place has been pinned, and it records the minimum data needed to
@@ -106,10 +108,10 @@ nmApp.Model = function() {
 	 */
 	function PPlace(name, location, category, address) {
 		return {
-			name,			// Display string, might not be unique
-			location,		// Google Maps LatLng class
-			category,		// code from placeCategories[]
-			address			// street only (unless outside Greensboro)
+			'name': name,			// Display string, might not be unique
+			'location': location,	// Google Maps LatLng class
+			'category': category,	// code from placeCategories[]
+			'address': address		// street only (unless outside Greensboro)
 		};
 	}
 
@@ -154,7 +156,6 @@ nmApp.Model = function() {
 			{'lat': 36.0717161, 'lng': -79.79068749999999}, 'galleryMuseum',
 			'134 South Elm Street');
 
-/*
 		places['ChIJtcWq2SMZU4gRyk1rTTma040'] = new PPlace('Just Be',
 			{'lat': 36.06836199999999, 'lng': -79.79077199999999}, 'store',
 			'352 South Elm Street');
@@ -186,7 +187,6 @@ nmApp.Model = function() {
 		places['ChIJMbJJACQZU4gRMiFqf1xPxog'] = new PPlace('Triad Stage',
 			{'lat': 36.070609, 'lng': -79.7907989}, 'POI',
 			'232 South Elm Street');
-*/
 /*
 		places['key'] = new PPlace('name',
 			{'lat': 36.0000000, 'lng': -79.0000000}, 'category',
@@ -201,7 +201,7 @@ nmApp.Model = function() {
 	 * StorageAvailable is public, but its implementation is defined
 	 * here.
 	 */
-	nmmThis.initPPlaces = function() {
+	nmmThis.initPPlaces = function () {
 
 		/* FIRST, SOME HELPER FUNCTIONS */
 
@@ -211,16 +211,18 @@ nmApp.Model = function() {
 		 */
 		nmmThis.storageAvailable = function () {
 			try {
-				var storage = window.localStorage,
-					x = '__storage_test__';
+				var storage = window.localStorage;
+				var x = '__storage_test__';
 				storage.setItem(x, x);
 				storage.removeItem(x);
 				return true;
 			}
 			catch(e) {
+				console.log('Test for local storage yielded \"' +
+					e.message + '\"');
 				return false;
 			}
-		} // storageAvailable
+		}; // storageAvailable
 
 		/* Write PPlaces array to local storage
 		 * Note that we store the whole array every time it's changed.
@@ -235,24 +237,24 @@ nmApp.Model = function() {
 				alert('Writing empty list of places to permanent ' +
 					'storage\n([OK] to proceed)');
 			}
-			localStorage.setItem('neighborhood-map', placesStr);
-			localStorage.setItem('__neighborhood-map__', 'true');
+			window.localStorage.setItem('neighborhood-map', placesStr);
+			window.localStorage.setItem('__neighborhood-map__', 'true');
 			return;
 		}; // storePPlaces()
 
 		/* Get the PPlaces array from local storage */
 		nmmThis.readPPlaces = function () {
-			var placesStr = localStorage.getItem('neighborhood-map');
+			var placesStr = window.localStorage.getItem('neighborhood-map');
 			var places = JSON.parse(placesStr);
 			return places;
-		} // readPPlaces()
+		}; // readPPlaces()
 
 		/* Debug function: clear local storage */
-		nmmThis.debugClearLocalStorage = function() {
-			localStorage.removeItem('neighborhood-map');
-			localStorage.removeItem('__neighborhood-map__');
+		nmmThis.debugClearLocalStorage = function () {
+			window.localStorage.removeItem('neighborhood-map');
+			window.localStorage.removeItem('__neighborhood-map__');
 			return;
-		}
+		};
 
 		/* NOW THE MAIN STUFF */
 
@@ -281,10 +283,10 @@ nmApp.Model = function() {
 		/* Save the array where other PPlaces functions can find it. */
 		nmmThis.pPlaces = places;
 		return;
-	} // initPPlaces()
+	}; // initPPlaces()
 
 	/* Add a PPlace when it's pinned */
-	nmmThis.addPPlace = function(placeId, name, location,  category,  address) {
+	nmmThis.addPPlace = function (placeId, name, location,  category,  address) {
 		if (!nmmThis.storageOk) {
 			/* Browser doesn't support local storage. Fail silently */
 			return;
@@ -300,7 +302,7 @@ nmApp.Model = function() {
 	};
 
 	/* Remove a PPlace when it's unpinned. */
-	nmmThis.removePPlace = function(placeId) {
+	nmmThis.removePPlace = function (placeId) {
 		if (!nmmThis.storageOk) {
 			/* Browser doesn't support local storage. Fail silently */
 			return;
@@ -322,7 +324,7 @@ nmApp.Model = function() {
 	/* Return the current pPlaces array */
 	nmmThis.getPPlaces = function () {
 		return nmmThis.pPlaces;
-	}
+	};
 
 	/* Initialization function, called by the viewModel after Google Maps
 	 * is initialized.
@@ -334,4 +336,4 @@ nmApp.Model = function() {
 
 }; // model constructor function
 
-nmApp.model = new nmApp.Model();
+window.nmApp.model = new window.nmApp.Model();

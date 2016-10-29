@@ -31,6 +31,13 @@ body {
     background-color: #11743c;
     color: white;
 }
+#nmvListHead {
+    height: 10vh;
+}
+#listBodyRow {
+    max-height: 80vh;
+    overflow: auto;
+}
 #nmvList .highlight {
     background-color: white;
     color: #054f25;
@@ -43,26 +50,10 @@ body {
 #nmvListHead p, .nmvListItem p {
     margin: 0;
 }
-.tooltiphost .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    z-index: 1;
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -60px;
-}
-.tooltiphost:hover {
+.nmvListItem:hover {
     background-color: #a8efc6;
     color: #054f25;
-}
-.tooltiphost:hover .tooltiptext {
-    visibility: visible;
+    display: inline;
 }
 .listItemPinned {
     position: absolute;

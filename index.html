@@ -11,6 +11,9 @@
 		href="https://fonts.googleapis.com/css?family=Merriweather:400,300,400italic,700,900">
 	<link rel="stylesheet"
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="style.css">
 
 </head> <!--  -->
@@ -31,13 +34,15 @@
 						<p>List heading goes here</p>
 					</div> <!-- #nmvListHead -->
 				</div> <!-- #nmvListHeaderRow -->
-
 				<div class="row" id="listBodyRow" data-bind="foreach: vPlaces">
-					<!-- List item row is bound to a vPlace entry -->
-					<div class="col-xs-12 nmvListItem tooltiphost"
+					<!-- List item row is bound to a vPlace entry.
+					Tooltip handling is adapted from
+					http://www.w3schools.com/bootstrap/bootstrap_tooltip.asp
+					-->
+					<div class="col-xs-12 nmvListItem"
 					data-bind="css: { highlight: hilite() == true }">
-						<div data-bind="click: nmApp.viewModel.listItemClick">
-							<span class="tooltiptext" data-bind="text: isCurrent() ? 'Click to deselect' : 'Click to select'"></span>
+						<div data-bind="click: nmApp.viewModel.listItemClick"
+						data-toggle="tooltip" data-placement="auto bottom" title="Click to select/deselect">
 							<p class="listItemName" data-bind="text: name"></p>
 							<p class="listItemaddress" data-bind="text: address"></p>
 						</div>
@@ -46,7 +51,6 @@
 						click: nmApp.viewModel.pinnedClick"></p>
 					</div> <!-- .nmvListItem -->
 				</div> <!-- #listBodyRow -->
-
 			</div> <!-- #nmvList -->
 			<div class="col-xs-12 col-md-9" id="nmvMap"> <!-- Map view -->
 				<p>Map goes here</p>
@@ -54,8 +58,6 @@
 		</div> <!-- mapRow -->
 	</div> <!-- container -->
 	<!-- jQuery and Knockout libraries from CDNJS via Cloudflare's CDN -->
-	<script type="text/javascript"
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
 	<!-- This application's processing is contained in the nmApp (neighborhood map application)

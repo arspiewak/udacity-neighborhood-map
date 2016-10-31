@@ -6,6 +6,7 @@ window.nmApp.View = function () {
 	 * function contexts.Make global references explicit for ESLINT. */
 	var nmvThis = this;
 	var nmApp = window.nmApp;
+	var $ = window.$;
 	//var console = window.console;
 
 	/* The global Google object isn't created till the library is fully loaded
@@ -132,6 +133,16 @@ window.nmApp.View = function () {
 			});
 		} // if
 	};
+
+	/* "Open" or "close" the modal window (placeDetails) */
+	nmvThis.openModal = function () {
+		$('.nmModal').css('display', 'block');
+	};
+	nmvThis.closeModal = function () {
+		$('.nmModal').css('display', 'none');
+	};
+
+
 
 
 }; // View constructor

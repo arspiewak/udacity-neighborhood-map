@@ -34,6 +34,9 @@ body {
 #nmvListHead {
     height: 10vh;
 }
+.nmvListItem {
+    min-height: 5em;
+}
 #listBodyRow {
     max-height: 80vh;
     overflow: auto;
@@ -55,18 +58,29 @@ body {
     color: #054f25;
     display: inline;
 }
-.listItemPinned {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-.listItemPinned:hover{
-    text-decoration: underline;
-}
 .listItemName {
     font-height: 2.5em;
     font-weight: 900;
 }
+
+.pinnedBtn {
+    top: 0;
+}
+.detailBtn {
+    bottom: 0;
+}
+.pinnedBtn, .detailBtn {
+    position: absolute;
+    right: 0;
+    min-width: 5.5em;
+    background-color: rgb(46, 145, 28); /*fallback*/
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 18px;
+}
+.pinnedBtn:hover, .detailBtn:hover {
+    text-decoration: underline;
+}
+
 #nmvMap {
     background-color: white;
     height: 90vh;
@@ -81,4 +95,71 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* nmModal element grabs the whole screen when displayed */
+.nmModal {
+    display: none;      /* reset programatically */
+    position: fixed;
+    z-index: 1;
+    padding-top: 5em;  /* shadow area above modal */
+    left: 0;
+    top:0;
+    width:100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);   /*fallback*/
+    background-color: rgba(0,0,0,0.4);  /* body shows through */
+}
+.nmModalContent {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+/*    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19); */
+    box-shadow: 0 10px 40px 0 rgba(0,0,0,0.5), 0 10px 40px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    border-radius: 8px;
+    color: #a576bc;
+}
+
+/* Drop-from-top Animation
+ *  (from http://www.w3schools.com/howto/tryit.asp?
+  * filename=tryhow_css_modal2
+ */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+.modalCloseBtn {
+    color: gray;
+    float: right;
+    font-size: 2em;
+    font-weight: bold;
+}
+.modalCloseBtn:hover, .modalCloseBtn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.nmModalHeader {
+    padding: 2px 16px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.nmModalBody {
+    padding: 2px 16px;
+}
+.nmModalFooter {
+    padding: 2px 16px;
+    border-top: 1px solid #e5e5e5;
 }

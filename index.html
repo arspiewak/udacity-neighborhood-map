@@ -11,9 +11,6 @@
 		href="https://fonts.googleapis.com/css?family=Merriweather:400,300,400italic,700,900">
 	<link rel="stylesheet"
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script type="text/javascript"
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="style.css">
 
 </head> <!--  -->
@@ -42,13 +39,19 @@
 					<div class="col-xs-12 nmvListItem"
 					data-bind="css: { highlight: hilite() == true }">
 						<div data-bind="click: nmApp.viewModel.listItemClick"
-						data-toggle="tooltip" data-placement="auto bottom" title="Click to select/deselect">
+						class="" title="Select/deselect this place to see more">
 							<p class="listItemName" data-bind="text: name"></p>
 							<p class="listItemaddress" data-bind="text: address"></p>
 						</div>
-						<p class="listItemPinned"
+						<button class="pinnedBtn"
 						data-bind="text: pinned() ? 'Pinned' : 'Unpinned',
-						click: nmApp.viewModel.pinnedClick"></p>
+						click: nmApp.viewModel.pinnedClick"
+						title="Pin/unpin this place to/from your list"></button>
+						<button class="detailBtn" type="button"
+							title="Show place details"
+							data-bind="click: $root.openModal, visible: isCurrent">
+							More
+						</button>
 					</div> <!-- .nmvListItem -->
 				</div> <!-- #listBodyRow -->
 			</div> <!-- #nmvList -->
@@ -57,12 +60,41 @@
 			</div> <!-- nmvMap -->
 		</div> <!-- mapRow -->
 	</div> <!-- container -->
+	<!-- Modal window for selected vPlace. Knockout and Bootstrap don't play
+		 nice on data binding for modals, so this DIY solution is from
+		 http://www.w3schools.com/howto/howto_css_modals.asp
+		 Class names have been changed to protect us from bootstrap presets-->
+	<div class="nmModal" role="dialog" id="placeDetails" data-bind="click: $root.closeModal">
+		<div class="nmModalContent" data-bind="with: currentVPlace,
+			click: $root.noOp,  clickBubble: false">
+			<div class="nmModalHeader">
+				<button type="button" class="modalCloseBtn" aria-hidden="true"
+				data-bind="click: $root.closeModal">
+				&times;</button>
+				<h3>Details for <span data-bind="text: name"></span>,
+					&nbsp;<span data-bind="text: address"></span>
+					</h3>
+			</div>
+			<div class="nmModalBody">
+				Body contents go here.
+			</div>
+			<div class="nmModalFooter">
+				<button type="button" class="btn btn-default modalPinBtn"
+					data-bind="text: pinned() ? 'Pinned' : 'Unpinned',
+					click: nmApp.viewModel.pinnedClick"></button>
+			</div>
+		</div><!-- .nmModalContent -->
+	</div> <!-- .nmModal -->
+
 	<!-- jQuery and Knockout libraries from CDNJS via Cloudflare's CDN -->
 	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
-	<!-- This application's processing is contained in the nmApp (neighborhood map application)
-		 object, which contains objects that define its Model, View, and ViewModel objects.
-		 TODO Minify and consolidate these four scripts -->
+	<!-- This application's processing is contained in the nmApp (neighborhood
+		map application) object, which contains objects that define its Model,
+		View, and ViewModel objects. -->
+	<!-- 	 TODO Minify and consolidate these four scripts -->
 	<script type="text/javascript" src="js/nmApp.js"></script>
 	<script type="text/javascript" src="js/nmModel.js"></script>
 	<script type="text/javascript" src="js/nmView.js"></script>

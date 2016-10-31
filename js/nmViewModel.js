@@ -21,8 +21,8 @@ window.nmApp.ViewModel = function () {
 		nmModel.init();	// Set up the model
 		nmvmThis.pPlacesToVPlaces();	// Initial load, persistent places
 
-		/* Cheat location to initialize tooltip processing */
-		$('[data-toggle="tooltip"]').tooltip();
+		/* Cheat location to initialize tooltip processing
+		$('[data-toggle="tooltip"]').tooltip(); */
 
 		return;
 	}; // init()
@@ -34,7 +34,13 @@ window.nmApp.ViewModel = function () {
 	 */
 	nmvmThis.koViewModel = {
 		vPlaces: ko.observableArray([]),	// Viewable array of places
-		currentVPlace: ko.observable(null)
+		currentVPlace: ko.observable(null),
+		openModal: function () {nmView.openModal();},
+		closeModal: function () {nmView.closeModal();},
+		modalClick: function(data, event) {
+			console.log(event.target.id);
+		},
+		noOp: function() {return;}
 	};
 
 	/* Aliases in the Knockout view model to use in the constructor */

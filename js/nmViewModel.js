@@ -13,17 +13,17 @@ window.nmApp.ViewModel = function () {
 	var nmView = nmApp.view;
 	var nmModel = nmApp.model;
 
+	/* ARBITRARY CONSTANTS */
+	/* Timeout API requests at 10 seconds */
+	var DETAIL_REQUEST_TIMEOUT = 10000;
+
+	/* Initialization function for the entire application, passed
+	 * as the callback function to Google Maps initialization.
+	 */
 	nmvmThis.init = function () {
-		/* Initialization function for the entire application, passed as
-		 * the callback function to Google Maps initialization.
-		 */
 		nmView.initMap();	// First create the map
 		nmModel.init();	// Set up the model
 		nmvmThis.pPlacesToVPlaces();	// Initial load, persistent places
-
-		/* Cheat location to initialize tooltip processing
-		$('[data-toggle="tooltip"]').tooltip(); */
-
 		return;
 	}; // init()
 
@@ -83,7 +83,10 @@ window.nmApp.ViewModel = function () {
 				pinned: ko.observable(true),
 				isCurrent: ko.observable(false),
 				display: ko.observable(true),
-				hilite: ko.observable(false)
+				hilite: ko.observable(false),
+				gdTimer: null,	// timeout processor, Google API
+				gDetails: ko.observable(null), // Google details
+				yDetails: ko.observable(null)  // Yelp details
 			};
 			koVPlaces.push(vPlace);
 
@@ -131,6 +134,78 @@ window.nmApp.ViewModel = function () {
 		return clearHighlights(nmvmThis.placeIdToVPlace(placeId));
 	};
 
+	/* FUNCTIONS THAT SUPPORT DETAIL PROCESSING */
+
+	/* Cover an unfortunate conflation of view and model functions within
+	 * Google Maps: Model needs the map object to manage API calls.
+	 */
+	nmvmThis.getMapObject = function () {
+		return nmView.getMapObject();
+	};
+
+	/* Build a Google details return & timer handlers. The function needs to
+	 * contain error-message info if the API fails. */
+	function gdReturnBuilder (vPlace) {
+		function gdReturnHandler (result, status) {
+			var timer = vPlace.gdTimer;
+			if (timer !== undefined && timer !== null) {
+				/* Cancel the timeout for the returning gDetails request */
+				window.clearTimeout(timer);
+			}
+			if (status !== 'OK') {
+				/* Error came back from Google */
+				window.alert('Google Details return handler:\n' +
+					'Unable to process request for details,\n' +
+					'Place name:' + vPlace.name +
+					'\nError ' + status);
+				vPlace.gDetails(null);
+				return;
+			}
+			/* Status OK. Unpack the results and store in a KO observable */
+			vPlace.gDetails(nmModel.unpackGoogleDetails(result));
+		} /* gdReturnHandler() */
+
+		function gdTimerHandler () {
+			/* Timer expired waiting for Google place details. */
+			window.alert('Google Details timeout: ' +
+				'Request for details did not respond,\n' +
+				'Place name: ' + vPlace.name +'\n' +
+				(DETAIL_REQUEST_TIMEOUT / 1000) + ' seconds elapsed');
+			vPlace.gDetails(null);
+			return;
+		}
+
+		return [gdReturnHandler, gdTimerHandler];
+	}
+
+	/* Request Google details from Model and, when returned, store them in
+	 * vPlace. */
+	nmvmThis.getGoogleDetails = function (vPlace) {
+		if (vPlace === null) {
+			window.alert('Can\'t request Google details for\n' +
+				'a null vPlace. Program error.');
+			return;
+		}
+
+		/* Skip the rest if we already have gDetails. */
+		if (vPlace.gDetails() !== null) {
+			return;
+		}
+
+		/* Build return handlers for vPlace */
+		var handlers = gdReturnBuilder(vPlace);
+
+		/* Submit the request for Google Place Details info  */
+		nmModel.getGoogleDetails(vPlace.placeId, handlers[0]);
+
+		/* Set a timer in case the API doesn't respond */
+		vPlace.gdTimer = setTimeout(handlers[1], DETAIL_REQUEST_TIMEOUT);
+		return;
+	};
+
+
+	/* CURRENT PLACE AND HIGHLIGHTS */
+
 	/* Set a place the user has selected as the "current" place.
 	 * Highlights it in both map and list view. Called by click on
 	 * a map marker or on a place list item.
@@ -153,6 +228,9 @@ window.nmApp.ViewModel = function () {
 		/* Display the infoWindow */
 		nmView.displayInfoWindow(vPlace.mapMarker, vPlace.name,
 			vPlace.address);
+
+		/* Async request preloads details for modal window */
+		nmvmThis.getGoogleDetails(vPlace);
 
 		return;
 	};

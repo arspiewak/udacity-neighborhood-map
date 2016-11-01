@@ -19,6 +19,7 @@ window.nmApp.Model = function () {
 	 * various function contexts */
 	var nmmThis = this;				/* holds the identity of nmApp.model */
 	var console = window.console;	/* for eslint */
+	var nmApp = window.nmApp;
 
 	/* Place Type definitions */
 
@@ -326,8 +327,36 @@ window.nmApp.Model = function () {
 		return nmmThis.pPlaces;
 	};
 
-	/* Initialization function, called by the viewModel after Google Maps
-	 * is initialized.
+	/* API MANAGEMENT */
+
+	/* Request Google's place details for a placeId. Return
+	 * info goes to a callback provided by the viewModel. */
+	nmmThis.getGoogleDetails = function (placeId, handlerFxn) {
+		var map = nmApp.viewModel.getMapObject();
+		var service = new window.google.maps.places.PlacesService(map);
+		service.getDetails({placeId: placeId},
+			handlerFxn); // no return; status goes to handlerFxn
+		return;
+	};
+	/* ViewModel got Google details result. Unpack the results
+	 * into a gDetails object.
+	 */
+	nmmThis.unpackGoogleDetails = function (result) {
+		var gDetails = {};
+		gDetails.formattedAddress = result.formatted_address;
+		gDetails.formattedPhoneNumber = result.formatted_phone_number;
+		gDetails.weekdayText = result.opening_hours.weekday_text; // array
+		gDetails.photos = result.photos; //array
+		gDetails.priceLevel = result.price_level;
+		gDetails.rating = result.rating;
+		gDetails.reviews = result.reviews; //array
+		gDetails.gmapsUrl = result.url;
+		gDetails.website = result.website;
+		return gDetails;
+	};
+
+	/* INITIALIZATION FUNCTION, called by the viewModel after
+	 * Google Maps is initialized.
 	 */
 	nmmThis.init = function () {
 		nmmThis.initPPlaces();

@@ -112,6 +112,11 @@ window.nmApp.View = function () {
 		return;
 	};
 
+	/* Support function allows the Model object to share our map object */
+	nmvThis.getMapObject = function () {
+		return nmvThis.map;
+	};
+
 	nmvThis.displayInfoWindow = function (marker, placeName, address) {
 		/* Fill in the map's infoWindow and attach it to the
 			* clicked marker

@@ -343,15 +343,29 @@ window.nmApp.Model = function () {
 	 */
 	nmmThis.unpackGoogleDetails = function (result) {
 		var gDetails = {};
-		gDetails.formattedAddress = result.formatted_address;
-		gDetails.formattedPhoneNumber = result.formatted_phone_number;
-		gDetails.weekdayText = result.opening_hours.weekday_text; // array
-		gDetails.photos = result.photos; //array
-		gDetails.priceLevel = result.price_level;
-		gDetails.rating = result.rating;
-		gDetails.reviews = result.reviews; //array
-		gDetails.gmapsUrl = result.url;
-		gDetails.website = result.website;
+		function check(obj) {
+			if (obj === undefined || obj === null) {
+				return null;
+			} else {
+				return obj;
+			}
+		}
+
+		gDetails.formattedAddress = check(result.formatted_address);
+		gDetails.formattedPhoneNumber =
+			check(result.formatted_phone_number);
+		var temp = check(result.opening_hours);
+		if (temp === null) {
+			gDetails.weekdayText = null;
+		} else {
+			gDetails.weekdayText = check(temp.weekday_text); // array
+		}
+		gDetails.photos = check(result.photos); //array
+		gDetails.priceLevel = check(result.price_level);
+		gDetails.rating = check(result.rating);
+		gDetails.reviews = check(result.reviews); //array
+		gDetails.gmapsUrl = check(result.url);
+		gDetails.website = check(result.website);
 		return gDetails;
 	};
 

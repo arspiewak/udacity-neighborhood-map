@@ -59,7 +59,7 @@
 				<p>Map goes here</p>
 			</div> <!-- nmvMap -->
 		</div> <!-- mapRow -->
-	</div> <!-- container -->
+	</div> <!-- container-fluid -->
 	<!-- Modal window for selected vPlace. Knockout and Bootstrap don't play
 		 nice on data binding for modals, so this DIY solution is from
 		 http://www.w3schools.com/howto/howto_css_modals.asp
@@ -75,43 +75,50 @@
 					&nbsp;<span data-bind="text: address"></span>
 					</h3>
 			</div>
-			<div class="nmModalBody">
-				<div class="gDetails" data-bind="with: gDetails">
-					<p class="gdItem">Full address:&nbsp;
-						<span class="gdItemVal" data-bind="text: formattedAddress"></span>
-					</p>
-					<p class="gdItem">Phone:&nbsp;
-						<span class="gdItemVal" data-bind="text: formattedPhoneNumber"></span>
-					</p>
-					<p class="gdItem">Hours of operation:&nbsp;
-						<span class="gdItemVal" data-bind="text: weekdayText.join(', ')"></span>
-					</p>
-					<p class="gdItem">Price level:&nbsp;
-						<span class="gdItemVal" data-bind="text: priceLevel"></span>
-					</p>
-					<p class="gdItem">Google rating:&nbsp;
-						<span class="gdItemVal" data-bind="text: rating"></span> out of 5
-					</p>
-					<p class="gdItem">View with Google Maps: &nbsp;
-						<a class="gdItemVal" data-bind="text: gmapsUrl, attr: {href: gmapsUrl}, click: $root.noOp" target="_blank"></a>
-					</p>
-					<p class="gdItem">Web site: &nbsp;
-						<a class="gdItemVal" data-bind="text: website, attr: {href: website}, click: $root.noOp" target="_blank"></a>
-					</p>
-
-<!--
-					<p class="gdItem"> :&nbsp;
-						<span class="gdItemVal" data-bind="text: #"></span>
-					</p>
--->
-				</div>
-			</div>
+			<div class="nmModalBody container-fluid">
+				<div class="row">
+					<div class="gDetails col-xs-12 col-md-6" data-bind="with: gDetails">
+						<h4>Data source: Google, Inc.</h4>
+						<div class="modalPhotoRow" data-bind="foreach: photos">
+							<a data-toggle="popover"
+								data-html="true"
+								data-content="Hello"
+								title="<strong>Photo credit</strong><br>Click on picture to dismiss this bubble"
+								>
+								<img data-bind="attr: {src: getUrl({maxHeight:150})}"
+									title="Click for photo credit" alt="Image from Google Places">
+							</a>
+						</div> <!-- modalPhotoRow -->
+						<p class="gdItem">Full address:&nbsp;
+							<span class="gdItemVal" data-bind="text: formattedAddress"></span>
+						</p>
+						<p class="gdItem">Phone:&nbsp;
+							<span class="gdItemVal" data-bind="text: formattedPhoneNumber"></span>
+						</p>
+						<p class="gdItem">Hours of operation:&nbsp;
+							<span class="gdItemVal" data-bind="text: weekdayText.join(', ')"></span>
+						</p>
+						<p class="gdItem">Price level:&nbsp;
+							<span class="gdItemVal" data-bind="text: priceLevel"></span>
+						</p>
+						<p class="gdItem">Google rating:&nbsp;
+							<span class="gdItemVal" data-bind="text: rating"></span> out of 5
+						</p>
+						<p class="gdItem">View with Google Maps: &nbsp;
+							<a class="gdItemVal" data-bind="text: gmapsUrl, attr: {href: gmapsUrl}, click: $root.noOp" target="_blank"></a>
+						</p>
+						<p class="gdItem">Web site: &nbsp;
+							<a class="gdItemVal" data-bind="text: website, attr: {href: website}, click: $root.noOp" target="_blank"></a>
+						</p>
+					</div> <!-- gDetails -->
+				</div> <!-- row -->
+			</div> <!-- nmModalBody -->
 			<div class="nmModalFooter">
 				<button type="button" class="btn btn-default modalPinBtn"
 					data-bind="text: pinned() ? 'Pinned' : 'Unpinned',
 					click: nmApp.viewModel.pinnedClick"></button>
-			</div>
-		</div><!-- .nmModalContent -->
+			</div> <!-- nmModalFooter -->
+		</div> <!-- nmModalContent -->
 	</div> <!-- .nmModal -->
 
 	<!-- jQuery and Knockout libraries from CDNJS via Cloudflare's CDN -->
@@ -119,6 +126,8 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 	<!-- This application's processing is contained in the nmApp (neighborhood
 		map application) object, which contains objects that define its Model,
 		View, and ViewModel objects. -->

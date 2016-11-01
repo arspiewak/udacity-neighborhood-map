@@ -24,6 +24,7 @@ window.nmApp.ViewModel = function () {
 		nmView.initMap();	// First create the map
 		nmModel.init();	// Set up the model
 		nmvmThis.pPlacesToVPlaces();	// Initial load, persistent places
+		$('[data-toggle="popover"]').popover();
 		return;
 	}; // init()
 
@@ -164,6 +165,27 @@ window.nmApp.ViewModel = function () {
 			}
 			/* Status OK. Unpack the results and store in a KO observable */
 			vpgDet(nmModel.unpackGoogleDetails(result));
+
+			/* Populating currentVPlace().gDetails created new DOM
+			 * elements that need Bootstrap popovers (Google requires
+			 * us to credit their photo contributors, and I didn't
+			 * want to waste modal territory with the markup.) We
+			 * turn on popover processing with popover() and do some
+			 * data-binding to the popover attribute 'data-content',
+			 * which won't coexist with standard knockover data
+			 * binding. */
+			$('[data-toggle="popover"]').each(function( index ) {
+				if (vpgDet().photos[index].html_attributions.length === 0) {
+					newStr = '[Unknown]';
+				} else {
+					var str = vpgDet().photos[index].html_attributions[0];
+					var insertAt = str.indexOf('>');
+					var newStr = 'Contributed by ' + str.slice(0,insertAt) +
+						' target="_blank"' + str.slice(insertAt);
+				}
+				$(this).attr('data-content', newStr);
+			});
+			$('[data-toggle="popover"]').popover();
 
 			return;
 		} /* gdReturnHandler() */

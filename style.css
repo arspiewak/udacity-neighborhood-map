@@ -158,6 +158,10 @@ body {
 }
 .nmModalBody {
     padding: 2px 16px;
+    font-size: 1.3em;
+}
+a {
+    color: #a576bc;
 }
 .nmModalFooter {
     padding: 2px 16px;

@@ -76,7 +76,35 @@
 					</h3>
 			</div>
 			<div class="nmModalBody">
-				Body contents go here.
+				<div class="gDetails" data-bind="with: gDetails">
+					<p class="gdItem">Full address:&nbsp;
+						<span class="gdItemVal" data-bind="text: formattedAddress"></span>
+					</p>
+					<p class="gdItem">Phone:&nbsp;
+						<span class="gdItemVal" data-bind="text: formattedPhoneNumber"></span>
+					</p>
+					<p class="gdItem">Hours of operation:&nbsp;
+						<span class="gdItemVal" data-bind="text: weekdayText.join(', ')"></span>
+					</p>
+					<p class="gdItem">Price level:&nbsp;
+						<span class="gdItemVal" data-bind="text: priceLevel"></span>
+					</p>
+					<p class="gdItem">Google rating:&nbsp;
+						<span class="gdItemVal" data-bind="text: rating"></span> out of 5
+					</p>
+					<p class="gdItem">View with Google Maps: &nbsp;
+						<a class="gdItemVal" data-bind="text: gmapsUrl, attr: {href: gmapsUrl}, click: $root.noOp" target="_blank"></a>
+					</p>
+					<p class="gdItem">Web site: &nbsp;
+						<a class="gdItemVal" data-bind="text: website, attr: {href: website}, click: $root.noOp" target="_blank"></a>
+					</p>
+
+<!--
+					<p class="gdItem"> :&nbsp;
+						<span class="gdItemVal" data-bind="text: #"></span>
+					</p>
+-->
+				</div>
 			</div>
 			<div class="nmModalFooter">
 				<button type="button" class="btn btn-default modalPinBtn"

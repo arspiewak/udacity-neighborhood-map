@@ -40,7 +40,7 @@ window.nmApp.ViewModel = function () {
 		modalClick: function(data, event) {
 			console.log(event.target.id);
 		},
-		noOp: function() {return;}
+		noOp: function() {return true;}
 	};
 
 	/* Aliases in the Knockout view model to use in the constructor */
@@ -148,6 +148,7 @@ window.nmApp.ViewModel = function () {
 	function gdReturnBuilder (vPlace) {
 		function gdReturnHandler (result, status) {
 			var timer = vPlace.gdTimer;
+			var vpgDet = vPlace.gDetails;
 			if (timer !== undefined && timer !== null) {
 				/* Cancel the timeout for the returning gDetails request */
 				window.clearTimeout(timer);
@@ -158,11 +159,13 @@ window.nmApp.ViewModel = function () {
 					'Unable to process request for details,\n' +
 					'Place name:' + vPlace.name +
 					'\nError ' + status);
-				vPlace.gDetails(null);
+				vpgDet(null);
 				return;
 			}
 			/* Status OK. Unpack the results and store in a KO observable */
-			vPlace.gDetails(nmModel.unpackGoogleDetails(result));
+			vpgDet(nmModel.unpackGoogleDetails(result));
+
+			return;
 		} /* gdReturnHandler() */
 
 		function gdTimerHandler () {

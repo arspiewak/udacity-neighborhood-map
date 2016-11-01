@@ -366,6 +366,7 @@ window.nmApp.Model = function () {
 		gDetails.reviews = check(result.reviews); //array
 		gDetails.gmapsUrl = check(result.url);
 		gDetails.website = check(result.website);
+
 		return gDetails;
 	};
 

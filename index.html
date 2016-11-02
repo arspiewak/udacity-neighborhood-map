@@ -83,12 +83,18 @@
 							<a data-toggle="popover"
 								data-html="true"
 								data-content="Hello"
-								title="<strong>Photo credit</strong><br>Click on picture to dismiss this bubble"
+								tabindex="0"
+								role="button"
+								data-trigger="focus"
+								title="Photo credit"
 								>
 								<img data-bind="attr: {src: getUrl({maxHeight:150})}"
 									title="Click for photo credit" alt="Image from Google Places">
 							</a>
 						</div> <!-- modalPhotoRow -->
+						<p class="gdItem"><br>Google rating:&nbsp;
+							<span class="gdItemVal" data-bind="text: rating"></span> out of 5
+						</p>
 						<p class="gdItem">Full address:&nbsp;
 							<span class="gdItemVal" data-bind="text: formattedAddress"></span>
 						</p>
@@ -100,9 +106,6 @@
 						</p>
 						<p class="gdItem">Price level:&nbsp;
 							<span class="gdItemVal" data-bind="text: priceLevel"></span>
-						</p>
-						<p class="gdItem">Google rating:&nbsp;
-							<span class="gdItemVal" data-bind="text: rating"></span> out of 5
 						</p>
 						<p class="gdItem">View with Google Maps: &nbsp;
 							<a class="gdItemVal" data-bind="text: gmapsUrl, attr: {href: gmapsUrl}, click: $root.noOp" target="_blank"></a>

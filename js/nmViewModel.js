@@ -166,26 +166,30 @@ window.nmApp.ViewModel = function () {
 			/* Status OK. Unpack the results and store in a KO observable */
 			vpgDet(nmModel.unpackGoogleDetails(result));
 
-			/* Populating currentVPlace().gDetails created new DOM
-			 * elements that need Bootstrap popovers (Google requires
-			 * us to credit their photo contributors, and I didn't
-			 * want to waste modal territory with the markup.) We
-			 * turn on popover processing with popover() and do some
-			 * data-binding to the popover attribute 'data-content',
-			 * which won't coexist with standard knockover data
-			 * binding. */
+			/* When we populate currentVPlace().gDetails, KO's foreach
+			 * binding creates new DOM elements, and we want them to
+			 * have Bootstrap popovers. (Google requires us to credit
+			 * their photo contributors, and I didn't want to waste
+			 * modal territory with tags to do that.)
+			 *
+			 * First we manually bind the attribution data to the
+			 * attribute 'data-content', which Bootsrap uses for
+			 * popovers and standard Knockout data binding won't do
+			 * right. Then we turn on popover processing with a call
+			 * to Bootstrap's popover() */
 			$('[data-toggle="popover"]').each(function( index ) {
 				if (vpgDet().photos[index].html_attributions.length === 0) {
 					newStr = '[Unknown]';
 				} else {
+					/* Revise the HTML in Google's attribution string */
 					var str = vpgDet().photos[index].html_attributions[0];
 					var insertAt = str.indexOf('>');
 					var newStr = 'Contributed by ' + str.slice(0,insertAt) +
 						' target="_blank"' + str.slice(insertAt);
 				}
+				/* Bind the formatted data to the data-content attribute */
 				$(this).attr('data-content', newStr);
-			});
-			$('[data-toggle="popover"]').popover();
+			}).popover();
 
 			return;
 		} /* gdReturnHandler() */

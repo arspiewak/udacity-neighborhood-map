@@ -360,10 +360,16 @@ window.nmApp.Model = function () {
 		gDetails.formattedPhoneNumber =
 			check(result.formatted_phone_number);
 		var temp = check(result.opening_hours);
-		if (temp === null) {
+		if (temp === null || check(temp.weekday_text) == null) {
 			gDetails.weekdayText = null;
 		} else {
-			gDetails.weekdayText = check(temp.weekday_text); // array
+			var src = temp.weekday_text;
+			var len = src.length;
+			var arr = [];
+			for (var i = 0; i < len; i++){
+				arr[i] = {hours: src[i]};
+			}
+			gDetails.weekdayText = arr;
 		}
 		gDetails.photos = check(result.photos); //array
 		gDetails.priceLevel = check(result.price_level);
@@ -439,7 +445,6 @@ window.nmApp.Model = function () {
 
 		var parameterMap = OAuth.getParameterMap(message.parameters);
 		parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
-		console.log(parameterMap);
 
 		$.ajax({
 			'url': message.action,
@@ -487,7 +492,6 @@ window.nmApp.Model = function () {
 		yDetails.snippet = check(biz.snippet_text);
 		yDetails.yelpUrl = check(biz.url);
 
-		console.log(yDetails);
 		return yDetails;
 	};
 

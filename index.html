@@ -78,7 +78,11 @@
 			<div class="nmModalBody container-fluid">
 				<div class="row">
 					<div class="gDetails col-xs-12 col-md-6" data-bind="with: gDetails">
-						<h4>Data source: Google, Inc.</h4>
+						<h4>
+							<img alt="Google logo" height="40"
+							src="https://www.google.com/images/branding/product/2x/maps_48dp.png">
+							Data source: Google Maps
+						</h4>
 						<div class="modalPhotoRow" data-bind="foreach: photos">
 							<a data-toggle="popover"
 								data-html="true"
@@ -101,19 +105,62 @@
 						<p class="gdItem">Phone:&nbsp;
 							<span class="gdItemVal" data-bind="text: formattedPhoneNumber"></span>
 						</p>
-						<p class="gdItem">Hours of operation:&nbsp;
-							<span class="gdItemVal" data-bind="text: weekdayText.join(', ')"></span>
-						</p>
+						<p><table class="gdItem">
+							<thead>
+								<tr><th>Hours of operation:<th><tr>
+							</thead>
+							<tbody data-bind="foreach: weekdayText">
+								<tr><td class="gdHours" data-bind="text: hours">
+								</td><tr>
+							</tbody>
+						</table></p>
 						<p class="gdItem">Price level:&nbsp;
 							<span class="gdItemVal" data-bind="text: priceLevel"></span>
 						</p>
-						<p class="gdItem">View with Google Maps: &nbsp;
-							<a class="gdItemVal" data-bind="text: gmapsUrl, attr: {href: gmapsUrl}, click: $root.noOp" target="_blank"></a>
+						<p class="gdItem">Web site:&nbsp;
+							<a class="gdItemVal"
+							data-bind="text: website, attr: {href: website}, click: $root.noOp" target="_blank"></a>
 						</p>
-						<p class="gdItem">Web site: &nbsp;
-							<a class="gdItemVal" data-bind="text: website, attr: {href: website}, click: $root.noOp" target="_blank"></a>
+						<p class="gdItem">
+							<a data-bind="attr: {href: gmapsUrl}, click: $root.noOp" target="_blank">View with Google Maps</a>
 						</p>
 					</div> <!-- gDetails -->
+					<div class="yDetails col-xs-12 col-md-6" data-bind="with: yDetails">
+						<h4>
+							<a target="_blank" href="https://www.yelp.com/greensboro-nc-us">
+								<img alt="Yelp logo" height="40"
+								src="https://s3-media2.fl.yelpcdn.com/assets/srv0/developer_pages/9b78de2c2ec9/assets/img/logo-2-color.png">
+							</a>
+							Data source: Yelp
+						</h4>
+						<div class="modalPhotoRow">
+							<img data-bind="attr: {src: photo}" alt="Image from Yelp" height="150">
+						</div> <!-- modalPhotoRow -->
+						<p class="gdItem"><br>Yelp rating:&nbsp;
+							<span class="gdItemVal" data-bind="text: rating"></span>&nbsp;
+							<img data-bind="attr: {src: ratingImg}" alt="">&nbsp;
+							<span data-bind="text: reviewCount"></span> reviews
+						</p>
+						<p class="gdItem">Name:&nbsp;
+							<span class="gdItemVal" data-bind="text: name"></span>
+						</p>
+						<p class="gdItem">Full address:&nbsp;
+							<span class="gdItemVal" data-bind="text: address"></span>
+						</p>
+						<p class="gdItem">Phone:&nbsp;
+							<span class="gdItemVal" data-bind="text: phone"></span>
+						</p>
+
+						<p class="gdItem">Featured quote:&nbsp;
+							<span class="gdItemVal" data-bind="text: snippet"></span>
+						</p>
+
+						<p class="gdItem">
+							<a data-bind="attr: {href: yelpUrl}, click: $root.noOp" target="_blank">
+								View with Yelp
+							</a>
+						</p>
+					</div> <!-- yDetails -->
 				</div> <!-- row -->
 			</div> <!-- nmModalBody -->
 			<div class="nmModalFooter">

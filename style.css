@@ -175,3 +175,16 @@ a {
 .popover {
     color: black;
 }
+.gDetails {
+    border-right: 1px solid #e5e5e5;
+}
+.gdHours {
+    padding-left: 2em;
+    font-weight: normal;
+}
+.gdItem {
+    font-weight: bold;
+}
+.gdItemVal{
+    font-weight: normal;
+}

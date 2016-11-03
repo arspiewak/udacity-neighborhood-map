@@ -83,7 +83,7 @@
 							src="https://www.google.com/images/branding/product/2x/maps_48dp.png">
 							Data source: Google Maps
 						</h4>
-						<div class="modalPhotoRow" data-bind="foreach: photos">
+						<div class="modalScrollRow" data-bind="foreach: photos">
 							<a data-toggle="popover"
 								data-html="true"
 								data-content="Hello"
@@ -110,7 +110,7 @@
 								<tr><th>Hours of operation:<th><tr>
 							</thead>
 							<tbody data-bind="foreach: weekdayText">
-								<tr><td class="gdHours" data-bind="text: hours">
+								<tr><td class="gdIndent" data-bind="text: hours">
 								</td><tr>
 							</tbody>
 						</table></p>
@@ -121,6 +121,17 @@
 							<a class="gdItemVal"
 							data-bind="text: website, attr: {href: website}, click: $root.noOp" target="_blank"></a>
 						</p>
+						<div class="modalScrollRow" data-bind="foreach: reviews">
+							<p class="gdItem">Review by&nbsp;
+								<a data-bind="text: author_name, attr: {href: author_url}, click: $root.noOp"
+									target="_blank"></a>
+								:&nbsp;<span data-bind="text: rating"></span> out of 5
+								<br><span class="gdIndent" data-bind="text: text"
+							</p>
+						</div>
+
+
+
 						<p class="gdItem">
 							<a data-bind="attr: {href: gmapsUrl}, click: $root.noOp" target="_blank">View with Google Maps</a>
 						</p>
@@ -128,7 +139,7 @@
 					<div class="yDetails col-xs-12 col-md-6" data-bind="with: yDetails">
 						<h4>
 							<a target="_blank" href="https://www.yelp.com/greensboro-nc-us">
-								<img alt="Yelp logo" height="40"
+								<img alt="Yelp logo" height="40" class="logo"
 								src="https://s3-media2.fl.yelpcdn.com/assets/srv0/developer_pages/9b78de2c2ec9/assets/img/logo-2-color.png">
 							</a>
 							Data source: Yelp
@@ -150,11 +161,9 @@
 						<p class="gdItem">Phone:&nbsp;
 							<span class="gdItemVal" data-bind="text: phone"></span>
 						</p>
-
 						<p class="gdItem">Featured quote:&nbsp;
 							<span class="gdItemVal" data-bind="text: snippet"></span>
 						</p>
-
 						<p class="gdItem">
 							<a data-bind="attr: {href: yelpUrl}, click: $root.noOp" target="_blank">
 								View with Yelp

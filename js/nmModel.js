@@ -459,20 +459,29 @@ window.nmApp.Model = function () {
 
 	nmmThis.unpackYelpDetails = function (data) {
 		/* Yelp's "Best matched" sort doesn't always return the exact
-		 * match first. We set the return limit at 3 and scan them for
+		 * match first. We set the return limit at 3 and scan names for
 		 * a match.
 		 */
 		var businesses = data.businesses;
-		var name = nmmThis.oaMessage.parameters[nmmThis.termIx][1];
 		var biz = null;
+		var name = nmmThis.oaMessage.parameters[nmmThis.termIx][1];
+		/* Strip leading "The" to compare names */
+		if (name.search("The ") == 0) {
+			name = name.slice(4);
+		}
+
 		for (var i = 0, len = businesses.length; i < len; i++) {
-			if (businesses[i] === 'name') {
+			var bizname = businesses[i].name;
+			if (bizname.search("The ") == 0) {
+				bizname = bizname.slice(4);
+			}
+			if (name === bizname) {
 				biz = businesses[i];
 				break;
 			}
-			if (biz === null) {
-				biz = businesses[0];
-			}
+		}
+		if (biz === null) {
+			biz = businesses[0];
 		}
 
 		var yDetails = {};

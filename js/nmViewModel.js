@@ -24,7 +24,7 @@ window.nmApp.ViewModel = function () {
 		nmView.initMap();	// First create the map
 		nmModel.init();	// Set up the model
 		nmvmThis.pPlacesToVPlaces();	// Initial load, persistent places
-		$('[data-toggle="popover"]').popover();
+		nmModel.yelpAuth();
 		return;
 	}; // init()
 
@@ -47,6 +47,8 @@ window.nmApp.ViewModel = function () {
 	/* Aliases in the Knockout view model to use in the constructor */
 	var koViewModel = nmvmThis.koViewModel;
 	var koVPlaces = koViewModel.vPlaces;
+
+	/* SETUP-SUPPORT FUNCTIONS */
 
 	nmvmThis.pPlacesToVPlaces = function () {
 		/* Load the viewModel's place array from the model's persistent
@@ -86,6 +88,7 @@ window.nmApp.ViewModel = function () {
 				display: ko.observable(true),
 				hilite: ko.observable(false),
 				gdTimer: null,	// timeout processor, Google API
+				ydTimer: null,	// ditto for Yelp API
 				gDetails: ko.observable(null), // Google details
 				yDetails: ko.observable(null)  // Yelp details
 			};
@@ -144,23 +147,25 @@ window.nmApp.ViewModel = function () {
 		return nmView.getMapObject();
 	};
 
-	/* Build a Google details return & timer handlers. The function needs to
-	 * contain error-message info if the API fails. */
+	/* Build Google-details return & timer handlers. The functions need to
+	 * contain place-specific error-message info if the API fails. */
 	function gdReturnBuilder (vPlace) {
 		function gdReturnHandler (result, status) {
 			var timer = vPlace.gdTimer;
-			var vpgDet = vPlace.gDetails;
+			var vpgDet = vPlace.gDetails;  // a KO observable
 			if (timer !== undefined && timer !== null) {
 				/* Cancel the timeout for the returning gDetails request */
 				window.clearTimeout(timer);
+				timer = null;
 			}
 			if (status !== 'OK') {
 				/* Error came back from Google */
 				window.alert('Google Details return handler:\n' +
 					'Unable to process request for details,\n' +
 					'Place name:' + vPlace.name +
-					'\nError ' + status);
+					'\nError: ' + status);
 				vpgDet(null);
+				timer = null;
 				return;
 			}
 			/* Status OK. Unpack the results and store in a KO observable */
@@ -201,10 +206,11 @@ window.nmApp.ViewModel = function () {
 				'Place name: ' + vPlace.name +'\n' +
 				(DETAIL_REQUEST_TIMEOUT / 1000) + ' seconds elapsed');
 			vPlace.gDetails(null);
+			vPlace.gdTimer = null;
 			return;
 		}
 
-		return [gdReturnHandler, gdTimerHandler];
+		return {ret: gdReturnHandler, timer: gdTimerHandler};
 	}
 
 	/* Request Google details from Model and, when returned, store them in
@@ -225,13 +231,94 @@ window.nmApp.ViewModel = function () {
 		var handlers = gdReturnBuilder(vPlace);
 
 		/* Submit the request for Google Place Details info  */
-		nmModel.getGoogleDetails(vPlace.placeId, handlers[0]);
+		nmModel.getGoogleDetails(vPlace.placeId, handlers.ret);
 
 		/* Set a timer in case the API doesn't respond */
-		vPlace.gdTimer = setTimeout(handlers[1], DETAIL_REQUEST_TIMEOUT);
+		vPlace.gdTimer = setTimeout(handlers.timer, DETAIL_REQUEST_TIMEOUT);
 		return;
 	};
 
+	/* Build Yelp-details return & timer handlers. The functions need to
+	 * contain error-message info if the API fails. We manage our own timeout
+	 * because the jQuery.ajax timeout can't cancel JASONP requests for some
+	 * browsers.
+	 */
+	function ydReturnBuilder (vPlace) {
+		function ydSuccessHandler (data, status, jqXHR) {
+			var timer = vPlace.ydTimer;
+			var vpyDet = vPlace.yDetails;  // a KO observable
+			if (timer !== undefined && timer !== null) {
+				/* Cancel the timeout for the returning yDetails request */
+				window.clearTimeout(timer);
+			}
+			timer = null;
+			if (status !== 'success') {
+				/* Error came back from Yelp (should be in error handler) */
+				window.alert('Yelp Details return handler:\n' +
+					'Unable to process request for details,\n' +
+					'Place name:' + vPlace.name +
+					'\nError: ' + status);
+				vpyDet(null);
+				return;
+			}
+			/* Status OK. Unpack the results and store in a KO observable */
+			vpyDet(nmModel.unpackYelpDetails(data));
+
+			return;
+		} /* ydReturnHandler() */
+
+		function ydFailHandler (jqXHR, textStatus) {
+			window.alert('Yelp Details request failed' +
+				'\nPlace name: ' + vPlace.name +
+				'\n' + JSON.stringify(jqXHR.statusCode()));
+			window.console.log("YelpAPI fail " + vPlace.name + ' ' +
+				vPlace.placeId);
+			window.console.log(jqXHR);
+			vPlace.yDetails(null);
+			vPlace.ydTimer = null;
+			return;
+		};
+
+		function ydTimerHandler () {
+			/* Timer expired waiting for Yelp details. */
+			window.alert('Yelp Details timeout: ' +
+				'Request for details did not respond,\n' +
+				'Place name: ' + vPlace.name +'\n' +
+				(DETAIL_REQUEST_TIMEOUT / 1000) + ' seconds elapsed');
+			vPlace.yDetails(null);
+			vPlace.ydTimer = null;
+			return;
+		}
+
+		return {success: ydSuccessHandler, fail: ydFailHandler,
+			timer: ydTimerHandler};
+	}
+
+	/* Request Yelp details from Model and, when returned, store them in
+	 * vPlace. */
+	nmvmThis.getYelpDetails = function (vPlace) {
+		if (vPlace === null) {
+			window.alert('Can\'t request Yelp details for\n' +
+				'a null vPlace. Program error.');
+			return;
+		}
+
+		/* Skip the rest if we already have yDetails for this place. */
+		if (vPlace.yDetails() !== null) {
+			return;
+		}
+
+		/* Build callbacks specific to our vPlace */
+		var handlers = ydReturnBuilder(vPlace);
+
+		/* Request Yelp Details from the Model */
+		nmModel.yelpRequest(vPlace.name, vPlace.location,
+			handlers.success, handlers.fail);
+
+		/* Set a timer in case the API doesn't respond */
+		vPlace.ydTimer = setTimeout(handlers.timer, DETAIL_REQUEST_TIMEOUT);
+		return;
+	};
 
 	/* CURRENT PLACE AND HIGHLIGHTS */
 
@@ -260,6 +347,9 @@ window.nmApp.ViewModel = function () {
 
 		/* Async request preloads details for modal window */
 		nmvmThis.getGoogleDetails(vPlace);
+
+		/* And do the same call to the Yelp API */
+		nmvmThis.getYelpDetails(vPlace);
 
 		return;
 	};
@@ -312,6 +402,7 @@ window.nmApp.ViewModel = function () {
 	nmvmThis.markerClick = function (placeId) {
 		var vPlace = nmvmThis.placeIdToVPlace(placeId);
 		nmvmThis.listItemClick(vPlace);
+		return;
 	};
 
 	/* Click handler for a list item's pinned paragraph */

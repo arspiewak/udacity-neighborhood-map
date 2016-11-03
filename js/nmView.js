@@ -137,14 +137,17 @@ window.nmApp.View = function () {
 				return;
 			});
 		} // if
+		return;
 	};
 
 	/* "Open" or "close" the modal window (placeDetails) */
 	nmvThis.openModal = function () {
 		$('.nmModal').css('display', 'block');
+		return;
 	};
 	nmvThis.closeModal = function () {
 		$('.nmModal').css('display', 'none');
+		return;
 	};
 
 

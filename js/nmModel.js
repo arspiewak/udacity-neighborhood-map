@@ -1,5 +1,4 @@
 'use strict';
-window.nmApp.Model = function () {
 /* Constructor function for the neighborhood-map model object
  *
  * A word about lookup objects, which we use a lot: There are several
@@ -15,6 +14,7 @@ window.nmApp.Model = function () {
  * http://www.andygup.net/fastest-way-to-find-an-item-in-a-javascript-array/)
  */
 
+window.nmApp.Model = function () {
 	/* Alias the model object's 'this' for unambiguous reference inside
 	 * various function contexts */
 	var nmmThis = this;				/* holds the identity of nmApp.model */
@@ -148,6 +148,10 @@ window.nmApp.Model = function () {
 		places['ChIJOb_SYyEZU4gRjaIxiLU6GD4'] = new PPlace('Green Bean',
 			{'lat': 36.0687945, 'lng': -79.79045459999999}, 'cafeBakery',
 			'341 South Elm Street');
+
+		places['ChIJAbuZJyEZU4gRkJNtfrjK9fc'] = new PPlace('Greensboro Station',
+			{'lat': 36.0696222, 'lng': -79.78700099999999}, 'transportation',
+			'236 East Washington Street');
 
 		places['ChIJ_cKS0ycZU4gRoZ8Q039B7RE'] = new PPlace('Greensboro History Museum',
 			{'lat': 36.075657, 'lng': -79.788027}, 'galleryMuseum',
@@ -341,15 +345,16 @@ window.nmApp.Model = function () {
 	/* ViewModel got Google details result. Unpack the results
 	 * into a gDetails object.
 	 */
+	function check(obj) {
+		if (obj === undefined || obj === null) {
+			return null;
+		} else {
+			return obj;
+		}
+	}
+
 	nmmThis.unpackGoogleDetails = function (result) {
 		var gDetails = {};
-		function check(obj) {
-			if (obj === undefined || obj === null) {
-				return null;
-			} else {
-				return obj;
-			}
-		}
 
 		gDetails.formattedAddress = check(result.formatted_address);
 		gDetails.formattedPhoneNumber =
@@ -368,6 +373,122 @@ window.nmApp.Model = function () {
 		gDetails.website = check(result.website);
 
 		return gDetails;
+	};
+
+	/* SUPPORT FOR THE YELP API
+	 * Yelp uses OAuth user authorization for its API. This
+	 * implementation of OAuth is lifted from a jQuery forum entry,
+	 * https://forum.jquery.com/topic/hiding-oauth-secrets-in-jquery
+	 *
+	 * As that article explains, this is a very insecure implementation,
+	 * as all the secret tokens and keys are visible to any user who
+	 * knows how to work their browser's debugger. If this weren't a
+	 * student project, I'd work out server-side processing to obscure
+	 * this stuff. But it is, and I can't. Not yet.
+	 */
+	nmmThis.yelpAuth = function () {
+		var auth = {
+			consumerKey: "28ihndloH-YhIctu1307bg",
+			consumerSecret: "aEQ5kiEC4FfdnPSCPTLzi8ACaxg",
+			accessToken: "b10HZ9BSsvPjEvjVzSuJ6GfgSXByfHvx",
+			accessTokenSecret: "iRl2J5mf4LEURz_OZCzrIfcaEKc",
+			serviceProvider: {signatureMethod: "HMAC-SHA1"}
+		};
+
+		nmmThis.oaAccessor = {
+			consumerSecret: auth.consumerSecret,
+			tokenSecret: auth.accessTokenSecret
+		};
+
+		var parameters = [];
+
+		/* Two parameters change per call: place name (passed as 'term')
+		 * and the geographic location. We expose their indexes in the
+		 * parameter array for reuse. */
+		nmmThis.termIx = parameters.push(['term','']) - 1;
+		nmmThis.locIx = parameters.push(['ll','']) - 1;
+		parameters.push(['limit','3']);
+		parameters.push(['callback', 'cb']);
+		parameters.push(['oauth_consumer_key', auth.consumerKey]);
+		parameters.push(['oauth_consumer_secret', auth.consumerSecret]);
+		parameters.push(['oauth_token', auth.accessToken]);
+		parameters.push(['oauth_signature_method', 'HMAC-SHA1']);
+
+		nmmThis.oaMessage = {
+			'action': 'http://api.yelp.com/v2/search',
+			'method': 'GET',
+			'parameters': parameters
+		};
+		return;
+	};
+
+	nmmThis.yelpRequest = function(name, location, successHandler,
+		failHandler) {
+
+		var message = nmmThis.oaMessage;
+		var accessor = nmmThis.oaAccessor;
+
+		/* Search params are 'term' and 'll' (latitude, longitude,
+		 * and 'accuracy') */
+		message.parameters[nmmThis.termIx][1] = name;
+		message.parameters[nmmThis.locIx][1] = location.lat.toString() +
+			',' + location.lng.toString() + ',1000';
+
+		OAuth.setTimestampAndNonce(message);
+		OAuth.SignatureMethod.sign(message, accessor);
+
+		var parameterMap = OAuth.getParameterMap(message.parameters);
+		parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
+		console.log(parameterMap);
+
+		$.ajax({
+			'url': message.action,
+			'data': parameterMap,
+			'cache': true,
+			'dataType': 'jsonp',
+			'jsonpCallback': 'cb',
+			'success': successHandler
+		}).fail(failHandler);
+		return;
+	};
+
+	nmmThis.unpackYelpDetails = function (data) {
+		/* Yelp's "Best matched" sort doesn't always return the exact
+		 * match first. We set the return limit at 3 and scan them for
+		 * a match.
+		 */
+		var businesses = data.businesses;
+		var name = nmmThis.oaMessage.parameters[nmmThis.termIx][1];
+		var biz = null;
+		for (var i = 0, len = businesses.length; i < len; i++) {
+			if (businesses[i] === 'name') {
+				biz = businesses[i];
+				break;
+			}
+			if (biz === null) {
+				biz = businesses[0];
+			}
+		}
+
+		var yDetails = {};
+
+		yDetails.name = check(biz.name);
+		var temp = check(biz.location.display_address);
+		yDetails.address = (temp === null ? null :
+		 	temp.join(', '));
+		temp = check(biz.phone);
+		yDetails.phone = (temp === null ? null :
+			'(' + temp.slice(0,3) + ') ' + temp.slice(4,7) +
+			'-' + temp.slice(-4) );
+		yDetails.photo = check(biz.image_url);
+		yDetails.rating = check(biz.rating);
+		yDetails.reviewCount = check(biz.review_count);
+		yDetails.ratingImg = check(biz.rating_img_url);
+		yDetails.snippet = check(biz.snippet_text);
+		yDetails.yelpUrl = check(biz.url);
+
+		console.log(yDetails);
+		return yDetails;
 	};
 
 	/* INITIALIZATION FUNCTION, called by the viewModel after

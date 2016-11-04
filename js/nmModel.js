@@ -93,6 +93,22 @@ window.nmApp.Model = function () {
 		return nmmThis.placeCategories[category];
 	};
 
+	/* Helper function: Give viewModel an array of placeCategories. The
+	 * original format is designed for lookups, but viewmodel needs a version
+	 * for sequential display.
+	 */
+	nmmThis.getCategoryArray = function () {
+		var categories = [];
+		var i = 0;
+		$.each(nmmThis.placeCategories, function (category, dispObj) {
+//			console.log(dispObj.label, dispObj.iconSrc);
+//			categories.push([dispObj.label, dispObj.label]);
+			dispObj.category = category;
+			categories[i++] = dispObj;
+		});
+		return categories;
+	}
+
 	/* We use two types of place objects in this model. A persistent
 	 * place has been pinned, and it records the minimum data needed to
 	 * show it on the map. This data is retained in local storage from

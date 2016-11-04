@@ -41,8 +41,58 @@ window.nmApp.ViewModel = function () {
 		modalClick: function(data, event) {
 			console.log(event.target.id);
 		},
-		noOp: function() {return true;}
+		/* This no-op click function is bound to Knockout
+		 * elements that need normal click processing (like
+		 * hyperlinks that should take the user to another
+		 * page). Knockout takes over click processing, even
+		 * if no click handler's declared. If we declare a
+		 * handler that returns <true>, KO passes the click
+		 * event to the browser for normal processing.
+		 */
+		noOp: function() {return true;},
+		btnDispSaved: function () {
+			nmvmThis.bindAlert('DISPLAY_ALL_SAVED');
+		},
+		btnFilter: function (catObj, event) {
+			nmvmThis.bindAlert('FILTER_PROCESSING\nCategory: ' +
+			catObj.category);
+		},
+		btnFind: function () {
+			nmvmThis.bindAlert('FIND_NEW');
+		},
+		categories: {} // to be filled below
 	};
+
+	/* Aliases in the Knockout view model to use in the constructor */
+	var koViewModel = nmvmThis.koViewModel;
+	var koVPlaces = koViewModel.vPlaces;
+
+	/* This executable block constructs a structure that is
+	 * needed for Knockout bindings. It will fail if nmModel
+	 * has not been loaded (or perhaps for other reasons as
+	 * well). We trap errors here, as a functioning Model is
+	 * critical.
+	 */
+	try {
+		/* Note that koViewModel.categories is not a Knockout
+		 * observable; it does not change during execution.
+		 */
+		nmvmThis.koViewModel.categories =
+			nmModel.getCategoryArray();
+	} catch(err) {
+		window.alert('nmViewModel.js: Unable to load category' +
+			'\nlist from nmModel.getCategoryList. Most likely' +
+			'\nexplanation is that nmModel.js has not been' +
+			'\nloaded. Fatal errors will follow.' +
+			'\nError message: ' + err.message);
+	}
+
+	/* Debug function to test bindings follow. */
+	nmvmThis.bindAlert = function (text) {
+		window.alert('Click binding has fired for action ' +
+			text);
+		return;
+	}
 
 	/* Aliases in the Knockout view model to use in the constructor */
 	var koViewModel = nmvmThis.koViewModel;

@@ -32,7 +32,7 @@ body {
     color: white;
 }
 #nmvListHead {
-    height: 10vh;
+    min-height: 10vh;
 }
 .nmvListItem {
     min-height: 5em;
@@ -52,6 +52,12 @@ body {
 }
 #nmvListHead p, .nmvListItem p {
     margin: 0;
+}
+#nmvListHead {
+    border-radius: 18px;
+}
+#nmvListHeaderRow {
+    background-color: #054f25;
 }
 .nmvListItem:hover {
     background-color: #a8efc6;
@@ -77,7 +83,7 @@ body {
     background-color: rgba(0,0,0,0.2);
     border-radius: 18px;
 }
-.pinnedBtn:hover, .detailBtn:hover {
+.pinnedBtn:hover, .detailBtn:hover, .btn:hover {
     text-decoration: underline;
 }
 
@@ -128,7 +134,7 @@ body {
     color: #a576bc;
 }
 
-/* Drop-from-top Animation
+/* Drop-from-top animation for modal window
  *  (from http://www.w3schools.com/howto/tryit.asp?
   * filename=tryhow_css_modal2
  */

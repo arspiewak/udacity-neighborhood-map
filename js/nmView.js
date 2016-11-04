@@ -91,7 +91,7 @@ window.nmApp.View = function () {
 	}; // initMapMarker()
 
 	/* Change the icon for a marker. If NULL is passed for the icon's
-		* image source, use the "highlight" icon. */
+	 * image source, use the "highlight" icon. */
 	nmvThis.setMarkerIcon = function (marker, iconSrc) {
 		if (iconSrc === null) {
 			iconSrc = nmvThis.hiliteIcon;

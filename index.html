@@ -28,7 +28,36 @@
 					 hold the list header and items -->
 				<div class="row" id="nmvListHeaderRow">
 					<div class="col-xs-12" id="nmvListHead">
-						<p>List heading goes here</p>
+						<p>Places to show</p>
+						<!-- Button code is from
+							 http://getbootstrap.com/components/#btn-groups -->
+						<div class="btn-group" role="filterControl">
+							<button type="button" class="btn btn-default"
+								data-bind="click: btnDispSaved">
+								All saved
+							</button>
+
+							<div class="btn-group" role="group">
+							    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							      Filter
+							      <span class="caret"></span>
+							    </button>
+							    <ul class="dropdown-menu">
+							      <li class="dropdown-header">Which category do you want to select?</li>
+							      	<div data-bind="foreach: categories">
+
+								      <li><a><span  data-bind="click: $root.btnFilter"><span data-bind="text: label"> </span></span></a></li>
+
+								     </div>
+							    </ul>
+							  </div> <!-- btn-group -->
+
+							<button type="button" class="btn btn-default"
+								data-bind="click: btnFind">
+								Find new
+							</button>
+						</div> <!--filterControl -->
+
 					</div> <!-- #nmvListHead -->
 				</div> <!-- #nmvListHeaderRow -->
 				<div class="row" id="listBodyRow" data-bind="foreach: vPlaces">
@@ -39,7 +68,7 @@
 					<div class="col-xs-12 nmvListItem"
 					data-bind="css: { highlight: hilite() == true }">
 						<div data-bind="click: nmApp.viewModel.listItemClick"
-						class="" title="Select/deselect this place to see more">
+						class="listText" title="Select/deselect this place to see more">
 							<p class="listItemName" data-bind="text: name"></p>
 							<p class="listItemaddress" data-bind="text: address"></p>
 						</div>
@@ -193,15 +222,16 @@
 
 	<!-- This application's processing is contained in the nmApp (neighborhood
 		map application) object, which contains objects that define its Model,
-		View, and ViewModel objects. -->
+		View, and ViewModel objects. nmViewModel.js contains constructors that
+		rely on loading nmModel.js first. -->
 	<!-- 	 TODO Minify and consolidate these four scripts -->
 	<script type="text/javascript" src="js/nmApp.js"></script>
 	<script type="text/javascript" src="js/nmModel.js"></script>
 	<script type="text/javascript" src="js/nmView.js"></script>
 	<script type="text/javascript" src="js/nmViewModel.js"></script>
 
-	<!-- Initialize Google Maps libraries. Note: must follow nmView.js
-		 The callback here kicks off the entire application. -->
+	<!-- Initialize Google Maps libraries. Note: must follow nmView.js and
+		 nmApp.viewModel. The callback here kicks off the entire application. -->
 	<script async defer
     src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyD4TqIPvv-WwDSy7TCEeHufsQtVPws6XJs&callback=nmApp.viewModel.init"></script>
 </body>

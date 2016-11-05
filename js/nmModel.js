@@ -360,7 +360,7 @@ window.nmApp.Model = function () {
 	 * into a gDetails object.
 	 */
 	function check(obj) {
-		if (obj === undefined || obj === null) {
+		if (obj === undefined) {
 			return null;
 		} else {
 			return obj;

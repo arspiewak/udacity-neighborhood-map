@@ -23,7 +23,8 @@ window.nmApp.View = function () {
 			document.getElementById('nmvMap'),
 			{
 				zoom: 16,
-				center: {lat: 36.071, lng: -79.79032159}
+				center: {lat: 36.071, lng: -79.79032159},
+				scaleControl: true
 			}
 		);
 
@@ -49,6 +50,22 @@ window.nmApp.View = function () {
 		var iw = new google.maps.InfoWindow();
 		iw.marker = null;
 		nmvThis.mapInfoWindow = iw;
+
+		/* A SearchBox is created and placed on the map to use for place
+		 * searches. The initial CSS sets it "display: none" and it gets
+		 * "turned on" by the find function. Code adapted from
+		 * https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
+		 */
+		var findBox = document.getElementById('findBox');
+		nmvThis.findBox = findBox;
+
+		/* A Google Maps SearchBox is attached to a DOM input and listens for
+		 * user input. As the user types, SearchBox suggests autocomplete
+		 * terms (placenames or keyword searches). */
+		var searchBox = new google.maps.places.SearchBox(findBox);
+		nmvThis.map.controls[google.maps.ControlPosition.TOP_LEFT].push(findBox);
+		nmvThis.findSearchBox = searchBox;
+		findBox.style['display'] = 'none';
 
 		return;
 	}; // initMap()
@@ -109,6 +126,13 @@ window.nmApp.View = function () {
 			iw.setContent('');
 			iw.close();
 		}
+		return;
+	};
+
+	/* Empty and close the search box */
+	nmvThis.clearSearchBox = function () {
+		nmvThis.findBox.value = '';
+		nmvThis.findBox.style['display'] = 'none';
 		return;
 	};
 

@@ -214,3 +214,26 @@ a {
 .gdItemVal{
     font-weight: normal;
 }
+
+/* #findBox is the input for the user to specify new places
+ * to find. It's initially hidden, and gets displayed when
+ * the user requests a search. Code source is
+ * https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
+ */
+ #findBox {
+/*    display: none; */
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    background-color: #fff;*/
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 300px;
+ }

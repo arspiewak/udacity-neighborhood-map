@@ -13,6 +13,10 @@ window.nmApp.ViewModel = function () {
 	var nmView = nmApp.view;
 	var nmModel = nmApp.model;
 
+	/* An object to look up a vPlace index given its placeId,
+	 * populated by the VPlace constructor. */
+	nmvmThis.vPlacesById = {};
+
 	/* ARBITRARY CONSTANTS */
 	/* Timeout API requests at 10 seconds */
 	var DETAIL_REQUEST_TIMEOUT = 10000;
@@ -51,17 +55,19 @@ window.nmApp.ViewModel = function () {
 		 */
 		noOp: function() {return true;},
 		btnDispSaved: function () {
+			nmView.clearSearchBox();
 			nmvmThis.displayFilter('pinned', null);
 			return;
 		},
 		btnFilter: function (catObj, event) {
+			nmView.clearSearchBox();
 			nmvmThis.displayFilter('category', catObj.category);
 			return;
 		},
 		btnFind: function () {
-			nmvmThis.bindAlert('FIND_NEW');
+			nmvmThis.findNew();
 		},
-		filterCategories: {} // to be filled below
+		filterCategories: {} /* to be filled below */
 	};
 
 	/* Aliases in the Knockout view model to use in the constructor */
@@ -107,54 +113,78 @@ window.nmApp.ViewModel = function () {
 
 	/* SETUP-SUPPORT FUNCTIONS */
 
+	/* Constructor for a vPlace */
+	function VPlace (vpData, pinVal) {
+		if (vpData === null) {
+			console.log('Attempt to create a vPlace with null ' +
+				'placeId in VPlace constructor (silent fail)\n' +
+				'placeId: "" name: "' + vpData.name + '"');
+			return null;
+		}
+
+		/* Check for duplicates */
+		if (nmvmThis.vPlacesById[vpData.placeId] !== undefined) {
+			console.log('Attempt to create duplicate vPlace ' +
+				'in VPlace constructor (silent fail)\n' +
+				'placeId: "' + vpData.placeId + '" name: "' +
+				vpData.name + '"');
+			return null;
+		}
+
+		/* Look up the icon to use in the map marker for this place's
+		 * category */
+		var iconSrc = nmModel.placeCategories[vpData.category].iconSrc;
+
+		/* Set up the map marker, to be stored in the vPlace. */
+		var marker = nmView.initMapMarker(vpData.name,
+			vpData.location, iconSrc, vpData.placeId,
+			vpData.address);
+
+		var vPlace = {
+			placeId: vpData.placeId,
+			name: vpData.name,
+			location: vpData.location,
+			category: vpData.category,
+			address: vpData.address,
+			mapMarker: marker,
+			pinned: ko.observable(pinVal),
+			isCurrent: ko.observable(false),
+			display: ko.observable(true),
+			hilite: ko.observable(false),
+			gdTimer: null,	// timeout processor, Google API
+			ydTimer: null,	// ditto for Yelp API
+			gDetails: ko.observable(null),	// Google details
+			yDetails: ko.observable(null)	// Yelp details
+		};
+
+		/* Add the vPlace to the public array */
+		var ret = koVPlaces.push(vPlace);
+
+		/* Record the index and placeId for lookup by placeId.
+		 * Note that the return from .push() is the new length
+		 * of the array, not the new item's index.
+		 */
+		nmvmThis.vPlacesById[vPlace.placeId] = --ret;
+
+		return vPlace;
+	} /* VPlace constructor */
+
 	nmvmThis.pPlacesToVPlaces = function () {
 		/* Load the viewModel's place array from the model's persistent
 		 * data.
 		 */
-		var pPlace = {};					// Working source record
 		var pPlaces = nmModel.getPPlaces();	// Source array
-		nmvmThis.vPlacesById = {};			// Index lookup by placeID
-		var vpid = nmvmThis.vPlacesById;	// Loop alias
-		var vpidIndex = 0;					// Index counter
-		var name, location, category, address, iconSrc, marker;
 		var vPlace;							// Holder for new vPlace
+		var vpData;							// Data structure for constructor
 
 		for (var placeId in pPlaces) {
-			pPlace = pPlaces[placeId];
-			name = pPlace.name;
-			location = pPlace.location;
-			category = pPlace.category;
-			address = pPlace.address;
-
-			/* Look up the icon image to use for this category */
-			iconSrc = nmModel.placeCategories[category].iconSrc;
-
-			/* Set up the map marker, we'll store it in the vPlace. */
-			marker = nmView.initMapMarker(name, location, iconSrc,
-				placeId, address);
-
-			vPlace = {
-				placeId: placeId,
-				name: name,
-				location: location,
-				category: category,
-				address: address,
-				mapMarker: marker,
-				pinned: ko.observable(true),
-				isCurrent: ko.observable(false),
-				display: ko.observable(true),
-				hilite: ko.observable(false),
-				gdTimer: null,	// timeout processor, Google API
-				ydTimer: null,	// ditto for Yelp API
-				gDetails: ko.observable(null), // Google details
-				yDetails: ko.observable(null)  // Yelp details
-			};
-			koVPlaces.push(vPlace);
-
-			/* Record the array index for lookups by ID string */
-			vpid[placeId] = vpidIndex++;
-
-		} // for
+			vpData = pPlaces[placeId];
+			/* The VPlace constructor needs placeId in vpData */
+			vpData.placeId = placeId;
+			/* Second argument to constructor is the default pinned state for
+			 * vPlaces made from pPlaces. */
+			vPlace = new VPlace(vpData, true);
+		}
 		return;
 	}; // pPlacesToVPlaces()
 
@@ -385,7 +415,7 @@ window.nmApp.ViewModel = function () {
 	/* Select by category. Note: The caller can choose to
 	 * display one category, all categories (hard coded value
 	 * 'showAll' in the load of filterCategories), or 'none'
-	 * (hard coded in the caller function). In truth, any
+	 * (hard coded in findNew() ). In truth, any
 	 * non-match including 'none' will turn off display for
 	 * everything because it won't match any valid codes and
 	 * won't invoke the special processing of 'showAll'.
@@ -451,7 +481,119 @@ window.nmApp.ViewModel = function () {
 			}
 		}
 		return;
-	} /* displayFilter() */
+	}; /* displayFilter() */
+
+	/* Processing invoked by the "Find new" button. */
+	nmvmThis.findNew = function () {
+
+		/* Make the DOM element visible */
+		var findBox = nmView.findBox;
+		findBox.style['display'] = 'inline-block';
+		findBox.focus();
+
+		/* Bias our search towards the map's current boundaries. */
+		nmView.findSearchBox.setBounds(nmView.map.getBounds());
+
+		/* Hide all the vPlaces currently being displayed */
+		nmvmThis.displayFilter('category', 'none');
+
+		/* Register our handler function for when the user
+		 * picks a search term */
+		nmView.findSearchBox.addListener('places_changed',
+			nmvmThis.searchBoxHandler);
+		return;
+	}; /* findNew() */
+
+	function check(obj) {
+		if (obj === undefined) {
+			return null;
+		} else {
+			return obj;
+		}
+	}
+
+	/* An existing vPlace showed up in a search. Restore it to
+	 * the map and list display. Only accessed locally */
+	function redisplayVPlace (vpIndex) {
+		var vPlace = koVPlaces()[vpIndex];
+		vPlace.display(true);
+		vPlace.mapMarker.setMap(nmView.map);
+		return;
+	}
+
+	/* Build a vPlace object from a PlaceResult object returned
+	 * by Google Maps' places API. Only accessed locally */
+	 function vPlaceFromGPlace (placeResult) {
+	 	var vPlace;
+
+	 	/* Find the first entry of the types array that matches
+	 	 * one of our typeCategories. No match is a POI */
+	 	var prt = (placeResult.types || []);
+	 	for (var i = 0 , len = prt.length; i < len; i++) {
+	 		var catCode = nmModel.placeTypeCategories[prt[i]];
+	 		if (catCode !== undefined) {
+	 			break;
+	 		}
+	 	}
+	 	if (catCode === undefined) {
+	 		/* got through all the types without a hit */
+	 		catCode = 'POI';
+	 	}
+
+	 	/* Get data that a new vPlace needs from the placeResult
+	 	 * structure */
+	 	var vpData = {
+			placeId: check(placeResult.place_id),
+			name: check(placeResult.name),
+			location: check(placeResult.geometry.location),
+			category: catCode,
+			address: check(placeResult.formatted_address)
+	 	};
+
+		/* Construct the new vPlace setting pinned() to false */
+	 	vPlace = new VPlace(vpData, false);
+
+	 	return vPlace;
+	 }
+
+	nmvmThis.searchBoxHandler = function() {
+		var newVPlace;
+		var bounds = nmApp.view.map.getBounds();
+
+		/* Get the search results */
+		var searchBox = nmView.findSearchBox;
+		var places = searchBox.getPlaces();
+		var vpLookup = nmvmThis.vPlacesById;
+
+		if (places.length == 0) {
+			window.alert('No places returned. Please try again.');
+			return;
+		}
+
+		places.forEach(function (placeResult) {
+			var vpIndex = vpLookup[places.placeId];
+			if (vpIndex !== undefined) {
+				redisplayVPlace(vpIndex);
+			} else {
+				newVPlace = vPlaceFromGPlace(placeResult);
+			}
+
+		 	/* Extend the geographic bounds if needed to show
+		 	 * the place on our map */
+		 	if (placeResult.geometry.viewport) {
+		 		bounds.union(placeResult.geometry.viewport);
+		 	} else {
+		 		bounds.extend(placeResult.geometry.location);
+		 	}
+
+			return;
+		}); /* places.forEach() */
+
+		/* All places loaded. Extend the map's boundaries */
+		nmView.map.fitBounds(bounds);
+
+		return;
+	}; /* searchBoxHandler() */
 
 	/* CURRENT PLACE AND HIGHLIGHTS */
 

@@ -29,12 +29,13 @@
 				<div class="row" id="nmvListHeaderRow">
 					<div class="col-xs-12" id="nmvListHead">
 						<p>Places to show</p>
+						<div style="display: flex; justify-content: center">
 						<!-- Button code is from
 							 http://getbootstrap.com/components/#btn-groups -->
 						<div class="btn-group" role="filterControl">
 							<button type="button" class="btn btn-default"
 								data-bind="click: btnDispSaved">
-								All saved
+								Pinned only
 							</button>
 
 							<div class="btn-group" role="group">
@@ -43,12 +44,10 @@
 							      <span class="caret"></span>
 							    </button>
 							    <ul class="dropdown-menu">
-							      <li class="dropdown-header">Which category do you want to select?</li>
-							      	<div data-bind="foreach: categories">
-
-								      <li><a><span  data-bind="click: $root.btnFilter"><span data-bind="text: label"> </span></span></a></li>
-
-								     </div>
+							    	<li class="dropdown-header">Which category do you want to view?</li>
+									<div data-bind="foreach: filterCategories">
+								      <li class="filterLine"><a><span  data-bind="click: $root.btnFilter"><img data-bind="attr: {src: iconSrc}" class="filterImg"><span data-bind="text: label"> </span></span></a></li>
+								    </div>
 							    </ul>
 							  </div> <!-- btn-group -->
 
@@ -57,7 +56,7 @@
 								Find new
 							</button>
 						</div> <!--filterControl -->
-
+						</div> <!-- style flex -->
 					</div> <!-- #nmvListHead -->
 				</div> <!-- #nmvListHeaderRow -->
 				<div class="row" id="listBodyRow" data-bind="foreach: vPlaces">
@@ -66,7 +65,7 @@
 					http://www.w3schools.com/bootstrap/bootstrap_tooltip.asp
 					-->
 					<div class="col-xs-12 nmvListItem"
-					data-bind="css: { highlight: hilite() == true }">
+					data-bind="visible: display, css: { highlight: hilite() == true }">
 						<div data-bind="click: nmApp.viewModel.listItemClick"
 						class="listText" title="Select/deselect this place to see more">
 							<p class="listItemName" data-bind="text: name"></p>

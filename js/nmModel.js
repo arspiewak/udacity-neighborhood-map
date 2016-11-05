@@ -68,7 +68,7 @@ window.nmApp.Model = function () {
 		},
 		'POI': {
 			iconSrc: 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
-			label: 'Point of Interest'
+			label: 'Point of Interest/Other'
 		},
 		'galleryMuseum': {
 			iconSrc: 'http://maps.google.com/mapfiles/ms/icons/ltblue-dot.png',
@@ -101,8 +101,6 @@ window.nmApp.Model = function () {
 		var categories = [];
 		var i = 0;
 		$.each(nmmThis.placeCategories, function (category, dispObj) {
-//			console.log(dispObj.label, dispObj.iconSrc);
-//			categories.push([dispObj.label, dispObj.label]);
 			dispObj.category = category;
 			categories[i++] = dispObj;
 		});

@@ -51,16 +51,17 @@ window.nmApp.ViewModel = function () {
 		 */
 		noOp: function() {return true;},
 		btnDispSaved: function () {
-			nmvmThis.bindAlert('DISPLAY_ALL_SAVED');
+			nmvmThis.displayFilter('pinned', null);
+			return;
 		},
 		btnFilter: function (catObj, event) {
-			nmvmThis.bindAlert('FILTER_PROCESSING\nCategory: ' +
-			catObj.category);
+			nmvmThis.displayFilter('category', catObj.category);
+			return;
 		},
 		btnFind: function () {
 			nmvmThis.bindAlert('FIND_NEW');
 		},
-		categories: {} // to be filled below
+		filterCategories: {} // to be filled below
 	};
 
 	/* Aliases in the Knockout view model to use in the constructor */
@@ -77,7 +78,7 @@ window.nmApp.ViewModel = function () {
 		/* Note that koViewModel.categories is not a Knockout
 		 * observable; it does not change during execution.
 		 */
-		nmvmThis.koViewModel.categories =
+		nmvmThis.koViewModel.filterCategories =
 			nmModel.getCategoryArray();
 	} catch(err) {
 		window.alert('nmViewModel.js: Unable to load category' +
@@ -86,8 +87,14 @@ window.nmApp.ViewModel = function () {
 			'\nloaded. Fatal errors will follow.' +
 			'\nError message: ' + err.message);
 	}
+	/* As a filter menu choice, we need "all of the above". */
+	koViewModel.filterCategories[koViewModel.filterCategories.length] = {
+		iconSrc: '',
+		label: 'Show all categories',
+		category: '[showAll]'
+	};
 
-	/* Debug function to test bindings follow. */
+	/* Debug function to test bindings. */
 	nmvmThis.bindAlert = function (text) {
 		window.alert('Click binding has fired for action ' +
 			text);
@@ -369,6 +376,82 @@ window.nmApp.ViewModel = function () {
 		vPlace.ydTimer = setTimeout(handlers.timer, DETAIL_REQUEST_TIMEOUT);
 		return;
 	};
+
+	/* FILTER AND PURGE PROCESSING */
+
+	/* Helper functions provide choice mechanisms for display
+	 * filters */
+
+	/* Select by category. Note: The caller can choose to
+	 * display one category, all categories (hard coded value
+	 * 'showAll' in the load of filterCategories), or 'none'
+	 * (hard coded in the caller function). In truth, any
+	 * non-match including 'none' will turn off display for
+	 * everything because it won't match any valid codes and
+	 * won't invoke the special processing of 'showAll'.
+	 */
+	function byCategory(vPlace, catCode) {
+		/* Retval is a boolean to return */
+		var retval = (catCode === 'showAll' ||
+			catCode === vPlace.category);
+		return retval;
+	}
+	/* Select pinned only. The Knockout pinned() observable
+	 * is already a boolean. This selector ignores the second
+	 * argument. */
+	function pinnedOnly (vPlace) {
+		return vPlace.pinned();
+	}
+
+	/* Use the above selector functions to filter which vPlaces
+	 * are displayed. View object decides visibility based on a
+	 * Knockout binding to observable vPlace.display().
+	 *
+	 * Arguments are type (select by 'category' or by 'pinned')
+	 * and the optional catCode (category code).
+	 */
+	nmvmThis.displayFilter = function (type, catCode) {
+		var selectFn;
+		var vpArray = koViewModel.vPlaces();
+		var vpLen = vpArray.length;
+		var dispFlag, vPlace;
+
+		switch (type) {
+			case 'pinned':
+				selectFn = pinnedOnly;
+				break;
+			case 'category':
+				selectFn = byCategory;
+				break;
+			default:
+				window.alert('Invalid selection type in ' +
+					'displayFilter function\n' +
+					'Illegal value = "' + type + '".');
+				return;
+		}
+
+		/* Before we change the display filter, we need to be
+		 * sure there's no current vPlace. */
+		if (nmvmThis.koViewModel.currentVPlace() !== null) {
+			nmvmThis.removeCurrentPlace();
+		}
+
+		/* Loop through vPlaces and diddle their list displays
+		 * and map markers. */
+		for (var i = 0; i < vpLen; i++) {
+			vPlace = vpArray[i];
+			dispFlag = selectFn(vPlace, catCode);
+			/* Set the flag in observable display() */
+			vPlace.display(dispFlag);
+			/* Attach/detach vPlace's marker from the map */
+			if (dispFlag) {
+				vPlace.mapMarker.setMap(nmView.map);
+			} else {
+				vPlace.mapMarker.setMap(null);
+			}
+		}
+		return;
+	} /* displayFilter() */
 
 	/* CURRENT PLACE AND HIGHLIGHTS */
 

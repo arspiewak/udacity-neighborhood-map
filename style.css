@@ -27,6 +27,25 @@ body {
     }
 }
 
+.filterLine {
+    padding: 5px 0;
+}
+.filterLine a {
+    color: #777;
+}
+.filterImg {
+    width: 32px;
+}
+.btn-default {
+    background-color: rgb(46, 145, 28); /*fallback*/
+    background-color: rgba(0,0,0,0.2);
+    color: white;
+    border-radius: 18px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: buttonface;
+}
+
 #nmvList {
     background-color: #11743c;
     color: white;

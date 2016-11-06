@@ -599,7 +599,7 @@ window.nmApp.ViewModel = function () {
 		}
 
 		places.forEach(function (placeResult) {
-			var vpIndex = vpLookup[places.place_id];
+			var vpIndex = vpLookup[placeResult.place_id];
 			if (vpIndex !== undefined) {
 				redisplayVPlace(vpIndex);
 			} else {

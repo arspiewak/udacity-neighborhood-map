@@ -448,11 +448,22 @@ window.nmApp.Model = function () {
 		var message = nmmThis.oaMessage;
 		var accessor = nmmThis.oaAccessor;
 
-		/* Search params are 'term' and 'll' (latitude, longitude,
-		 * and 'accuracy') */
+		/* Some Gooogle Maps location objects contain literal numbers for
+		 * lat and lng, while others contain functions that return those
+		 * numbers. Gooogle's libraries are happy with that situation, but
+		 * Yelp's are not. Here we make sure we're passing numbers in the
+		 * location ('ll') search parameter.
+		 */
+		var lat = (typeof location.lat === 'function') ?
+			location.lat() : location.lat;
+		var lng = (typeof location.lng === 'function') ?
+			location.lng() : location.lng;
+
+
+		/* Search params are 'term' and 'll' (latitude, longitude) */
 		message.parameters[nmmThis.termIx][1] = name;
-		message.parameters[nmmThis.locIx][1] = location.lat.toString() +
-			',' + location.lng.toString() + ',1000';
+		message.parameters[nmmThis.locIx][1] = lat.toString() +
+			',' + lng.toString();
 
 		OAuth.setTimestampAndNonce(message);
 		OAuth.SignatureMethod.sign(message, accessor);

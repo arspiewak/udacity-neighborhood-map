@@ -181,6 +181,14 @@ body {
     padding: 2px 16px;
     border-bottom: 1px solid #e5e5e5;
 }
+.modal-href {
+    text-align: right;
+    font-weight: bold;
+    font-size: 0.8em;
+    position: absolute;
+    right: 10px;
+    top: 4%;
+}
 .nmModalBody {
     padding: 2px 16px;
     font-size: 1.3em;

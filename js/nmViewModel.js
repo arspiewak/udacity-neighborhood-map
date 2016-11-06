@@ -28,6 +28,7 @@ window.nmApp.ViewModel = function () {
 		nmView.initMap();	// First create the map
 		nmModel.init();	// Set up the model
 		nmvmThis.pPlacesToVPlaces();	// Initial load, persistent places
+		nmView.saveBounds();
 		nmModel.yelpAuth();
 		return;
 	}; // init()
@@ -45,18 +46,19 @@ window.nmApp.ViewModel = function () {
 		modalClick: function(data, event) {
 			console.log(event.target.id);
 		},
-		/* This no-op click function is bound to Knockout
+		/* The no-op click function is bound to Knockout
 		 * elements that need normal click processing (like
 		 * hyperlinks that should take the user to another
-		 * page). Knockout takes over click processing, even
-		 * if no click handler's declared. If we declare a
-		 * handler that returns <true>, KO passes the click
+		 * page). Knockout can take over click processing, even
+		 * if no click handler's declared. Here we declare a
+		 * handler that returns <true>, so KO passes the click
 		 * event to the browser for normal processing.
 		 */
 		noOp: function() {return true;},
 		btnDispSaved: function () {
 			nmView.clearSearchBox();
 			nmvmThis.displayFilter('pinned', null);
+			nmvmThis.setMapBounds();
 			return;
 		},
 		btnFilter: function (catObj, event) {
@@ -169,10 +171,10 @@ window.nmApp.ViewModel = function () {
 		return vPlace;
 	} /* VPlace constructor */
 
+	/* Load the viewModel's place array from the model's
+	 * persistent data.
+	 */
 	nmvmThis.pPlacesToVPlaces = function () {
-		/* Load the viewModel's place array from the model's persistent
-		 * data.
-		 */
 		var pPlaces = nmModel.getPPlaces();	// Source array
 		var vPlace;							// Holder for new vPlace
 		var vpData;							// Data structure for constructor
@@ -187,6 +189,21 @@ window.nmApp.ViewModel = function () {
 		}
 		return;
 	}; // pPlacesToVPlaces()
+
+	/* Frame the map's bounds to show the pins that are visible */
+	nmvmThis.setMapBounds = function () {
+		var origBounds = nmView.origBounds;
+		var newBounds = new google.maps.LatLngBounds(
+			origBounds.getSouthWest(), origBounds.getNorthEast());
+		var vPlaces = koViewModel.vPlaces();
+		for (var i = 0, len = vPlaces.length; i < len; i++) {
+			if (vPlaces[i].display()) {
+				newBounds.extend(vPlaces[i].mapMarker.getPosition());
+			}
+		}
+		nmView.map.fitBounds(newBounds);
+		return;
+	};
 
 	/* LOW-LEVEL HELPER FUNCTIONS */
 
@@ -489,6 +506,7 @@ window.nmApp.ViewModel = function () {
 		/* Make the DOM element visible */
 		var findBox = nmView.findBox;
 		findBox.style['display'] = 'inline-block';
+		findBox.value = ''; /* clear previous search terms */
 		findBox.focus();
 
 		/* Bias our search towards the map's current boundaries. */
@@ -523,38 +541,48 @@ window.nmApp.ViewModel = function () {
 
 	/* Build a vPlace object from a PlaceResult object returned
 	 * by Google Maps' places API. Only accessed locally */
-	 function vPlaceFromGPlace (placeResult) {
-	 	var vPlace;
+	function vPlaceFromGPlace (placeResult) {
+		var vPlace;
 
-	 	/* Find the first entry of the types array that matches
-	 	 * one of our typeCategories. No match is a POI */
-	 	var prt = (placeResult.types || []);
-	 	for (var i = 0 , len = prt.length; i < len; i++) {
-	 		var catCode = nmModel.placeTypeCategories[prt[i]];
-	 		if (catCode !== undefined) {
-	 			break;
-	 		}
-	 	}
-	 	if (catCode === undefined) {
-	 		/* got through all the types without a hit */
-	 		catCode = 'POI';
-	 	}
+		/* Find the first entry of the types array that matches
+		 * one of our typeCategories. No match is a POI */
+		var prt = (placeResult.types || []);
+		for (var i = 0 , len = prt.length; i < len; i++) {
+			var catCode = nmModel.placeTypeCategories[prt[i]];
+			if (catCode !== undefined) {
+				break;
+			}
+		}
+		if (catCode === undefined) {
+			/* got through all the types without a hit */
+			catCode = 'POI';
+		}
 
-	 	/* Get data that a new vPlace needs from the placeResult
-	 	 * structure */
-	 	var vpData = {
+		/* If the address is in Greensboro, only save the
+		 * street address */
+		var address = check(placeResult.formatted_address);
+		if (address !== null) {
+			var idx = address.search(", Greensboro, NC");
+			if (idx > 0) {
+				address = address.slice(0, idx);
+			}
+		}
+
+		/* Get data that a new vPlace needs from the placeResult
+		 * structure */
+		var vpData = {
 			placeId: check(placeResult.place_id),
 			name: check(placeResult.name),
 			location: check(placeResult.geometry.location),
 			category: catCode,
-			address: check(placeResult.formatted_address)
-	 	};
+			address: address
+		};
 
-		/* Construct the new vPlace setting pinned() to false */
-	 	vPlace = new VPlace(vpData, false);
+		/* Construct the new vPlace, setting pinned() to false */
+		vPlace = new VPlace(vpData, false);
 
-	 	return vPlace;
-	 }
+		return vPlace;
+	}
 
 	nmvmThis.searchBoxHandler = function() {
 		var newVPlace;
@@ -571,20 +599,20 @@ window.nmApp.ViewModel = function () {
 		}
 
 		places.forEach(function (placeResult) {
-			var vpIndex = vpLookup[places.placeId];
+			var vpIndex = vpLookup[places.place_id];
 			if (vpIndex !== undefined) {
 				redisplayVPlace(vpIndex);
 			} else {
 				newVPlace = vPlaceFromGPlace(placeResult);
 			}
 
-		 	/* Extend the geographic bounds if needed to show
-		 	 * the place on our map */
-		 	if (placeResult.geometry.viewport) {
-		 		bounds.union(placeResult.geometry.viewport);
-		 	} else {
-		 		bounds.extend(placeResult.geometry.location);
-		 	}
+			/* Extend the geographic bounds if needed to show
+			 * the place on our map */
+			if (placeResult.geometry.viewport) {
+				bounds.union(placeResult.geometry.viewport);
+			} else {
+				bounds.extend(placeResult.geometry.location);
+			}
 
 			return;
 		}); /* places.forEach() */

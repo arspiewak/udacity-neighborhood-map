@@ -195,13 +195,13 @@ window.nmApp.Model = function () {
 			{'lat': 36.0686238, 'lng': -79.79048329999999}, 'barRestaurant',
 			'345 South Elm Street');
 
-		places['ChIJ9YSdqyYZU4gRZVDpVGiFVpg'] = new PPlace('The Table on Elm',
-			{'lat': 36.07063689999999, 'lng': -79.7901536}, 'barRestaurant',
-			'227 S Elm St');
-
 		places['ChIJYSdk-yMZU4gRhpoyOOtqBeo'] = new PPlace('Scuppernong Books',
 			{'lat': 36.069957, 'lng': -79.7908269}, 'store',
 			'304 South Elm Street');
+
+		places['ChIJ9YSdqyYZU4gRZVDpVGiFVpg'] = new PPlace('The Table on Elm',
+			{'lat': 36.07063689999999, 'lng': -79.7901536}, 'barRestaurant',
+			'227 S Elm St');
 
 		places['ChIJMbJJACQZU4gRMiFqf1xPxog'] = new PPlace('Triad Stage',
 			{'lat': 36.070609, 'lng': -79.7907989}, 'POI',

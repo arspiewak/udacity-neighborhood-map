@@ -57,7 +57,6 @@ window.nmApp.ViewModel = function () {
 		btnDispSaved: function () {
 			nmView.clearSearchBox();
 			nmvmThis.displayFilter('pinned', null);
-			nmvmThis.setMapBounds();
 			return;
 		},
 		btnFilter: function (catObj, event) {
@@ -98,7 +97,7 @@ window.nmApp.ViewModel = function () {
 	koViewModel.filterCategories[koViewModel.filterCategories.length] = {
 		iconSrc: '',
 		label: 'Show all categories',
-		category: '[showAll]'
+		category: 'showAll'
 	};
 
 	/* Debug function to test bindings. */
@@ -496,6 +495,7 @@ window.nmApp.ViewModel = function () {
 				vPlace.mapMarker.setMap(null);
 			}
 		}
+		nmvmThis.setMapBounds();
 		return;
 	}; /* displayFilter() */
 

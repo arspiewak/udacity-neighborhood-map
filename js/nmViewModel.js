@@ -266,7 +266,7 @@ window.nmApp.ViewModel = function () {
 				/* Error came back from Google */
 				window.alert('Google Details return handler:\n' +
 					'Unable to process request for details,\n' +
-					'Place name:' + vPlace.name +
+					'Place name: ' + vPlace.name +
 					'\nError: ' + status);
 				vpgDet(null);
 				timer = null;

@@ -183,7 +183,7 @@ window.nmApp.Model = function () {
 			{'lat': 36.068729, 'lng': -79.79107599999999}, 'barRestaurant',
 			'110 West McGee Street');
 
-		places['keChIJS5ILAiQZU4gR-ih-TCdhQEcy'] = new PPlace('Mack and Mack',
+		places['ChIJS5ILAiQZU4gR-ih-TCdhQEc'] = new PPlace('Mack and Mack',
 			{'lat': 36.0709047, 'lng': -79.7905456}, 'store',
 			'220 South Elm Street');
 

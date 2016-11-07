@@ -1,0 +1,39 @@
+Components:
+
+Udacity course materials
+
+Google Maps API
+
+Knockout
+
+jQuery
+
+Bootstrap
+
+[scan for coding credits]
+
+Icons:
+
+Pin:     This icon is provided by icons8 as Creative Commons Attribution-NoDerivs 3.0. 
+You can copy, use and distribute this icon, even for commercial purposes, all without asking permission provided you link to icons8.com website from any page you use this icon. You may not alter, transform, or build upon this work.
+Downloaded at http://www.iconsdb.com/white-icons/pin-icon.html
+Link to https://icons8.com/
+
+Unpin:     This icon is provided by icons8 as Creative Commons Attribution-NoDerivs 3.0. 
+You can copy, use and distribute this icon, even for commercial purposes, all without asking permission provided you link to icons8.com website from any page you use this icon. You may not alter, transform, or build upon this work. 
+Downloaded at http://www.iconsdb.com/white-icons/unpin-2-icon.html
+Link to https://icons8.com/
+
+Info:     This icon is provided as CC0 1.0 Universal (CC0 1.0) Public Domain Dedication. 
+You can copy, modify, use, distribute this icon, even for commercial purposes, all without asking permission with no attribution required, but always appreciated. 
+Downloaded at http://www.iconsdb.com/white-icons/info-2-icon.html
+Modified to remove outer circle
+
+Right and left arrows:     This icon is provided as CC0 1.0 Universal (CC0 1.0) Public Domain Dedication. 
+You can copy, modify, use, distribute this icon, even for commercial purposes, all without asking permission with no attribution required, but always appreciated.
+right http://www.iconsdb.com/custom-color/arrow-29-icon.html (color #c1c1c1)
+left http://www.iconsdb.com/custom-color/arrow-93-icon.html
+
+Question mark:     This icon is provided as CC0 1.0 Universal (CC0 1.0) Public Domain Dedication. 
+You can copy, modify, use, distribute this icon, even for commercial purposes, all without asking permission with no attribution required, but always appreciated.
+Downloaded at: http://www.iconsdb.com/custom-color/question-mark-4-icon.html

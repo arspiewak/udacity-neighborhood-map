@@ -193,7 +193,12 @@ body {
     font-size: 0.8em;
     position: absolute;
     right: 10px;
-    top: 4%;
+    top: 22px;
+}
+@media (max-width: 664px) {
+    .modal-href {
+        top: 42px;
+    }
 }
 .nmModalBody {
     padding: 2px 16px;
@@ -210,6 +215,13 @@ a {
     max-height: 150px;
     overflow: auto;
     margin: 3px 0;
+}
+@media (max-width: 991px) {
+    .yDetails {
+        border-top: 1px solid #e5e5e5;
+        margin-top: 10px;
+        padding-top: 5px;
+    }
 }
 .popover {
     color: black;

@@ -102,14 +102,18 @@
 			<div class="nmModalBody container-fluid">
 				<div class="row">
 					<div class="gDetails col-xs-12 col-md-6" data-bind="with: gDetails">
-						<h4>
-							<img alt="Google logo" height="40"
-							src="https://www.google.com/images/branding/product/2x/maps_48dp.png">
-							Data source: Google Maps
-							<span class="modal-href">
-								<a data-bind="attr: {href: gmapsUrl}, click: $root.noOp" target="_blank">View with Google Maps</a>
-							</span>
-						</h4>
+						<div class="row">
+							<h4 class="col-xs-12 col-sm-8">
+								<img alt="Google logo" height="40"
+								src="https://www.google.com/images/branding/product/2x/maps_48dp.png">
+								Data source: Google Maps
+							</h4>
+							<div class="col-xs-12 col-sm-4 modal-href">
+								<a data-bind="attr: {href: gmapsUrl}, click: $root.noOp" target="_blank">
+									View with Google Maps
+								</a>
+							</div>
+						</div> <!-- row -->
 						<div class="modalScrollRow" data-bind="foreach: photos">
 							<a data-toggle="popover"
 								data-html="true"
@@ -119,7 +123,7 @@
 								data-trigger="focus"
 								title="Photo credit"
 								>
-								<img data-bind="attr: {src: getUrl({maxHeight:150})}, click: $root.noOp"
+								<img data-bind="attr: {src: getUrl({maxHeight:150})}"
 									title="Click for photo credit"
 									alt="Image from Google Places">
 							</a>
@@ -160,19 +164,20 @@
 
 					</div> <!-- gDetails -->
 					<div class="yDetails col-xs-12 col-md-6" data-bind="with: yDetails">
-						<h4>
-							<a target="_blank" href="https://www.yelp.com/greensboro-nc-us">
-								<img alt="Yelp logo" height="40" class="logo"
-								src="https://s3-media2.fl.yelpcdn.com/assets/srv0/developer_pages/9b78de2c2ec9/assets/img/logo-2-color.png">
-							</a>
-							Data source: Yelp
-							<span>
-								<a data-bind="attr: {href: yelpUrl}, click: $root.noOp" target="_blank" class="modal-href">
-								View with Yelp
+						<div class="row">
+							<h4 class="col-xs-12 col-sm-8">
+								<a target="_blank" href="https://www.yelp.com/greensboro-nc-us">
+									<img alt="Yelp logo" height="40" class="logo"
+									src="https://s3-media2.fl.yelpcdn.com/assets/srv0/developer_pages/9b78de2c2ec9/assets/img/logo-2-color.png">
 								</a>
-							</span>
-
-						</h4>
+							Data source: Yelp
+							</h4>
+							<div class="col-xs-12 col-sm-4 modal-href">
+								<a data-bind="attr: {href: yelpUrl}, click: $root.noOp" target="_blank">
+									View with Yelp
+								</a>
+							</div>
+						</div> <!--row -->
 						<div class="modalPhotoRow">
 							<img data-bind="attr: {src: photo}" alt="Image from Yelp" height="150">
 						</div> <!-- modalPhotoRow -->

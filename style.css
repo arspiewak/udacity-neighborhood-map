@@ -57,7 +57,7 @@ body {
     min-height: 5em;
 }
 .listText {
-    padding-right: 32 px;
+    padding-right: 15px;
 }
 #listBodyRow {
     max-height: 80vh;

@@ -28,7 +28,6 @@ window.nmApp.ViewModel = function () {
 		nmView.initMap();	// First create the map
 		nmModel.init();	// Set up the model
 		nmvmThis.pPlacesToVPlaces();	// Initial load, persistent places
-		nmView.saveBounds();
 		nmModel.yelpAuth();
 		return;
 	}; // init()
@@ -192,7 +191,7 @@ window.nmApp.ViewModel = function () {
 
 	/* Frame the map's bounds to show the pins that are visible */
 	nmvmThis.setMapBounds = function () {
-		var origBounds = nmView.origBounds;
+		var origBounds = nmView.originalBounds;
 		var newBounds = new google.maps.LatLngBounds(
 			origBounds.getSouthWest(), origBounds.getNorthEast());
 		var vPlaces = koViewModel.vPlaces();
@@ -586,7 +585,6 @@ window.nmApp.ViewModel = function () {
 
 	nmvmThis.searchBoxHandler = function() {
 		var newVPlace;
-		var bounds = nmApp.view.map.getBounds();
 
 		/* Get the search results */
 		var searchBox = nmView.findSearchBox;
@@ -597,6 +595,12 @@ window.nmApp.ViewModel = function () {
 			window.alert('No places returned. Please try again.');
 			return;
 		}
+
+		/* Get the last base bounds for our map. Need a new copy, or
+		 * our search will reset the original map boundaries. */
+		var origBounds = nmView.originalBounds;
+		var bounds = new google.maps.LatLngBounds(
+			origBounds.getSouthWest(), origBounds.getNorthEast());
 
 		places.forEach(function (placeResult) {
 			var vpIndex = vpLookup[placeResult.place_id];

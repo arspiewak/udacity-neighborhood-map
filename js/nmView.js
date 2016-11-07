@@ -67,10 +67,14 @@ window.nmApp.View = function () {
 		nmvThis.findSearchBox = searchBox;
 		findBox.style['display'] = 'none';
 
+		google.maps.event.addListenerOnce(nmvThis.map, 'bounds_changed',
+			nmvThis.saveBounds);
+
+
 		return;
 	}; // initMap()
 
-	/* Save original map bounds for viewport reset */
+	/* Save current map bounds for viewport reset */
 	nmvThis.saveBounds = function () {
 		nmvThis.originalBounds = nmvThis.map.getBounds();
 		return;

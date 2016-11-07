@@ -84,10 +84,10 @@
 			</div> <!-- nmvMap -->
 		</div> <!-- mapRow -->
 	</div> <!-- container-fluid -->
-	<!-- Modal window for selected vPlace. Knockout and Bootstrap don't play
-		 nice on data binding for modals, so this DIY solution is from
-		 http://www.w3schools.com/howto/howto_css_modals.asp
-		 Class names have been changed to protect us from bootstrap presets-->
+	<!-- Modal window for selected vPlace. Knockout and Bootstrap don't
+		 play nice on data binding for modals, so this DIY solution is
+		 from http://www.w3schools.com/howto/howto_css_modals.asp
+		 Class names have been changed to protect us from bootstrap's class names -->
 	<div class="nmModal" role="dialog" id="placeDetails" data-bind="click: $root.closeModal">
 		<div class="nmModalContent" data-bind="with: currentVPlace,
 			click: $root.noOp,  clickBubble: false">

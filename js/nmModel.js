@@ -167,7 +167,7 @@ window.nmApp.Model = function () {
 			{'lat': 36.0696222, 'lng': -79.78700099999999}, 'transportation',
 			'236 East Washington Street');
 
-		places['ChIJ_cKS0ycZU4gRoZ8Q039B7RE'] = new PPlace('Greensboro History Museum',
+		places['ChIJ_cKS0ycZU4gRoZ8Q039B7RE'] = new PPlace('Greensboro Historical Museum',
 			{'lat': 36.075657, 'lng': -79.788027}, 'galleryMuseum',
 			'130 Summit Ave');
 
@@ -482,6 +482,22 @@ window.nmApp.Model = function () {
 		return;
 	};
 
+	/* For comparing two place names, we do a couple of cheats:
+	 * - Lowercase all names to force a case-insensitive comparison.
+	 * - Strip leading "the," as reviewers are inconsistent.
+	 * - Replace "theatre" to "theater" globally to fix reviewer
+	 *   inconsistency.
+	 */
+	function namePrep(str) {
+		str = str.toLowerCase();
+		if (str.search('the ') == 0) {
+			str = str.slice(4);
+		}
+		/* regExp global replace */
+		str = str.replace(/theatre/g, 'theater');
+		return str;
+	}
+
 	nmmThis.unpackYelpDetails = function (data) {
 		/* Yelp's "Best matched" sort doesn't always return the exact
 		 * match first. We set the return limit at 3 and scan names for
@@ -490,21 +506,17 @@ window.nmApp.Model = function () {
 		var businesses = data.businesses;
 		var biz = null;
 		var name = nmmThis.oaMessage.parameters[nmmThis.termIx][1];
-		/* Strip leading "The" to compare names */
-		if (name.search("The ") == 0) {
-			name = name.slice(4);
-		}
+		name = namePrep(name);
+
 
 		for (var i = 0, len = businesses.length; i < len; i++) {
-			var bizname = businesses[i].name;
-			if (bizname.search("The ") == 0) {
-				bizname = bizname.slice(4);
-			}
+			var bizname = namePrep(businesses[i].name);
 			if (name === bizname) {
 				biz = businesses[i];
 				break;
 			}
 		}
+		/* If there's no exact(-ish) match we take Yelp's first result */
 		if (biz === null) {
 			biz = businesses[0];
 		}

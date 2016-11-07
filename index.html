@@ -119,8 +119,9 @@
 								data-trigger="focus"
 								title="Photo credit"
 								>
-								<img data-bind="attr: {src: getUrl({maxHeight:150})}"
-									title="Click for photo credit" alt="Image from Google Places">
+								<img data-bind="attr: {src: getUrl({maxHeight:150})}, click: $root.noOp"
+									title="Click for photo credit"
+									alt="Image from Google Places">
 							</a>
 						</div> <!-- modalPhotoRow -->
 						<p class="gdItem"><br>Google rating:&nbsp;
@@ -206,9 +207,9 @@
 		</div> <!-- nmModalContent -->
 	</div> <!-- .nmModal -->
 
-	<!-- Input box for place searches. CSS sets initial display to 'none'.
-		 Function view.initMap() puts the control on our map (still hidden) to be
-		 displayed and used by Find processing. -->
+	<!-- Input box for place searches. Function view.initMap() puts the
+		 control on our map and turns display off. It is displayed and
+		 used in Find processing. -->
 	<input id="findBox" type="text" placeholder="Please enter a name or keyword to search">
 
 	<!-- jQuery and Knockout libraries from CDNJS via Cloudflare's CDN.

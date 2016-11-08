@@ -444,7 +444,7 @@ window.nmApp.Model = function () {
 		parameters.push(['oauth_signature_method', 'HMAC-SHA1']);
 
 		nmmThis.oaMessage = {
-			'action': 'http://api.yelp.com/v2/search',
+			'action': 'https://api.yelp.com/v2/search',
 			'method': 'GET',
 			'parameters': parameters
 		};

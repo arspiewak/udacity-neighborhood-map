@@ -59,31 +59,31 @@ window.nmApp.Model = function () {
 	 */
 	nmmThis.placeCategories = {
 		'barRestaurant': {
-			iconSrc: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+			iconSrc: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
 			label: 'Bar/Restaurant'
 		},
 		'cafeBakery': {
-			iconSrc: 'http://maps.google.com/mapfiles/ms/icons/pink-dot.png',
+			iconSrc: 'https://maps.google.com/mapfiles/ms/icons/pink-dot.png',
 			label: 'Cafe/Bakery'
 		},
 		'POI': {
-			iconSrc: 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
+			iconSrc: 'https://maps.google.com/mapfiles/ms/icons/purple-dot.png',
 			label: 'Point of Interest/Other'
 		},
 		'galleryMuseum': {
-			iconSrc: 'http://maps.google.com/mapfiles/ms/icons/ltblue-dot.png',
+			iconSrc: 'https://maps.google.com/mapfiles/ms/icons/ltblue-dot.png',
 			label: 'Gallery/Museum'
 		},
 		'park': {
-			iconSrc: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+			iconSrc: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
 			label: 'Park'
 		},
 		'store': {
-			iconSrc: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+			iconSrc: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
 			label: 'Store'
 		},
 		'transportation': {
-			iconSrc: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+			iconSrc: 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
 			label: 'Transit'
 		}
 	};

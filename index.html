@@ -52,24 +52,21 @@
 							    <ul class="dropdown-menu">
 							    	<li class="dropdown-header">Which category do you want to view?</li>
 									<div data-bind="foreach: filterCategories">
-								      <li class="filterLine"><a><span  data-bind="click: $root.btnFilter"><img data-bind="attr: {src: iconSrc}" class="filterImg"><span data-bind="text: label"> </span></span></a></li>
-								    </div>
-							    </ul>
-							  </div> <!-- btn-group -->
+										<li class="filterLine"><a><span  data-bind="click: $root.btnFilter"><img data-bind="attr: {src: iconSrc}" class="filterImg"><span data-bind="text: label"> </span></span></a></li>
+									</div>
+								</ul>
+							</div> <!-- btn-group -->
 
-							<button type="button" class="btn btn-default"
+								<button type="button" class="btn btn-default"
 								data-bind="click: btnFind">
-								Find new
-							</button>
-						</div> <!--filterControl -->
+									Find new
+								</button>
+							</div> <!--filterControl -->
 						</div> <!-- style flex -->
 					</div> <!-- #nmvListHead -->
 				</div> <!-- #nmvListHeaderRow -->
 				<div class="row" id="listBodyRow" data-bind="foreach: vPlaces">
-					<!-- List item row is bound to a vPlace entry.
-					Tooltip handling is adapted from
-					http://www.w3schools.com/bootstrap/bootstrap_tooltip.asp
-					-->
+					<!-- List item row is bound to a vPlace entry. -->
 					<div class="col-xs-12 nmvListItem"
 					data-bind="visible: display, css: { highlight: hilite() == true }">
 						<div data-bind="click: nmApp.viewModel.listItemClick"
@@ -216,69 +213,89 @@
 	</div> <!-- .nmModal -->
 
 
-<!-- Modal -->
-<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="helpModalLabel">Welcome to the Neighborhood Map Project</h4>
-      </div>
-      <div class="modal-body nmModalBody">
-      	<p>
-      		Welcome to downtown Greensboro, North Carolina. In the years I’ve been here, our downtown has opened new establishments, seen run-down buildings rejuvenated and reused, and sprouted new parks and museums.
-        </p><p>
-			This web page is my chance to share some of my favorite spots downtown and to let you discover some other spots that appeal to you. When you first run the page I show you a set of places I’ve picked for you. There are some of my favorite spots (if they're old enough for complete entries in Yelp and Google Maps). I’ve also included a few places that most residents would know.
-        </p><p>
-			You will see a map of downtown at the left of your display or (on a mobile device) at the top. The places are marked with colored icons, one color for each category. To the right of (or below) the map, you’ll see a list of the places and their addresses. If you click on either the list entry or the map marker, it selects that place and “turns on” an icon that takes you to detailed information about the place (furnished by Google Maps and Yelp). Interested? You can click through to reviews, pictures, and more information from the two data sources. Or you can visit the place's own website. Too many places at once? Click on “Filter” and choose one category at a time to explore.
-        </p><p>
-			If you aren’t all that interested in one of my places, you can unpin it (there’s a button in the list item or at the bottom of the details window). If you want to look for more places, click on the “Find new” button at the top of the list. A box will appear on the map, and you can type in search items and see what Google has in store. If you find places you want to “collect,” just pin them and they will become a permanent part of your personal collection. To return to your personal collection, click on the “Pinned only” button and your collection will reappear.
-        </p><p>
-			When you close the page, the places you have pinned will be stored on your computer. The next time you come back, your set of places will be displayed, and you can continue your virtual exploration. Enjoy!
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-        	Close
-        </button>
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#creditModal">
-        	Credit attributions
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="creditModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="helpModalLabel">Coding sources for this project</h4>
-      </div>
-      <div class="modal-body nmModalBody">
-      	<p>
-        She waited for some time without hearing anything more: at last came a rumbling of little cartwheels, and the sound of a good many voices all talking together: she made out the words: 'Where's the other ladder?—Why, I hadn't to bring but one; Bill's got the other—Bill! fetch it here, lad!—Here, put 'em up at this corner—No, tie 'em together first—they don't reach half high enough yet—Oh! they'll do well enough; don't be particular—Here, Bill! catch hold of this rope—Will the roof bear?—Mind that loose slate—Oh, it's coming down! Heads below!'
-        </p><p>
-		"I did not 'escape'," I replied. "I but ran away to avoid the thag, as did others, and coming into a long passage I became confused and lost my way in the foothills beyond Phutra. Only now have I found my way back." "And you come of your free will back to Phutra!" exclaimed one of the guardsmen. "Where else might I go?" I asked. "I am a stranger within Pellucidar and know no other where than Phutra. Why should I not desire to be in Phutra? Am I not well fed and well treated?
-		</p><p>
-		There were few or no bridges or tunnels on the route. The railway turned around the sides of the mountains, and did not attempt to violate nature by taking the shortest cut from one point to another. The train entered the State of Nevada through the Carson Valley about nine o'clock, going always northeasterly; and at midday reached Reno, where there was a delay of twenty minutes for breakfast. From this point the road, running along Humboldt River, passed northward for several miles by its banks; then it turned eastward, and kept by the river </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
+	<!-- Two Bootstrap modal dialogs follow (adapted from http://v4-alpha.getbootstrap.com/components/modal/ ) -->
+	<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="helpModalLabel">Welcome to the Neighborhood Map Project</h4>
+				</div>
+				<div class="modal-body nmModalBody">
+					<p>
+						Welcome to downtown Greensboro, North Carolina. In the years I’ve been here, our downtown has opened new establishments, seen run-down buildings rejuvenated and reused, and sprouted new parks and museums.
+					</p><p>
+						This web page is my chance to share some of my favorite spots downtown and to let you discover some other spots that appeal to you. When you first run the page I show you a set of places I’ve picked for you. There are some of my favorite spots (if they're old enough for complete entries in Yelp and Google Maps). I’ve also included a few places that most residents would know.
+					</p><p>
+						You will see a map of downtown at the left of your display or (on a mobile device) at the top. The places are marked with colored icons, one color for each category. To the right of (or below) the map, you’ll see a list of the places and their addresses. If you click on either the list entry or the map marker, it selects that place and “turns on” an icon that takes you to detailed information about the place (furnished by Google Maps and Yelp). Interested? You can click through to reviews, pictures, and more information from the two data sources. Or you can visit the place's own website. Too many places at once? Click on “Filter” and choose one category at a time to explore.
+					</p><p>
+						If you aren’t all that interested in one of my places, you can unpin it (there’s a button in the list item or at the bottom of the details window). If you want to look for more places, click on the “Find new” button at the top of the list. A box will appear on the map, and you can type in search items and see what Google has in store. If you find places you want to “collect,” just pin them and they will become a permanent part of your personal collection. To return to your personal collection, click on the “Pinned only” button and your collection will reappear.
+					</p><p>
+						When you close the page, the places you have pinned will be stored on your computer. The next time you come back, your set of places will be displayed, and you can continue your virtual exploration. Enjoy!
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					Close
+					</button>
+					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#creditModal">
+					Credit attributions
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal 2 -->
+	<div class="modal fade" id="creditModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="helpModalLabel">Coding sources for this project</h4>
+				</div>
+				<div class="modal-body nmModalBody">
+					<p>
+						In general, this project owes a lot to the sample code in the Udacity courses on <a target="_blank" href="https://www.udacity.com/course/intro-to-ajax--ud110">AJAX programming</a> and <a target="_blank" href="https://www.udacity.com/course/google-maps-apis--ud864">the Google Maps API</a>. Specific cases where my code is directly modelled on course material are credited through comments in the code.
+					</p><p>
+						As required for this project, I have used v3.4.0 of <a target="_blank" href="http://knockoutjs.com/">KnockoutJS</a> as the framework to support a Model/&#8203;View/&#8203;ViewModel (MVVM) design pattern for the project. I have done my best to separate functionality into the three MVVM components. Google Maps' API sometimes blurs the lines between application control (the ViewModel), the map presentation (View), and providing streams of data (a Model function). The API integrates these functions with minimal programmer intervention. That's good, it just blurs the lines of the design pattern.
+					</p><p>
+						To manage display responsiveness I have included Twitter's <a target="_blank" href="http://v4-alpha.getbootstrap.com/">Bootstrap framework</a>, v3.3.7. I have also used Bootstrap's components to build popovers and modal dialogs. The code I used to build the three-button group at the head of the list view is adapted from <a target="_blank" href="http://getbootstrap.com/components/#btn-groups">here</a>.
+					</p><p>
+						I've used a big modal dialog to display data from Google Maps' place-detail search and from Yelp's business search. I was able to work out interactions between Knockout data bindings and Bootstrap popovers within the window, but I could not get those interactions to work in the context of a Bootstrap modal dialog. So I turned to W3schools' excellent article <a target="_blank" href="http://www.w3schools.com/howto/howto_css_modals.asp">"How TO - CSS/JS Modal"</a> to build my own modal dialog for that part of the project. The two help modals were much simpler and are pure(ish) Bootstrap adapted from <a target="_blank" href="http://v4-alpha.getbootstrap.com/components/modal/">here</a>.
+					</p><p>
+						To aid in some utility calls (especially the AJAX call to Yelp) I used <a target="_blank" href="https://jquery.com/">jQuery 3.1.1</a>.
+					</p><p>
+						The data in this project comes exclusively from two sources, the <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/">Google Maps JavaScript API</a> (V3) and the <a target="_blank" href="https://www.yelp.com/developers/documentation/v2/overview">Yelp API</a> v2. It was frustrating not to have any sample code for JavaScript on the Yelp Developers site (they withdrew support because of Javascript's lack of security). I especially found the OAuth user-authorization process to be technically confusing. I relied heavily on code from a <a target="_blank" href="https://forum.jquery.com/topic/hiding-oauth-secrets-in-jquery">jQuery forum entry</a>, to get my communication with Yelp working. The libraries mentioned there have moved since the article was written. <a target="_blank" href="http://stackoverflow.com/questions/37183524/http-oauth-googlecode-com-svn-code-javascript-oauth-js-is-down-please-provide">This article</a> provided guidance on finding the libraries, including <a target="_blank" href="https://gist.github.com/romeoh/3302258">the place</a> from which <code>oauth.js</code> was retrieved.
+					</p><p>
+						Coding for the Google search box (enabled by the findAll button) was adapted from <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/examples/places-searchbox">here</a>.
+					</p><p>
+						Code to determine if localStorage is supported by the user's browser is borrowed from <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API">here</a>.
+					</p><p>
+						The Merriweather font is hotlinked from Google APIs.
+					</p><p>
+						Credits for the images I use in the project are below. The icons used for map markers are included in the Google Maps API.
+					</p><p>
+						Google Maps and Yelp logos: Each company's logo is hotlinked from the company's site, in my best effort to comply with their trademark display guidelines.
+					</p><p>
+						Pin icon (<code>pin-48.png</code>) is downloaded from <a target="_blank" href="http://www.iconsdb.com/white-icons/pin-icon.html">iconsdb pin-icon</a>. Their use guideline, from that page, states, "This icon is provided by icons8 as Creative Commons Attribution-NoDerivs 3.0. You can copy, use and distribute this icon, even for commercial purposes, all without asking permission provided you link to <a target="_blank" href="https://icons8.com/">icons8.com</a> website from any page you use this icon. You may not alter, transform, or build upon this work."
+					</p><p>
+						Unpin icon (<code>unpin-2-48.png</code>) is downloaded from <a target="_blank" href="http://www.iconsdb.com/white-icons/unpin-2-icon.html">iconsdb unpin-2-icon</a>. Their use guideline, from that page, states, "This icon is provided by icons8 as Creative Commons Attribution-NoDerivs 3.0. You can copy, use and distribute this icon, even for commercial purposes, all without asking permission provided you link to <a target="_blank" href="https://icons8.com/">icons8.com</a> website from any page you use this icon. You may not alter, transform, or build upon this work."
+					</p><p>
+						The question-mark (help) icon (<code>question-mark-4-48.png</code>) is downloaded from <a target="_blank" href="http://www.iconsdb.com/custom-color/question-mark-4-icon.html">iconsdb question-mark-4-icon</a>. The use guideline on that page states, "This icon is provided as CC0 1.0 Universal (CC0 1.0) Public Domain Dedication. You can copy, modify, use, distribute this icon, even for commercial purposes, all without asking permission with no attribution required, but always appreciated."
+					</p><p>
+						The info icon (<code>info-2-48.png</code>) was downloaded from <a target="_blank" href="http://www.iconsdb.com/white-icons/info-2-icon.html">iconsdb info-2-icon</a>. I modified the image to remove an outer white circle. The filename I use is marked with an "r" t reflect this modification. The use guideline on that page states, "This icon is provided as CC0 1.0 Universal (CC0 1.0) Public Domain Dedication. You can copy, modify, use, distribute this icon, even for commercial purposes, all without asking permission with no attribution required, but always appreciated."
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Input box for place searches. Function view.initMap() puts the
 		 control on our map and turns display off. It is displayed and

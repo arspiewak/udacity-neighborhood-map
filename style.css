@@ -252,6 +252,10 @@ a {
 .gdItemVal{
     font-weight: normal;
 }
+.modal-body a {
+    text-decoration: underline;
+    color: blue;
+}
 
 /* #findBox is the input for the user to specify new places
  * to find. It's initially hidden, and gets displayed when

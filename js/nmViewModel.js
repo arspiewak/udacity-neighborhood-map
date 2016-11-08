@@ -96,19 +96,14 @@ window.nmApp.ViewModel = function () {
 			'\nloaded. Fatal errors will follow.' +
 			'\nError message: ' + err.message);
 	}
-	/* As a filter menu choice, we need to add "all of the above". */
+	/* As a filter menu choice, we need to add "all of the above".
+	 * To show an empty icon we display the all-white info icon on a
+	 * white background. */
 	koViewModel.filterCategories[koViewModel.filterCategories.length] = {
-		iconSrc: '',
+		iconSrc: 'info-2-48r.png',
 		label: 'Show all categories',
 		category: 'showAll'
 	};
-
-	/* Debug function to test bindings. */
-	nmvmThis.bindAlert = function (text) {
-		window.alert('Click binding has fired for action ' +
-			text);
-		return;
-	}
 
 	/* Aliases in the Knockout view model to use in the constructor */
 	var koViewModel = nmvmThis.koViewModel;

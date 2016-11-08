@@ -50,6 +50,15 @@ body {
     background-color: #11743c;
     color: white;
 }
+.helpBtn {
+    background-color: #054f25;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    z-index: 1;
+    display: block;
+    height: 0.9em;
+}
 #nmvListHead {
     min-height: 10vh;
 }
@@ -117,6 +126,7 @@ body {
 #nmvMap {
     background-color: white;
     height: 90vh;
+    border: 2px solid #054f25;
 }
 #welcomeRow {
     display: flex;
@@ -204,7 +214,7 @@ body {
 }
 .nmModalBody {
     padding: 2px 16px;
-    font-size: 1.3em;
+    font-size: 1.5em;
 }
 a {
     color: #a576bc;

@@ -19,6 +19,9 @@
 		<div class="row " id="welcomeRow">
 			<div class="col-xs-12" id="welcome">
 				<p>Welcome to <span id="headerPlace">Greensboro, NC</span></p>
+				<input type="image" class="helpBtn"
+					title="Show help screen" src="question-mark-4-48.png"
+					data-toggle="modal" data-target="#helpModal" />
 			</div>
 		</div> <!-- welcomeRow -->
 		<div class="row" id="mapRow">
@@ -87,7 +90,7 @@
 	<!-- Modal window for selected vPlace. Knockout and Bootstrap don't
 		 play nice on data binding for modals, so this DIY solution is
 		 from http://www.w3schools.com/howto/howto_css_modals.asp
-		 Class names have been changed to protect us from bootstrap's class names -->
+		 Class names have been changed to protect us from bootstrap's class names (which are used below) -->
 	<div class="nmModal" role="dialog" id="placeDetails" data-bind="click: $root.closeModal">
 		<div class="nmModalContent" data-bind="with: currentVPlace,
 			click: $root.noOp,  clickBubble: false">
@@ -211,6 +214,71 @@
 			</div> <!-- nmModalFooter -->
 		</div> <!-- nmModalContent -->
 	</div> <!-- .nmModal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="helpModalLabel">Welcome to the Neighborhood Map Project</h4>
+      </div>
+      <div class="modal-body nmModalBody">
+      	<p>
+      		Welcome to downtown Greensboro, North Carolina. In the years I’ve been here, our downtown has opened new establishments, seen run-down buildings rejuvenated and reused, and sprouted new parks and museums.
+        </p><p>
+			This web page is my chance to share some of my favorite spots downtown and to let you discover some other spots that appeal to you. When you first run the page I show you a set of places I’ve picked for you. There are some of my favorite spots (if they're old enough for complete entries in Yelp and Google Maps). I’ve also included a few places that most residents would know.
+        </p><p>
+			You will see a map of downtown at the left of your display or (on a mobile device) at the top. The places are marked with colored icons, one color for each category. To the right of (or below) the map, you’ll see a list of the places and their addresses. If you click on either the list entry or the map marker, it selects that place and “turns on” an icon that takes you to detailed information about the place (furnished by Google Maps and Yelp). Interested? You can click through to reviews, pictures, and more information from the two data sources. Or you can visit the place's own website. Too many places at once? Click on “Filter” and choose one category at a time to explore.
+        </p><p>
+			If you aren’t all that interested in one of my places, you can unpin it (there’s a button in the list item or at the bottom of the details window). If you want to look for more places, click on the “Find new” button at the top of the list. A box will appear on the map, and you can type in search items and see what Google has in store. If you find places you want to “collect,” just pin them and they will become a permanent part of your personal collection. To return to your personal collection, click on the “Pinned only” button and your collection will reappear.
+        </p><p>
+			When you close the page, the places you have pinned will be stored on your computer. The next time you come back, your set of places will be displayed, and you can continue your virtual exploration. Enjoy!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        	Close
+        </button>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#creditModal">
+        	Credit attributions
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="creditModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="helpModalLabel">Coding sources for this project</h4>
+      </div>
+      <div class="modal-body nmModalBody">
+      	<p>
+        She waited for some time without hearing anything more: at last came a rumbling of little cartwheels, and the sound of a good many voices all talking together: she made out the words: 'Where's the other ladder?—Why, I hadn't to bring but one; Bill's got the other—Bill! fetch it here, lad!—Here, put 'em up at this corner—No, tie 'em together first—they don't reach half high enough yet—Oh! they'll do well enough; don't be particular—Here, Bill! catch hold of this rope—Will the roof bear?—Mind that loose slate—Oh, it's coming down! Heads below!'
+        </p><p>
+		"I did not 'escape'," I replied. "I but ran away to avoid the thag, as did others, and coming into a long passage I became confused and lost my way in the foothills beyond Phutra. Only now have I found my way back." "And you come of your free will back to Phutra!" exclaimed one of the guardsmen. "Where else might I go?" I asked. "I am a stranger within Pellucidar and know no other where than Phutra. Why should I not desire to be in Phutra? Am I not well fed and well treated?
+		</p><p>
+		There were few or no bridges or tunnels on the route. The railway turned around the sides of the mountains, and did not attempt to violate nature by taking the shortest cut from one point to another. The train entered the State of Nevada through the Carson Valley about nine o'clock, going always northeasterly; and at midday reached Reno, where there was a delay of twenty minutes for breakfast. From this point the road, running along Humboldt River, passed northward for several miles by its banks; then it turned eastward, and kept by the river </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 	<!-- Input box for place searches. Function view.initMap() puts the
 		 control on our map and turns display off. It is displayed and

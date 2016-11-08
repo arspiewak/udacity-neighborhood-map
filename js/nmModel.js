@@ -163,6 +163,10 @@ window.nmApp.Model = function () {
 			{'lat': 36.0687945, 'lng': -79.79045459999999}, 'cafeBakery',
 			'341 South Elm Street');
 
+		places['ChIJq53hRCYZU4gRD5Mg9jDBbjE'] = new PPlace('Greensboro Cultural Center',
+			{'lat': 36.0738035, 'lng': -79.78837709999999}, 'POI',
+			'200 N Davie St #101N');
+
 		places['ChIJAbuZJyEZU4gRkJNtfrjK9fc'] = new PPlace('Greensboro Station',
 			{'lat': 36.0696222, 'lng': -79.78700099999999}, 'transportation',
 			'236 East Washington Street');
@@ -277,6 +281,10 @@ window.nmApp.Model = function () {
 
 		/* NOW THE MAIN STUFF */
 
+		/* This function returns true if the localStorage data set
+		 * was created (first-time user). */
+		var firstie = false;
+
 		/* Sync PPlaces to localStorage */
 		var places = {};
 		nmmThis.storageOk = true;
@@ -294,6 +302,7 @@ window.nmApp.Model = function () {
 			/* We can store a list, but haven't done one yet. Do it. */
 			places = createPPlaces();
 			nmmThis.storePPlaces(places);
+			firstie = true;
 		} else {
 			/* Load localStorage to PPlaces. */
 			places = nmmThis.readPPlaces();
@@ -301,7 +310,7 @@ window.nmApp.Model = function () {
 
 		/* Save the array where other PPlaces functions can find it. */
 		nmmThis.pPlaces = places;
-		return;
+		return firstie;
 	}; // initPPlaces()
 
 	/* Add a PPlace when it's pinned */
@@ -545,8 +554,7 @@ window.nmApp.Model = function () {
 	 * Google Maps is initialized.
 	 */
 	nmmThis.init = function () {
-		nmmThis.initPPlaces();
-		return;
+		return nmmThis.initPPlaces();
 	}; // init function
 
 }; // model constructor function

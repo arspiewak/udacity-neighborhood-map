@@ -26,9 +26,12 @@ window.nmApp.ViewModel = function () {
 	 */
 	nmvmThis.init = function () {
 		nmView.initMap();	// First create the map
-		nmModel.init();	// Set up the model
+		var firstie = nmModel.init();	// Set up the model
 		nmvmThis.pPlacesToVPlaces();	// Initial load, persistent places
 		nmModel.yelpAuth();
+		/* If Model initialization returned true, a new data set was
+		 * created. Pop up the help screen for our first-time user */
+		if (firstie) { popupHelp() };
 		return;
 	}; // init()
 
@@ -93,7 +96,7 @@ window.nmApp.ViewModel = function () {
 			'\nloaded. Fatal errors will follow.' +
 			'\nError message: ' + err.message);
 	}
-	/* As a filter menu choice, we need "all of the above". */
+	/* As a filter menu choice, we need to add "all of the above". */
 	koViewModel.filterCategories[koViewModel.filterCategories.length] = {
 		iconSrc: '',
 		label: 'Show all categories',
@@ -112,6 +115,11 @@ window.nmApp.ViewModel = function () {
 	var koVPlaces = koViewModel.vPlaces;
 
 	/* SETUP-SUPPORT FUNCTIONS */
+
+	/* Pop up the help screen for a first-time user */
+	function popupHelp () {
+		$('#helpModal').modal('show');
+	}
 
 	/* Constructor for a vPlace */
 	function VPlace (vpData, pinVal) {

@@ -98,7 +98,7 @@ body {
     display: inline;
 }
 .listItemName {
-    font-height: 2.5em;
+    font-size: 1.2em;
     font-weight: 900;
 }
 
@@ -277,4 +277,8 @@ a {
     padding: 0 11px 0 13px;
     text-overflow: ellipsis;
     width: 300px;
+ }
+
+ .dropdownList {
+    -webkit-padding-start: 16px;
  }

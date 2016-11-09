@@ -8,6 +8,7 @@ window.nmApp.ViewModel = function () {
 	var nmApp = window.nmApp;
 	var console = window.console;
 	var ko = window.ko;
+	var $ = window.$;
 
 	/* aliases for the other objects making up this application */
 	var nmView = nmApp.view;
@@ -31,7 +32,7 @@ window.nmApp.ViewModel = function () {
 		nmModel.yelpAuth();
 		/* If Model initialization returned true, a new data set was
 		 * created. Pop up the help screen for our first-time user */
-		if (firstie) { popupHelp() };
+		if (firstie) { popupHelp(); }
 		return;
 	}; // init()
 
@@ -62,7 +63,7 @@ window.nmApp.ViewModel = function () {
 			nmvmThis.displayFilter('pinned', null);
 			return;
 		},
-		btnFilter: function (catObj, event) {
+		btnFilter: function (catObj) {		// ignores event parameter
 			nmView.clearSearchBox();
 			nmvmThis.displayFilter('category', catObj.category);
 			return;
@@ -104,10 +105,6 @@ window.nmApp.ViewModel = function () {
 		label: 'Show all categories',
 		category: 'showAll'
 	};
-
-	/* Aliases in the Knockout view model to use in the constructor */
-	var koViewModel = nmvmThis.koViewModel;
-	var koVPlaces = koViewModel.vPlaces;
 
 	/* SETUP-SUPPORT FUNCTIONS */
 
@@ -177,7 +174,6 @@ window.nmApp.ViewModel = function () {
 	 */
 	nmvmThis.pPlacesToVPlaces = function () {
 		var pPlaces = nmModel.getPPlaces();	// Source array
-		var vPlace;							// Holder for new vPlace
 		var vpData;							// Data structure for constructor
 
 		for (var placeId in pPlaces) {
@@ -186,7 +182,7 @@ window.nmApp.ViewModel = function () {
 			vpData.placeId = placeId;
 			/* Second argument to constructor is the default pinned state for
 			 * vPlaces made from pPlaces. */
-			vPlace = new VPlace(vpData, true);
+			new VPlace(vpData, true);
 		}
 		return;
 	}; // pPlacesToVPlaces()
@@ -194,7 +190,7 @@ window.nmApp.ViewModel = function () {
 	/* Frame the map's bounds to show the pins that are visible */
 	nmvmThis.setMapBounds = function () {
 		var origBounds = nmView.originalBounds;
-		var newBounds = new google.maps.LatLngBounds(
+		var newBounds = new window.google.maps.LatLngBounds(
 			origBounds.getSouthWest(), origBounds.getNorthEast());
 		var vPlaces = koViewModel.vPlaces();
 		for (var i = 0, len = vPlaces.length; i < len; i++) {
@@ -349,7 +345,7 @@ window.nmApp.ViewModel = function () {
 	 * browsers.
 	 */
 	function ydReturnBuilder (vPlace) {
-		function ydSuccessHandler (data, status, jqXHR) {
+		function ydSuccessHandler (data, status) {	// 3d argument ignored
 			var timer = vPlace.ydTimer;
 			var vpyDet = vPlace.yDetails;  // a KO observable
 			if (timer !== undefined && timer !== null) {
@@ -376,13 +372,13 @@ window.nmApp.ViewModel = function () {
 			window.alert('Yelp Details request failed' +
 				'\nPlace name: ' + vPlace.name +
 				'\n' + JSON.stringify(jqXHR.statusCode()));
-			window.console.log("YelpAPI fail " + vPlace.name + ' ' +
-				vPlace.placeId);
+			window.console.log('YelpAPI fail ' + vPlace.name + ' ' +
+				vPlace.placeId + ' status: ' + textStatus);
 			window.console.log(jqXHR);
 			vPlace.yDetails(null);
 			vPlace.ydTimer = null;
 			return;
-		};
+		}
 
 		function ydTimerHandler () {
 			/* Timer expired waiting for Yelp details. */
@@ -465,17 +461,17 @@ window.nmApp.ViewModel = function () {
 		var dispFlag, vPlace;
 
 		switch (type) {
-			case 'pinned':
-				selectFn = pinnedOnly;
-				break;
-			case 'category':
-				selectFn = byCategory;
-				break;
-			default:
-				window.alert('Invalid selection type in ' +
-					'displayFilter function\n' +
-					'Illegal value = "' + type + '".');
-				return;
+		case 'pinned':
+			selectFn = pinnedOnly;
+			break;
+		case 'category':
+			selectFn = byCategory;
+			break;
+		default:
+			window.alert('Invalid selection type in ' +
+				'displayFilter function\n' +
+				'Illegal value = "' + type + '".');
+			return;
 		}
 
 		/* Before we change the display filter, we need to be
@@ -564,7 +560,7 @@ window.nmApp.ViewModel = function () {
 		 * street address */
 		var address = check(placeResult.formatted_address);
 		if (address !== null) {
-			var idx = address.search(", Greensboro, NC");
+			var idx = address.search(', Greensboro, NC');
 			if (idx > 0) {
 				address = address.slice(0, idx);
 			}
@@ -587,7 +583,6 @@ window.nmApp.ViewModel = function () {
 	}
 
 	nmvmThis.searchBoxHandler = function() {
-		var newVPlace;
 
 		/* Get the search results */
 		var searchBox = nmView.findSearchBox;
@@ -602,7 +597,7 @@ window.nmApp.ViewModel = function () {
 		/* Get the last base bounds for our map. Need a new copy, or
 		 * our search will reset the original map boundaries. */
 		var origBounds = nmView.originalBounds;
-		var bounds = new google.maps.LatLngBounds(
+		var bounds = new window.google.maps.LatLngBounds(
 			origBounds.getSouthWest(), origBounds.getNorthEast());
 
 		places.forEach(function (placeResult) {
@@ -610,7 +605,7 @@ window.nmApp.ViewModel = function () {
 			if (vpIndex !== undefined) {
 				redisplayVPlace(vpIndex);
 			} else {
-				newVPlace = vPlaceFromGPlace(placeResult);
+				vPlaceFromGPlace(placeResult);
 			}
 
 			/* Extend the geographic bounds if needed to show

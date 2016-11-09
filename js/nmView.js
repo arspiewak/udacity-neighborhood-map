@@ -78,7 +78,7 @@ window.nmApp.View = function () {
 	nmvThis.saveBounds = function () {
 		nmvThis.originalBounds = nmvThis.map.getBounds();
 		return;
-	}
+	};
 
 	/* Method to set a marker on the map. Most of this functionality is
 		* adapted from class project Project_Code_5_BeingStylish.html

@@ -20,6 +20,7 @@ window.nmApp.Model = function () {
 	var nmmThis = this;				/* holds the identity of nmApp.model */
 	var console = window.console;	/* for eslint */
 	var nmApp = window.nmApp;
+	var $ = window.$;
 
 	/* Place Type definitions */
 
@@ -105,7 +106,7 @@ window.nmApp.Model = function () {
 			categories[i++] = dispObj;
 		});
 		return categories;
-	}
+	};
 
 	/* We use two types of place objects in this model. A persistent
 	 * place has been pinned, and it records the minimum data needed to
@@ -417,11 +418,11 @@ window.nmApp.Model = function () {
 	 */
 	nmmThis.yelpAuth = function () {
 		var auth = {
-			consumerKey: "28ihndloH-YhIctu1307bg",
-			consumerSecret: "aEQ5kiEC4FfdnPSCPTLzi8ACaxg",
-			accessToken: "b10HZ9BSsvPjEvjVzSuJ6GfgSXByfHvx",
-			accessTokenSecret: "iRl2J5mf4LEURz_OZCzrIfcaEKc",
-			serviceProvider: {signatureMethod: "HMAC-SHA1"}
+			consumerKey: '28ihndloH-YhIctu1307bg',
+			consumerSecret: 'aEQ5kiEC4FfdnPSCPTLzi8ACaxg',
+			accessToken: 'b10HZ9BSsvPjEvjVzSuJ6GfgSXByfHvx',
+			accessTokenSecret: 'iRl2J5mf4LEURz_OZCzrIfcaEKc',
+			serviceProvider: {signatureMethod: 'HMAC-SHA1'}
 		};
 
 		nmmThis.oaAccessor = {
@@ -474,11 +475,11 @@ window.nmApp.Model = function () {
 		message.parameters[nmmThis.locIx][1] = lat.toString() +
 			',' + lng.toString();
 
-		OAuth.setTimestampAndNonce(message);
-		OAuth.SignatureMethod.sign(message, accessor);
+		window.OAuth.setTimestampAndNonce(message);
+		window.OAuth.SignatureMethod.sign(message, accessor);
 
-		var parameterMap = OAuth.getParameterMap(message.parameters);
-		parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
+		var parameterMap = window.OAuth.getParameterMap(message.parameters);
+		parameterMap.oauth_signature = window.OAuth.percentEncode(parameterMap.oauth_signature);
 
 		$.ajax({
 			'url': message.action,
@@ -535,7 +536,7 @@ window.nmApp.Model = function () {
 		yDetails.name = check(biz.name);
 		var temp = check(biz.location.display_address);
 		yDetails.address = (temp === null ? null :
-		 	temp.join(', '));
+			temp.join(', '));
 		temp = check(biz.phone);
 		yDetails.phone = (temp === null ? null :
 			'(' + temp.slice(0,3) + ') ' + temp.slice(4,7) +

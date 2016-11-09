@@ -509,9 +509,9 @@ window.nmApp.ViewModel = function () {
 			vPlace.display(dispFlag);
 			/* Attach/detach vPlace's marker from the map */
 			if (dispFlag) {
-				vPlace.mapMarker.setMap(nmView.map);
+				vPlace.mapMarker.setVisible(true);
 			} else {
-				vPlace.mapMarker.setMap(null);
+				vPlace.mapMarker.setVisible(false);
 			}
 		}
 		nmvmThis.setMapBounds();
@@ -565,7 +565,7 @@ window.nmApp.ViewModel = function () {
 	function redisplayVPlace (vpIndex) {
 		var vPlace = koVPlaces()[vpIndex];
 		vPlace.display(true);
-		vPlace.mapMarker.setMap(nmView.map);
+		vPlace.mapMarker.setVisible(true);
 		return;
 	}
 

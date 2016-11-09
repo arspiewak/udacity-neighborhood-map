@@ -44,6 +44,7 @@ window.nmApp.ViewModel = function () {
 	nmvmThis.koViewModel = {
 		vPlaces: ko.observableArray([]),	// Viewable array of places
 		currentVPlace: ko.observable(null),
+		btnDispSavedText: ko.observable('Pinned only'),
 		openModal: function () {nmView.openModal();},
 		closeModal: function () {nmView.closeModal();},
 		modalClick: function(data, event) {
@@ -60,7 +61,7 @@ window.nmApp.ViewModel = function () {
 		noOp: function() {return true;},
 		btnDispSaved: function () {
 			nmView.clearSearchBox();
-			nmvmThis.displayFilter('pinned', null);
+			nmvmThis.toggleBtnDispSaved();
 			return;
 		},
 		btnFilter: function (catObj) {		// ignores event parameter
@@ -435,10 +436,20 @@ window.nmApp.ViewModel = function () {
 	 * won't invoke the special processing of 'showAll'.
 	 */
 	function byCategory(vPlace, catCode) {
-		/* Retval is a boolean to return */
-		var retval = (catCode === 'showAll' ||
+		/* retVal is a boolean to return */
+
+		var retVal = (catCode === 'showAll' ||
 			catCode === vPlace.category);
-		return retval;
+		/* Override a true retVal if vPlace is not pinned() and
+		 * state of btnDispSaved means display pinned only.
+		 * Note that if the button says 'Show all', that means
+		 * we are currently only showing pinned (the button label
+		 * tells us where to go, not where we are). */
+		if (!vPlace.pinned() &&
+			koViewModel.btnDispSavedText() === 'Show all') {
+			retVal = false;
+		}
+		return retVal;
 	}
 	/* Select pinned only. The Knockout pinned() observable
 	 * is already a boolean. This selector ignores the second
@@ -497,6 +508,18 @@ window.nmApp.ViewModel = function () {
 		nmvmThis.setMapBounds();
 		return;
 	}; /* displayFilter() */
+
+	/* Toggle filter button: display pinned or all */
+	nmvmThis.toggleBtnDispSaved = function () {
+		var obsTxt = koViewModel.btnDispSavedText;
+		if (obsTxt() === 'Pinned only') {
+			obsTxt('Show all');
+			nmvmThis.displayFilter('pinned', null);
+		} else {
+			obsTxt('Pinned only');
+			nmvmThis.displayFilter('category', 'showAll');
+		}
+	};
 
 	/* Processing invoked by the "Find new" button. */
 	nmvmThis.findNew = function () {

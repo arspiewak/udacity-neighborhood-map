@@ -6,7 +6,7 @@ This implementation can simply be run from my GitHub site, [http://arspiewak.git
 
 ## Exploring the app
 
-My best explanation of how to run this project can be found on the help screen, extracted [here](HelpScreen.html). All links/anchors have tooltips, so if you hover for a couple of seconds when the pointer changes a hint will display (mouseovers only, I'm afraid).
+My best explanation of how to run this project can be found on the help screen, extracted [here](http://arspiewak.github.io/udacity-neighborhood-map/HelpScreen.html). All links/anchors have tooltips, so if you hover for a couple of seconds when the pointer changes a hint will display (mouseovers only, I'm afraid).
 
 ## Application structure
 
@@ -18,7 +18,7 @@ Objects `view`, `model`, and `viewModel` are created as properties of an overall
 
 ## Credits
 
-Resources used in creating this project are credited in a Credits screen chained to from the help screen. I have extracted that information [here](Attributions.html).
+Resources used in creating this project are credited in a Credits screen, which is chained to from the help screen. I have extracted that information [here](http://arspiewak.github.io/udacity-neighborhood-map/Attributions.html).
 
 ## Known issues
 

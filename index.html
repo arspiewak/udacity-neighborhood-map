@@ -20,7 +20,7 @@
 			<div class="col-xs-12" id="welcome">
 				<p>Welcome to <span id="headerPlace">Greensboro, NC</span></p>
 				<input type="image" class="helpBtn"
-					title="Show help screen" src="question-mark-4-48.png"
+					title="Show help screen" src="images/question-mark-4-48.png"
 					data-toggle="modal" data-target="#helpModal" />
 			</div>
 		</div> <!-- welcomeRow -->
@@ -74,10 +74,10 @@
 							<p class="listItemName" data-bind="text: name"></p>
 							<p class="listItemaddress" data-bind="text: address"></p>
 						</div>
-						<input type="image" class="pinnedBtn" data-bind="click: nmApp.viewModel.pinnedClick, attr: { src: pinned() ? 'pin-48.png' : 'unpin-2-48.png' }"
+						<input type="image" class="pinnedBtn" data-bind="click: nmApp.viewModel.pinnedClick, attr: { src: pinned() ? 'images/pin-48.png' : 'images/unpin-2-48.png' }"
 						title="Pin/unpin this place on your list" />
 						<input type="image" class="detailBtn"
-							title="Show place details" src="info-2-48r.png"
+							title="Show place details" src="images/info-2-48r.png"
 							data-bind="click: $root.openModal, visible: isCurrent" />
 					</div> <!-- .nmvListItem -->
 				</div> <!-- #listBodyRow -->

@@ -100,7 +100,7 @@ window.nmApp.ViewModel = function () {
 	 * To show an empty icon we display the all-white info icon on a
 	 * white background. */
 	koViewModel.filterCategories[koViewModel.filterCategories.length] = {
-		iconSrc: 'info-2-48r.png',
+		iconSrc: 'images/info-2-48r.png',
 		label: 'Show all categories',
 		category: 'showAll'
 	};

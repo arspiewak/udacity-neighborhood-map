@@ -254,22 +254,27 @@ window.nmApp.ViewModel = function () {
 	function gdReturnBuilder (vPlace) {
 		function gdReturnHandler (result, status) {
 			var timer = vPlace.gdTimer;
-			var vpgDet = vPlace.gDetails;  // a KO observable
+			var vpgDet = vPlace.gDetails;  // KO observable to be set
+
+			/* No matter what we do, we need to turn off our timeout (we don't
+			 * want two alerts, an error and then a timeout). */
 			if (timer !== undefined && timer !== null) {
 				/* Cancel the timeout for the returning gDetails request */
 				window.clearTimeout(timer);
 				timer = null;
 			}
-			if (status !== 'OK') {
+
+			/* Google Places error handling method */
+			if (status !== window.google.maps.places.PlacesServiceStatus.OK) {
 				/* Error came back from Google */
 				window.alert('Google Details return handler:\n' +
 					'Unable to process request for details,\n' +
 					'Place name: ' + vPlace.name +
 					'\nError: ' + status);
 				vpgDet(null);
-				timer = null;
 				return;
 			}
+
 			/* Status OK. Unpack the results and store in a KO observable */
 			vpgDet(nmModel.unpackGoogleDetails(result));
 
@@ -333,10 +338,14 @@ window.nmApp.ViewModel = function () {
 		var handlers = gdReturnBuilder(vPlace);
 
 		/* Submit the request for Google Place Details info  */
-		nmModel.getGoogleDetails(vPlace.placeId, handlers.ret);
+		var ret = nmModel.getGoogleDetails(vPlace.placeId, handlers.ret);
 
-		/* Set a timer in case the API doesn't respond */
-		vPlace.gdTimer = setTimeout(handlers.timer, DETAIL_REQUEST_TIMEOUT);
+		/* Set a timer in case the API doesn't respond, but
+		 * only if the request went off OK. */
+		if (ret) {
+			vPlace.gdTimer = setTimeout(handlers.timer,
+				DETAIL_REQUEST_TIMEOUT);
+		}
 		return;
 	};
 

@@ -361,10 +361,18 @@ window.nmApp.Model = function () {
 	 * info goes to a callback provided by the viewModel. */
 	nmmThis.getGoogleDetails = function (placeId, handlerFxn) {
 		var map = nmApp.viewModel.getMapObject();
-		var service = new window.google.maps.places.PlacesService(map);
-		service.getDetails({placeId: placeId},
-			handlerFxn); // no return; status goes to handlerFxn
-		return;
+		try {
+			var service = new window.google.maps.places.PlacesService(map);
+			service.getDetails({placeId: placeId},
+				handlerFxn); // no return; status goes to handlerFxn
+		} catch(err) {
+			window.alert('nmModel.js(getGoogleDetails): Unable to send' +
+				'\ngetDetails request to Google Maps service.' +
+				'\nGoogle Details data can not be displayed.' +
+				'\nError message: ' + err.message);
+			return false;
+		}
+		return true;
 	};
 	/* ViewModel got Google details result. Unpack the results
 	 * into a gDetails object.

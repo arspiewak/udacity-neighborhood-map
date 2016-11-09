@@ -1,34 +1,43 @@
-<!HTML>
-<h4>Help screen for Neighborhood Map Project</h4>
-<p>
-In general, this project owes a lot to the sample code in the Udacity courses on <a target="_blank" href="https://www.udacity.com/course/intro-to-ajax--ud110">AJAX programming</a> and <a target="_blank" href="https://www.udacity.com/course/google-maps-apis--ud864">the Google Maps API</a>. Specific cases where my code is directly modelled on course material are credited through comments in the code.
-</p><p>
-As required for this project, I have used v3.4.0 of <a target="_blank" href="http://knockoutjs.com/">KnockoutJS</a> as the framework to support a Model/&#8203;View/&#8203;ViewModel (MVVM) design pattern for the project. I have done my best to separate functionality into the three MVVM components. Google Maps' API sometimes blurs the lines between application control (the ViewModel), the map presentation (View), and providing streams of data (a Model function). The API integrates these functions with minimal programmer intervention. That's good, it just blurs the lines of the design pattern.
-</p><p>
-To manage display responsiveness I have included Twitter's <a target="_blank" href="https://v4-alpha.getbootstrap.com/">Bootstrap framework</a>, v3.3.7. I have also used Bootstrap's components to build popovers and modal dialogs. The code I used to build the three-button group at the head of the list view is adapted from <a target="_blank" href="https://getbootstrap.com/components/#btn-groups">here</a>.
-</p><p>
-I've used a big modal dialog to display data from Google Maps' place-detail search and from Yelp's business search. I was able to work out interactions between Knockout data bindings and Bootstrap popovers within the window, but I could not get those interactions to work in the context of a Bootstrap modal dialog. So I turned to W3schools' excellent article <a target="_blank" href="http://www.w3schools.com/howto/howto_css_modals.asp">"How TO - CSS/JS Modal"</a> to build my own modal dialog for that part of the project. The two help modals were much simpler and are pure(ish) Bootstrap adapted from <a target="_blank" href="https://v4-alpha.getbootstrap.com/components/modal/">here</a>.
-</p><p>
-To aid in some utility calls (especially the AJAX call to Yelp) I used <a target="_blank" href="https://jquery.com/">jQuery 3.1.1</a>.
-</p><p>
-The data in this project comes exclusively from two sources, the <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/">Google Maps JavaScript API</a> (V3) and the <a target="_blank" href="https://www.yelp.com/developers/documentation/v2/overview">Yelp API</a> v2. It was frustrating not to have any sample code for JavaScript on the Yelp Developers site (they withdrew support because of Javascript's lack of security). I especially found the OAuth user-authorization process to be technically confusing. I relied heavily on code from a <a target="_blank" href="https://forum.jquery.com/topic/hiding-oauth-secrets-in-jquery">jQuery forum entry</a>, to get my communication with Yelp working. The libraries mentioned there have moved since the article was written. <a target="_blank" href="https://stackoverflow.com/questions/37183524/http-oauth-googlecode-com-svn-code-javascript-oauth-js-is-down-please-provide">This article</a> provided guidance on finding the libraries, including <a target="_blank" href="https://gist.github.com/romeoh/3302258">the place</a> from which <code>oauth.js</code> was retrieved and [the source](https://pajhome.org.uk/crypt/md5/sha1.js) of `sha1.js`.
-</p><p>
-Coding for the Google search box (enabled by the findAll button) was adapted from <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/examples/places-searchbox">here</a>.
-</p><p>
-Code to determine if localStorage is supported by the user's browser is borrowed from <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API">here</a>.
-</p><p>
-The Merriweather font is hotlinked from Google APIs.
-</p><p>
-Credits for the images I use in the project are below. The icons used for map markers are included in the Google Maps API.
-</p><p>
-Google Maps and Yelp logos: Each company's logo is hotlinked from the company's site, in my best effort to comply with their trademark display guidelines.
-</p><p>
-Pin icon (<code>pin-48.png</code>) is downloaded from <a target="_blank" href="http://www.iconsdb.com/white-icons/pin-icon.html">iconsdb pin-icon</a>. Their use guideline, from that page, states, "This icon is provided by icons8 as Creative Commons Attribution-NoDerivs 3.0. You can copy, use and distribute this icon, even for commercial purposes, all without asking permission provided you link to <a target="_blank" href="https://icons8.com/">icons8.com</a> website from any page you use this icon. You may not alter, transform, or build upon this work."
-</p><p>
-Unpin icon (<code>unpin-2-48.png</code>) is downloaded from <a target="_blank" href="http://www.iconsdb.com/white-icons/unpin-2-icon.html">iconsdb unpin-2-icon</a>. Their use guideline, from that page, states, "This icon is provided by icons8 as Creative Commons Attribution-NoDerivs 3.0. You can copy, use and distribute this icon, even for commercial purposes, all without asking permission provided you link to <a target="_blank" href="https://icons8.com/">icons8.com</a> website from any page you use this icon. You may not alter, transform, or build upon this work."
-</p><p>
-The question-mark (help) icon (<code>question-mark-4-48.png</code>) is downloaded from <a target="_blank" href="http://www.iconsdb.com/custom-color/question-mark-4-icon.html">iconsdb question-mark-4-icon</a>. The use guideline on that page states, "This icon is provided as CC0 1.0 Universal (CC0 1.0) Public Domain Dedication. You can copy, modify, use, distribute this icon, even for commercial purposes, all without asking permission with no attribution required, but always appreciated."
-</p><p>
-The info icon (<code>info-2-48.png</code>) was downloaded from <a target="_blank" href="http://www.iconsdb.com/white-icons/info-2-icon.html">iconsdb info-2-icon</a>. I modified the image to remove an outer white circle. The filename I use is marked with an "r" to reflect this modification. The use guideline on that page states, "This icon is provided as CC0 1.0 Universal (CC0 1.0) Public Domain Dedication. You can copy, modify, use, distribute this icon, even for commercial purposes, all without asking permission with no attribution required, but always appreciated."
-</p>
-<em>Extracted from index.html</em>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Credits screen for Neighborhood Map Project</title>
+</head>
+<body>
+	<h4>Credits screen for Neighborhood Map Project</h4>
+	<p>
+	In general, this project owes a lot to the sample code in the Udacity courses on <a target="_blank" href="https://www.udacity.com/course/intro-to-ajax--ud110">AJAX programming</a> and <a target="_blank" href="https://www.udacity.com/course/google-maps-apis--ud864">the Google Maps API</a>. Specific cases where my code is directly modelled on course material are credited through comments in the code.
+	</p><p>
+	As required for this project, I have used v3.4.0 of <a target="_blank" href="http://knockoutjs.com/">KnockoutJS</a> as the framework to support a Model/&#8203;View/&#8203;ViewModel (MVVM) design pattern for the project. I have done my best to separate functionality into the three MVVM components. Google Maps' API sometimes blurs the lines between application control (the ViewModel), the map presentation (View), and providing streams of data (a Model function). The API integrates these functions with minimal programmer intervention. That's good, it just blurs the lines of the design pattern.
+	</p><p>
+	To manage display responsiveness I have included Twitter's <a target="_blank" href="https://v4-alpha.getbootstrap.com/">Bootstrap framework</a>, v3.3.7. I have also used Bootstrap's components to build popovers and modal dialogs. The code I used to build the three-button group at the head of the list view is adapted from <a target="_blank" href="https://getbootstrap.com/components/#btn-groups">here</a>.
+	</p><p>
+	I've used a big modal dialog to display data from Google Maps' place-detail search and from Yelp's business search. I was able to work out interactions between Knockout data bindings and Bootstrap popovers within the window, but I could not get those interactions to work in the context of a Bootstrap modal dialog. So I turned to W3schools' excellent article <a target="_blank" href="http://www.w3schools.com/howto/howto_css_modals.asp">"How TO - CSS/JS Modal"</a> to build my own modal dialog for that part of the project. The two help modals were much simpler and are pure(ish) Bootstrap adapted from <a target="_blank" href="https://v4-alpha.getbootstrap.com/components/modal/">here</a>.
+	</p><p>
+	To aid in some utility calls (especially the AJAX call to Yelp) I used <a target="_blank" href="https://jquery.com/">jQuery 3.1.1</a>.
+	</p><p>
+	The data in this project comes exclusively from two sources, the <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/">Google Maps JavaScript API</a> (V3) and the <a target="_blank" href="https://www.yelp.com/developers/documentation/v2/overview">Yelp API</a> v2. It was frustrating not to have any sample code for JavaScript on the Yelp Developers site (they withdrew support because of Javascript's lack of security). I especially found the OAuth user-authorization process to be technically confusing. I relied heavily on code from a <a target="_blank" href="https://forum.jquery.com/topic/hiding-oauth-secrets-in-jquery">jQuery forum entry</a>, to get my communication with Yelp working. The libraries mentioned there have moved since the article was written. <a target="_blank" href="https://stackoverflow.com/questions/37183524/http-oauth-googlecode-com-svn-code-javascript-oauth-js-is-down-please-provide">This article</a> provided guidance on finding the libraries, including <a target="_blank" href="https://gist.github.com/romeoh/3302258">the place</a> from which <code>oauth.js</code> was retrieved and [the source](https://pajhome.org.uk/crypt/md5/sha1.js) of `sha1.js`.
+	</p><p>
+	Coding for the Google search box (enabled by the findAll button) was adapted from <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/examples/places-searchbox">here</a>.
+	</p><p>
+	Code to determine if localStorage is supported by the user's browser is borrowed from <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API">here</a>.
+	</p><p>
+	The Merriweather font is hotlinked from Google APIs.
+	</p><p>
+	Credits for the images I use in the project are below. The icons used for map markers are included in the Google Maps API.
+	</p><p>
+	Google Maps and Yelp logos: Each company's logo is hotlinked from the company's site, in my best effort to comply with their trademark display guidelines.
+	</p><p>
+	Pin icon (<code>pin-48.png</code>) is downloaded from <a target="_blank" href="http://www.iconsdb.com/white-icons/pin-icon.html">iconsdb pin-icon</a>. Their use guideline, from that page, states, "This icon is provided by icons8 as Creative Commons Attribution-NoDerivs 3.0. You can copy, use and distribute this icon, even for commercial purposes, all without asking permission provided you link to <a target="_blank" href="https://icons8.com/">icons8.com</a> website from any page you use this icon. You may not alter, transform, or build upon this work."
+	</p><p>
+	Unpin icon (<code>unpin-2-48.png</code>) is downloaded from <a target="_blank" href="http://www.iconsdb.com/white-icons/unpin-2-icon.html">iconsdb unpin-2-icon</a>. Their use guideline, from that page, states, "This icon is provided by icons8 as Creative Commons Attribution-NoDerivs 3.0. You can copy, use and distribute this icon, even for commercial purposes, all without asking permission provided you link to <a target="_blank" href="https://icons8.com/">icons8.com</a> website from any page you use this icon. You may not alter, transform, or build upon this work."
+	</p><p>
+	The question-mark (help) icon (<code>question-mark-4-48.png</code>) is downloaded from <a target="_blank" href="http://www.iconsdb.com/custom-color/question-mark-4-icon.html">iconsdb question-mark-4-icon</a>. The use guideline on that page states, "This icon is provided as CC0 1.0 Universal (CC0 1.0) Public Domain Dedication. You can copy, modify, use, distribute this icon, even for commercial purposes, all without asking permission with no attribution required, but always appreciated."
+	</p><p>
+	The info icon (<code>info-2-48.png</code>) was downloaded from <a target="_blank" href="http://www.iconsdb.com/white-icons/info-2-icon.html">iconsdb info-2-icon</a>. I modified the image to remove an outer white circle. The filename I use is marked with an "r" to reflect this modification. The use guideline on that page states, "This icon is provided as CC0 1.0 Universal (CC0 1.0) Public Domain Dedication. You can copy, modify, use, distribute this icon, even for commercial purposes, all without asking permission with no attribution required, but always appreciated."
+	</p>
+	<em>Extracted from index.html</em>
+</body>

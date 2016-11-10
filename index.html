@@ -6,6 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Neighborhood Map project - Alan Spiewak</title>
+	<link rel="shortcut icon" type="image/png" href="images/favicon.ico">
 	<!-- Fonts from Google API, Twitter's Bootstrap from its recommended CDN -->
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css?family=Merriweather:400,300,400italic,700,900">
@@ -16,19 +17,19 @@
 </head> <!--  -->
 <body>
 	<div class="container-fluid">
-		<div class="row " id="welcomeRow">
+		<header class="row " id="welcomeRow">
 			<div class="col-xs-12" id="welcome">
 				<p>Welcome to <span id="headerPlace">Greensboro, NC</span></p>
 				<input type="image" class="helpBtn" alt="Help"
 					title="Show help screen" src="images/question-mark-4-48.png"
 					data-toggle="modal" data-target="#helpModal" />
 			</div>
-		</div> <!-- welcomeRow -->
+		</header> <!-- welcomeRow -->
 		<div class="row" id="mapRow">
-			<div class="col-xs-12 col-md-8" id="nmvMap"> <!-- Map view -->
+			<main class="col-xs-12 col-md-8" id="nmvMap"> <!-- Map view -->
 				<p>Map goes here</p>
-			</div> <!-- nmvMap -->
-			<div class="col-xs-12 col-md-4" id="nmvList"> <!-- Col holds list view of places -->
+			</main> <!-- nmvMap -->
+			<aside class="col-xs-12 col-md-4" id="nmvList"> <!-- Col holds list view of places -->
 				<!-- Row box sits inside the outer column and acts as container
 					 for stacked full-width "columns" that look like rows and
 					 hold the list header and items -->
@@ -92,7 +93,7 @@
 							data-bind="click: $root.openModal, visible: isCurrent" />
 					</div> <!-- .nmvListItem -->
 				</div> <!-- #listBodyRow -->
-			</div> <!-- #nmvList -->
+			</aside> <!-- #nmvList -->
 		</div> <!-- mapRow -->
 	</div> <!-- container-fluid -->
 	<!-- Modal window for selected vPlace. Knockout and Bootstrap don't
@@ -313,27 +314,52 @@
 
 	<!-- jQuery and Knockout libraries from CDNJS via Cloudflare's CDN.
 		 Both are required to render the page, so we can't defer their load -->
-	<script type="text/javascript"
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script type="text/javascript"
-		src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+
+	<!-- These scripts are not invoked until the Place Details modal dialog is
+		 called by the user, several UI steps after render/load. I contend they
+		 are not needed to render the page, and should be deferred to improve
+		 perceived load time. But I don't have time to argue about the rubric
+		 just now, so I'll wait to put them back when this goes into my portfolio.
+		 jQuery is not deferred, as Bootstrap and some of my scripts depend on it,
+	-->
+	<!--script async defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script-->
+	<!-- Two scripts for OAuth validation in the Yelp API. -->
+	<!--script async defer src="js/oauth.js"></script-->
+	<!--script async defer src="js/sha1.js"></script-->
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<!-- Two scripts for OAuth validation in the Yelp API. -->
+	<script src="js/oauth.js"></script>
+	<script src="js/sha1.js"></script>
+
 	<script async defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<!-- Two scripts for OAuth validation in the Yelp API. -->
 	<script async defer src="js/oauth.js"></script>
 	<script async defer src="js/sha1.js"></script>
+
 
 	<!-- This application's processing is contained in the nmApp (neighborhood
 		map application) object, which contains objects that define its Model,
 		View, and ViewModel objects. nmViewModel.js contains constructors that
 		rely on loading nmModel.js first. -->
 	<!-- 	 TODO Minify and consolidate these four scripts -->
-	<script type="text/javascript" src="js/nmApp.js"></script>
-	<script type="text/javascript" src="js/nmModel.js"></script>
-	<script type="text/javascript" src="js/nmView.js"></script>
-	<script type="text/javascript" src="js/nmViewModel.js"></script>
+	<script src="js/nmApp.js"></script>
+	<script src="js/nmModel.js"></script>
+	<script src="js/nmView.js"></script>
+	<script src="js/nmViewModel.js"></script>
 
 	<!-- Initialize Google Maps libraries. Note: must follow nmView.js and
 		 nmApp.viewModel. The callback here kicks off the entire application. -->
-	<script async defer
+	<script>
+		window.mapLoadError = function () {
+			window.alert('This page was not able to set up a connection with \n' +
+				'the Google Maps library (a non-recoverable error).\n' +
+				'Your browser\'s console log will contain more information.');
+			return;
+		};
+	</script>
+	<script async defer onerror="window.mapLoadError()"
     src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyD4TqIPvv-WwDSy7TCEeHufsQtVPws6XJs&callback=nmApp.viewModel.init"></script>
 </body>

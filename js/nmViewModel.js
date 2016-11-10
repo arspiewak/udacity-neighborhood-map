@@ -688,6 +688,10 @@ window.nmApp.ViewModel = function () {
 		/* And do the same call to the Yelp API */
 		nmvmThis.getYelpDetails(vPlace);
 
+		/* Required by Udacity review: details must be
+		 * revealed in this click */
+		nmView.openModal();
+
 		return;
 	};
 

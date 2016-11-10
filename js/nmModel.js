@@ -377,12 +377,10 @@ window.nmApp.Model = function () {
 	/* ViewModel got Google details result. Unpack the results
 	 * into a gDetails object.
 	 */
+
+	/* Helper prevents undefined reference errors. */
 	function check(obj) {
-		if (obj === undefined) {
-			return null;
-		} else {
-			return obj;
-		}
+		return (obj === undefined) ? null : obj;
 	}
 
 	nmmThis.unpackGoogleDetails = function (result) {

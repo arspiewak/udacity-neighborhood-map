@@ -29,7 +29,7 @@
 			<main class="col-xs-12 col-md-8" id="nmvMap"> <!-- Map view -->
 				<p>Map goes here</p>
 			</main> <!-- nmvMap -->
-			<aside class="col-xs-12 col-md-4" id="nmvList"> <!-- Col holds list view of places -->
+			<div class="col-xs-12 col-md-4" id="nmvList"> <!-- Col holds list view of places -->
 				<!-- Row box sits inside the outer column and acts as container
 					 for stacked full-width "columns" that look like rows and
 					 hold the list header and items -->
@@ -93,7 +93,7 @@
 							data-bind="click: $root.openModal, visible: isCurrent" />
 					</div> <!-- .nmvListItem -->
 				</div> <!-- #listBodyRow -->
-			</aside> <!-- #nmvList -->
+			</div> <!-- #nmvList -->
 		</div> <!-- mapRow -->
 	</div> <!-- container-fluid -->
 	<!-- Modal window for selected vPlace. Knockout and Bootstrap don't
@@ -333,12 +333,6 @@
 	<!-- Two scripts for OAuth validation in the Yelp API. -->
 	<script src="js/oauth.js"></script>
 	<script src="js/sha1.js"></script>
-
-	<script async defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	<!-- Two scripts for OAuth validation in the Yelp API. -->
-	<script async defer src="js/oauth.js"></script>
-	<script async defer src="js/sha1.js"></script>
-
 
 	<!-- This application's processing is contained in the nmApp (neighborhood
 		map application) object, which contains objects that define its Model,

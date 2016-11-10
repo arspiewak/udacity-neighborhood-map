@@ -174,19 +174,6 @@ window.nmApp.View = function () {
 		return;
 	};
 
-	/* "Open" or "close" the modal window (placeDetails) */
-	nmvThis.openModal = function () {
-		$('.nmModal').css('display', 'block');
-		return;
-	};
-	nmvThis.closeModal = function () {
-		$('.nmModal').css('display', 'none');
-		return;
-	};
-
-
-
-
 }; // View constructor
 
 window.nmApp.view = new window.nmApp.View();

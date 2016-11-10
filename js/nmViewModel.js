@@ -45,8 +45,13 @@ window.nmApp.ViewModel = function () {
 		vPlaces: ko.observableArray([]),	// Viewable array of places
 		currentVPlace: ko.observable(null),
 		btnDispSavedText: ko.observable('Pinned only'),
-		openModal: function () {nmView.openModal();},
-		closeModal: function () {nmView.closeModal();},
+		modalDisplayFlag: ko.observable(false),
+		openModal: function () {
+			koViewModel.modalDisplayFlag(true);
+		},
+		closeModal: function () {
+			koViewModel.modalDisplayFlag(false);
+		},
 		modalClick: function(data, event) {
 			console.log(event.target.id);
 		},
@@ -109,7 +114,8 @@ window.nmApp.ViewModel = function () {
 
 	/* SETUP-SUPPORT FUNCTIONS */
 
-	/* Pop up the help screen for a first-time user */
+	/* Pop up the help screen for a first-time user. This jQuery call is how
+	 * Bootstrap specifies displaying their preset modal framework. */
 	function popupHelp () {
 		$('#helpModal').modal('show');
 	}
@@ -690,7 +696,7 @@ window.nmApp.ViewModel = function () {
 
 		/* Required by Udacity review: details must be
 		 * revealed in this click */
-		nmView.openModal();
+		koViewModel.modalDisplayFlag(true);
 
 		return;
 	};

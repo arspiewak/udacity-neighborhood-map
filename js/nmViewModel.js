@@ -58,7 +58,6 @@ window.nmApp.ViewModel = function () {
 		ocActive: ko.observable(false),
 		canvasToggleClick: function() {
 			koViewModel.ocActive(!koViewModel.ocActive());
-			var foo = koViewModel.ocActive();
 			return;
 		},
 		/* The no-op click function is bound to Knockout
@@ -71,16 +70,19 @@ window.nmApp.ViewModel = function () {
 		 */
 		noOp: function() {return true;},
 		btnDispSaved: function () {
+			koViewModel.ocActive(false);	// clear sidebar, sm viewport
 			nmView.clearSearchBox();
 			nmvmThis.toggleBtnDispSaved();
 			return;
 		},
 		btnFilter: function (catObj) {		// ignores event parameter
+			koViewModel.ocActive(false);	// clear sidebar, sm viewport
 			nmView.clearSearchBox();
 			nmvmThis.displayFilter('category', catObj.category);
 			return;
 		},
 		btnFind: function () {
+			koViewModel.ocActive(false);	// clear sidebar, sm viewport
 			nmvmThis.findNew();
 		},
 		filterCategories: {} /* to be filled below */

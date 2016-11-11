@@ -29,10 +29,10 @@ window.nmApp.View = function () {
 		);
 
 		/* Create a white map-marker icon to highlight the location of the
-			* place currently selected by the user. Note that this call uses
-			* a disparaged feature from Google APIs. From Udacity's map API
-			* class, file Project_Code_5_BeingStylish.html
-			*/
+		 * place currently selected by the user. Note that this call uses
+		 * a disparaged feature from Google APIs. From Udacity's map API
+		 * class, file Project_Code_5_BeingStylish.html
+		 */
 		var markerColor = 'ffffff';
 		nmvThis.hiliteIcon = new google.maps.MarkerImage(
 			'https://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+
@@ -81,8 +81,8 @@ window.nmApp.View = function () {
 	};
 
 	/* Method to set a marker on the map. Most of this functionality is
-		* adapted from class project Project_Code_5_BeingStylish.html
-		*/
+	 * adapted from class project Project_Code_5_BeingStylish.html
+	 */
 	nmvThis.initMapMarker = function (placeName, location, iconSrc,
 		placeId, address) {
 
@@ -173,6 +173,16 @@ window.nmApp.View = function () {
 		} // if
 		return;
 	};
+
+	/* Non-map initialization need: Set an event listener that
+	 * notifies the ViewModel when Bootstrap's offcanvas processing
+	 * hides the sidebar.
+	 * Source: http://stackoverflow.com/questions/13010315/how-to-trigger-
+	 *	a-javascript-function-after-bootstrap-collapse-plugin-transiti
+	 */
+	nmvThis.setSidebarListener = function (listenFn) {
+		$('#nmvList').on('hidden', listenFn);
+	}
 
 }; // View constructor
 

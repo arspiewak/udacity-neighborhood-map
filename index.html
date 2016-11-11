@@ -25,18 +25,24 @@
 	<div class="container-fluid">
 		<header class="row " id="welcomeRow">
 			<div class="col-xs-12" id="welcome">
-	            <input type="image" class="canvasToggleBtn"
-	            	title="Move list view on or off the screen"
-	            	src="images/list-2-48.png" alt="Toggle screen"
-	            	data-toggle="offcanvas">
+				<input type="image" class="canvasToggleBtn"
+					title="Move list view on or off the screen"
+					src="images/list-2-48.png" alt="Toggle screen"
+					data-bind="click: canvasToggleClick">
 				<p id="welcomeTxt">Welcome to <span id="headerPlace">Greensboro, NC</span></p>
 				<input type="image" class="helpBtn" alt="Help"
 					title="Show help screen" src="images/question-mark-4-48.png"
 					data-toggle="modal" data-target="#helpModal" />
 			</div>
 		</header> <!-- welcomeRow -->
-		<div class="row row-offcanvas row-offcanvas-left" id="mapRow">
-			<!-- Col holds list view of places -->
+		<!-- For offcanvas sidebar processing, this entire row is styled as
+			 extending of the viewport to the left. The sidebar is moved in
+			 and out of the viewport by changes in CSS classes. -->
+		<div class="row row-offcanvas row-offcanvas-left" id="mapRow"
+			data-bind="css: {active: (ocActive() === true)}">
+			<!-- Column holds the list view of places. Acts as the offcanvas
+				 sidebar, not visible on smaller viewports until invoked
+				 by a button-click. -->
 			<aside class="col-xs-12 col-sm-4 sidebar-offcanvas" id="nmvList">
 				<!-- Row box sits inside the outer column and acts as container
 					 for stacked full-width "columns" that look like rows and
@@ -336,7 +342,6 @@
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js.download"></script>
-    <script src="js/offcanvas.js.download"></script>
 
 
 	<!-- Two scripts for OAuth validation in the Yelp API. -->

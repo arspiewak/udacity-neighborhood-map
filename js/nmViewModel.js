@@ -55,6 +55,12 @@ window.nmApp.ViewModel = function () {
 		modalClick: function(data, event) {
 			console.log(event.target.id);
 		},
+		ocActive: ko.observable(false),
+		canvasToggleClick: function() {
+			koViewModel.ocActive(!koViewModel.ocActive());
+			var foo = koViewModel.ocActive();
+			return;
+		},
 		/* The no-op click function is bound to Knockout
 		 * elements that need normal click processing (like
 		 * hyperlinks that should take the user to another

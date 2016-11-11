@@ -39,7 +39,12 @@ body {
     border-style: outset;
     border-color: buttonface;
 }
-.showButtons {
+/* #showButtons is a flexbox to control the placement of the
+ * button group as a whole. #sbGroup is a flexbox to control
+ * the placement of buttons within the group (on small viewports;
+ * the standard Bootstrap settings are ideal for larger viewports.
+ */
+#showButtons {
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -306,14 +311,29 @@ a {
 }
 
 /* Special cases for small viewports */
-@media (max-width: 645px) {
+@media (max-width: 650px) {
     /* This is where the "Places to Show" button group breaks */
-    .showButtons .btn {
+    #showButtons .btn {
         border-radius: 18px !important;
         width: 110px;
     }
-    .showButtons {
+    #sbGroup {
+        display: flex;
+        justify-content: center;
         flex-direction: column;
     }
-
+    #sbGroup .btn {
+        padding: 6px 9px;
+        font-size: 10px;
+    }
+}
+@media (max-width: 970px) and (min-width: 769px) {
+    #sbGrou    #sbGroup .btn {
+        padding: 6px 9px;
+        font-size: 10px;
+    }
+ .btn {
+        padding: 6px 9px;
+        font-size: 10px;
+    }
 }

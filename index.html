@@ -37,17 +37,17 @@
 		</header> <!-- welcomeRow -->
 		<div class="row row-offcanvas row-offcanvas-left" id="mapRow">
 			<!-- Col holds list view of places -->
-			<aside class="col-xs-12 col-md-4 sidebar-offcanvas" id="nmvList">
+			<aside class="col-xs-12 col-sm-4 sidebar-offcanvas" id="nmvList">
 				<!-- Row box sits inside the outer column and acts as container
 					 for stacked full-width "columns" that look like rows and
 					 hold the list header and items -->
 				<div class="row" id="nmvListHeaderRow">
 					<div class="col-xs-12" id="nmvListHead">
 						<p>Places to show</p>
-						<div class="showButtons">
+						<div id="showButtons">
 							<!-- Button code is from
 								 https://getbootstrap.com/components/#btn-groups -->
-							<div class="btn-group" role="group">
+							<div class="btn-group" role="group" id="sbGroup">
 								<button type="button" class="btn btn-default"
 									data-bind="click: btnDispSaved, text: btnDispSavedText">
 									Pinned only
@@ -79,7 +79,7 @@
 									Find new
 								</button>
 							</div> <!-- outer btn-group -->
-						</div> <!-- style flex -->
+						</div> <!-- #showButtons -->
 					</div> <!-- #nmvListHead -->
 				</div> <!-- #nmvListHeaderRow -->
 				<div class="row" id="listBodyRow" data-bind="foreach: vPlaces">
@@ -102,7 +102,7 @@
 					</div> <!-- .nmvListItem -->
 				</div> <!-- #listBodyRow -->
 			</aside> <!-- #nmvList -->
-			<main class="col-xs-12 col-md-8" id="nmvMap"> <!-- Map view -->
+			<main class="col-xs-12 col-sm-8" id="nmvMap"> <!-- Map view -->
 				<p>Map goes here</p>
 			</main> <!-- nmvMap -->
 		</div> <!-- mapRow -->

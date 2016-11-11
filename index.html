@@ -11,32 +11,40 @@
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css?family=Merriweather:400,300,400italic,700,900">
 	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="style.css">
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- Additional files for Bootstrap offcanvas template
+		 http://getbootstrap.com/examples/offcanvas  -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="css/offcanvas.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="css/style.css">
 
 </head> <!--  -->
 <body>
 	<div class="container-fluid">
 		<header class="row " id="welcomeRow">
 			<div class="col-xs-12" id="welcome">
-				<p>Welcome to <span id="headerPlace">Greensboro, NC</span></p>
+	            <input type="image" class="canvasToggleBtn"
+	            	title="Move list view on or off the screen"
+	            	src="images/list-2-48.png" alt="Toggle screen"
+	            	data-toggle="offcanvas">
+				<p id="welcomeTxt">Welcome to <span id="headerPlace">Greensboro, NC</span></p>
 				<input type="image" class="helpBtn" alt="Help"
 					title="Show help screen" src="images/question-mark-4-48.png"
 					data-toggle="modal" data-target="#helpModal" />
 			</div>
 		</header> <!-- welcomeRow -->
-		<div class="row" id="mapRow">
-			<main class="col-xs-12 col-md-8" id="nmvMap"> <!-- Map view -->
-				<p>Map goes here</p>
-			</main> <!-- nmvMap -->
-			<div class="col-xs-12 col-md-4" id="nmvList"> <!-- Col holds list view of places -->
+		<div class="row row-offcanvas row-offcanvas-left" id="mapRow">
+			<!-- Col holds list view of places -->
+			<aside class="col-xs-12 col-md-4 sidebar-offcanvas" id="nmvList">
 				<!-- Row box sits inside the outer column and acts as container
 					 for stacked full-width "columns" that look like rows and
 					 hold the list header and items -->
 				<div class="row" id="nmvListHeaderRow">
 					<div class="col-xs-12" id="nmvListHead">
 						<p>Places to show</p>
-						<div style="display: flex; justify-content: center">
+						<div class="showButtons">
 							<!-- Button code is from
 								 https://getbootstrap.com/components/#btn-groups -->
 							<div class="btn-group" role="group">
@@ -93,7 +101,10 @@
 							data-bind="click: $root.openModal, visible: isCurrent" />
 					</div> <!-- .nmvListItem -->
 				</div> <!-- #listBodyRow -->
-			</div> <!-- #nmvList -->
+			</aside> <!-- #nmvList -->
+			<main class="col-xs-12 col-md-8" id="nmvMap"> <!-- Map view -->
+				<p>Map goes here</p>
+			</main> <!-- nmvMap -->
 		</div> <!-- mapRow -->
 	</div> <!-- container-fluid -->
 	<!-- Modal window for selected vPlace. Knockout and Bootstrap don't
@@ -103,15 +114,15 @@
 	<div class="nmModal" role="dialog" id="placeDetails" data-bind="click: $root.closeModal, style: { display: modalDisplayFlag() === true ? 'block' : 'none' }">
 		<div class="nmModalContent" data-bind="with: currentVPlace,
 			click: $root.noOp,  clickBubble: false">
-			<div class="nmModalHeader">
+			<header class="nmModalHeader">
 				<button type="button" class="modalCloseBtn" aria-hidden="true"
 				data-bind="click: $root.closeModal">
 				&times;</button>
 				<h3>Place Details for <span data-bind="text: name"></span>,
 					&nbsp;<span data-bind="text: address"></span>
 					</h3>
-			</div>
-			<div class="nmModalBody container-fluid">
+			</header>
+			<main class="nmModalBody container-fluid">
 				<div class="row">
 					<div class="gDetails col-xs-12 col-md-6" data-bind="with: gDetails">
 						<div class="row">
@@ -214,12 +225,12 @@
 						</p>
 					</div> <!-- yDetails -->
 				</div> <!-- row -->
-			</div> <!-- nmModalBody -->
-			<div class="nmModalFooter">
+			</main> <!-- nmModalBody -->
+			<footer class="nmModalFooter">
 				<button type="button" class="btn btn-default modalPinBtn"
 					data-bind="text: pinned() ? 'Pinned' : 'Unpinned',
 					click: nmApp.viewModel.pinnedClick" title="Pin/unpin this place on your list"></button>
-			</div> <!-- nmModalFooter -->
+			</footer> <!-- nmModalFooter -->
 		</div> <!-- nmModalContent -->
 	</div> <!-- .nmModal -->
 
@@ -227,13 +238,13 @@
 	<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
+				<header class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h4 class="modal-title" id="helpModalLabel">Welcome to the Neighborhood Map Project</h4>
-				</div>
-				<div class="modal-body nmModalBody">
+				</header>
+				<main class="modal-body nmModalBody">
 					<p>
 						Welcome to downtown Greensboro, North Carolina. In the years I’ve been here, our downtown has opened new establishments, seen run-down buildings rejuvenated and reused, and sprouted new parks and museums.
 					</p><p>
@@ -245,15 +256,15 @@
 					</p><p>
 						When you close the page, the places you have pinned will be stored on your computer. The next time you come back, your set of places will be displayed, and you can continue your virtual exploration. Enjoy!
 					</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">
-					Close
-					</button>
+				</main>
+				<footer class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#creditModal">
 					Credit attributions
 					</button>
-				</div>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					Close
+					</button>
+				</footer>
 			</div>
 		</div>
 	</div>
@@ -314,23 +325,23 @@
 
 	<!-- jQuery and Knockout libraries from CDNJS via Cloudflare's CDN.
 		 Both are required to render the page, so we can't defer their load -->
+	<!-- The order for loading jQuery and Bootstrap scripts follows the
+		 template in Bootstrap's sample code for offcanvas layout
+		 patterns. Source: http://getbootstrap.com/examples/offcanvas -->
+	<!--script src-"js/jquery.min.js.download"></script-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+	<!--script src="js/bootstrap.min.js.download"></script-->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-	<!-- These scripts are not invoked until the Place Details modal dialog is
-		 called by the user, several UI steps after render/load. I contend they
-		 are not needed to render the page, and should be deferred to improve
-		 perceived load time. But I don't have time to argue about the rubric
-		 just now, so I'll wait to put them back when this goes into my portfolio.
-		 jQuery is not deferred, as Bootstrap and some of my scripts depend on it,
-	-->
-	<!--script async defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script-->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js.download"></script>
+    <script src="js/offcanvas.js.download"></script>
+
+
 	<!-- Two scripts for OAuth validation in the Yelp API. -->
 	<!--script async defer src="js/oauth.js"></script-->
 	<!--script async defer src="js/sha1.js"></script-->
-
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	<!-- Two scripts for OAuth validation in the Yelp API. -->
 	<script src="js/oauth.js"></script>
 	<script src="js/sha1.js"></script>
 

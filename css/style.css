@@ -20,12 +20,6 @@ body {
      */
     font-size: 75%;
 }
-/* Font size for larger viewports */
-@media (min-width: 768px) {
-    body {
-        font-size: 100%;
-    }
-}
 
 .filterLine {
     padding: 5px 0;
@@ -45,6 +39,11 @@ body {
     border-style: outset;
     border-color: buttonface;
 }
+.showButtons {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
 
 #nmvList {
     background-color: #11743c;
@@ -57,7 +56,7 @@ body {
     top: 10px;
     z-index: 1;
     display: block;
-    height: 0.9em;
+    height: 1.0em;
 }
 #nmvListHead {
     min-height: 10vh;
@@ -111,7 +110,7 @@ body {
 .pinnedBtn, .detailBtn {
     position: absolute;
     right: 4px;
-    height: 46%;
+    height: 15px;
     width: auto;
     background-color: rgb(46, 145, 28); /*fallback*/
     border-radius: 50%;
@@ -138,6 +137,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
+}
+#welcomeTxt {
+    margin: 10px 30px;
+}
+.canvasToggleBtn {
+    background-color: #054f25;
+    position: absolute;
+    left: 17px;
+    top: 10px;
+    z-index: 1;
+    display: block;
+    height: 1.1em;
 }
 
 /* nmModal element grabs the whole screen when displayed */
@@ -282,3 +294,26 @@ a {
  .dropdownList {
     -webkit-padding-start: 16px;
  }
+
+/* Font size for larger viewports */
+@media (min-width: 768px) {
+    body {
+        font-size: 100%;
+    }
+    .pinnedBtn, .detailBtn {
+        height: 25px;
+    }
+}
+
+/* Special cases for small viewports */
+@media (max-width: 645px) {
+    /* This is where the "Places to Show" button group breaks */
+    .showButtons .btn {
+        border-radius: 18px !important;
+        width: 110px;
+    }
+    .showButtons {
+        flex-direction: column;
+    }
+
+}

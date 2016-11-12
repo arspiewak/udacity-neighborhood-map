@@ -209,7 +209,7 @@ body {
     width: 70px;  /* Includes padding */
 }
 .yelp-logo {
-    width: 66px;
+    width: 104px;
 }
 
 /* Drop-from-top animation for modal window
@@ -223,6 +223,12 @@ body {
 @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
+}
+
+/* .modal default z-index is 1050. Credit needs to obscure the help modal behind it. */
+.creditModal {
+    position: fixed;
+    z-index: 1055;
 }
 
 .modalCloseBtn {
@@ -255,6 +261,7 @@ a {
     max-height: 150px;
     overflow: auto;
     margin: 3px 0;
+    border: 1px solid #e5e5e5;
 }
 @media (max-width: 991px) {
     .yDetails {

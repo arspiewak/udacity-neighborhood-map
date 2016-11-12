@@ -284,6 +284,9 @@ a {
     text-decoration: underline;
     color: blue;
 }
+.modal-body {
+    font-size: 1.7em;
+}
 
 /* #findBox is the input for the user to specify new places
  * to find. It's initially hidden, and gets displayed when
@@ -312,7 +315,7 @@ a {
  }
 
 /* Font size for larger viewports */
-@media (min-width: 768px) {
+@media (min-width: 767px) {
     body {
         font-size: 100%;
     }
@@ -341,7 +344,7 @@ a {
         font-size: 18px;
     }
 }
-@media (max-width: 970px) and (min-width: 769px) {
+@media (max-width: 970px) and (min-width: 767px) {
     #sbGrou    #sbGroup .btn {
         padding: 6px 9px;
         font-size: 10px;

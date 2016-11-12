@@ -182,7 +182,7 @@ window.nmApp.View = function () {
 	 */
 	nmvThis.setSidebarListener = function (listenFn) {
 		$('#nmvList').on('hidden', listenFn);
-	}
+	};
 
 }; // View constructor
 

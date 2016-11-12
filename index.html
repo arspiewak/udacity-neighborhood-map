@@ -125,12 +125,12 @@
 				data-bind="click: $root.closeModal">
 				&times;</button>
 				<h4>Place Details for <span data-bind="text: name"></span>
-					<br><small><span data-bind="text: address"></span><small>
-					</h4>
+					<br><small><span data-bind="text: address"></span></small>
+				</h4>
 			</header>
-			<main class="nmModalBody container-fluid">
+			<article class="nmModalBody container-fluid">
 				<div class="row">
-					<div class="gDetails col-xs-12 col-md-6" data-bind="with: gDetails">
+					<section class="gDetails col-xs-12 col-md-6" data-bind="with: gDetails">
 
 						<div class="row nmModalHeadRow">
 							<img alt="Google logo" height="40" class="col-xs-2 google-logo"
@@ -165,15 +165,17 @@
 						<p class="gdItem">Phone:&nbsp;
 							<span class="gdItemVal" data-bind="text: formattedPhoneNumber"></span>
 						</p>
-						<p><table class="gdItem">
-							<thead>
-								<tr><th>Hours of operation:</th></tr>
-							</thead>
-							<tbody data-bind="foreach: weekdayText">
-								<tr><td class="gdIndent" data-bind="text: hours">
-								</td></tr>
-							</tbody>
-						</table></p>
+						<p>
+							<table class="gdItem">
+								<thead>
+									<tr><th>Hours of operation:</th></tr>
+								</thead>
+								<tbody data-bind="foreach: weekdayText">
+									<tr><td class="gdIndent" data-bind="text: hours">
+									</td></tr>
+								</tbody>
+							</table>
+						</p>
 						<p class="gdItem">Price level:&nbsp;
 							<span class="gdItemVal" data-bind="text: priceLevel"></span>
 						</p>
@@ -190,8 +192,8 @@
 							</p>
 						</div>
 
-					</div> <!-- gDetails -->
-					<div class="yDetails col-xs-12 col-md-6" data-bind="with: yDetails">
+					</section> <!-- gDetails -->
+					<section class="yDetails col-xs-12 col-md-6" data-bind="with: yDetails">
 
 						<div class="row nmModalHeadRow">
 							<a target="_blank" href="https://www.yelp.com/greensboro-nc-us">
@@ -229,9 +231,9 @@
 						<p class="gdItem">
 
 						</p>
-					</div> <!-- yDetails -->
+					</section> <!-- yDetails -->
 				</div> <!-- row -->
-			</main> <!-- nmModalBody -->
+			</article> <!-- nmModalBody -->
 			<footer class="nmModalFooter">
 				<button type="button" class="btn btn-default modalPinBtn"
 					data-bind="text: pinned() ? 'Pinned' : 'Unpinned',
@@ -250,7 +252,7 @@
 					</button>
 					<h4 class="modal-title" id="helpModalLabel">Welcome to the Neighborhood Map Project</h4>
 				</header>
-				<main class="modal-body nmModalBody">
+				<article class="modal-body nmModalBody">
 					<p>
 						Welcome to downtown Greensboro, North Carolina. In the years I’ve been here, our downtown has opened new establishments, seen run-down buildings rejuvenated and reused, and sprouted new parks and museums.
 					</p><p>
@@ -264,7 +266,7 @@
 					</p><p>
 						When you close the page, the places that are pinned will be stored on your computer. The next time you come back, your set of places will be displayed, and you can continue your virtual exploration. Enjoy!
 					</p>
-				</main>
+				</article>
 				<footer class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#creditModal">
 					Credit attributions

@@ -187,6 +187,30 @@ body {
     border-radius: 8px;
     color: #a576bc;
 }
+.nmModalHeadRow {
+    display: flex;
+    align-items: center;
+}
+.nmModalHeadRow h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+}
+.nmModalHeadRow a {
+    margin: 0;
+    padding: 0;
+    color: blue;
+}
+.nmModalLink {
+    font-size: 12px;
+}
+
+.google-logo {
+    width: 70px;  /* Includes padding */
+}
+.yelp-logo {
+    width: 66px;
+}
 
 /* Drop-from-top animation for modal window
  *  (from http://www.w3schools.com/howto/tryit.asp?
@@ -215,19 +239,6 @@ body {
 .nmModalHeader {
     padding: 2px 16px;
     border-bottom: 1px solid #e5e5e5;
-}
-.modal-href {
-    text-align: right;
-    font-weight: bold;
-    font-size: 0.8em;
-    position: absolute;
-    right: 10px;
-    top: 22px;
-}
-@media (max-width: 664px) {
-    .modal-href {
-        top: 42px;
-    }
 }
 .nmModalBody {
     padding: 2px 16px;
@@ -325,6 +336,9 @@ a {
     #sbGroup .btn {
         padding: 6px 9px;
         font-size: 10px;
+    }
+    .nmModalContent h4 {
+        font-size: 18px;
     }
 }
 @media (max-width: 970px) and (min-width: 769px) {
